@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Area</title>
+    <link rel="stylesheet" type="text/css" href="../css/edit.css">
+</head>
+
+<body>
+    <h1>Report Your Path</h1>
+    <div>
+        <input type="text" placeholder="Patient ID" id="pat_id">
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>City</th>
+                <th>location</th>
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <form>
+        <input type="datetime-local" placeholder="Start Date" id="new_start_date_input">
+        <input type="datetime-local" placeholder="End Date" id="new_end_date_input">
+        <input type="text" placeholder="City" id="new_city_input">
+        <input type="text" placeholder="location" id="new_location_input">
+        <button type="submit">save</button>
+    </form>
+    <button id="add_loc" disabled=true>Add Location</button>
+    <a href="./view.html">לדף הנתונים</a>
+
+    <script type="module" src="../js/edit.js"></script>
+</body>
+
+</html>

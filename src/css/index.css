@@ -1,0 +1,35 @@
+h1 {
+    text-align: center;
+    color: #790322;
+    opacity: 1.0;
+}
+
+nav {
+    background-color: #66051e;
+    position: fixed;
+    top: 100px;
+    height: 70px;
+    width: 100%;
+    opacity: 1.0;
+}
+
+a {
+    vertical-align: center;
+    text-decoration: none;
+    color: #f6ebee;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 40px;
+    position: relative;
+    top: 25px;
+    left: 100px;
+}
+
+#img{
+    height: 650px;
+    width: 100%;
+    background-image: url('/brix-bootcamp-template/src/data/image_korona.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 0.8;
+}
