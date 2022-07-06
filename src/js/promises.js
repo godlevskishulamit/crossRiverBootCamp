@@ -4,7 +4,7 @@ new Promise((res) => {
         )
     }, 3000);
 }).then(
-    res => alert("the number is: " + res)
+    res => console.log("the number is: " + res)
 );
 
 const makeAllCaps = (arr) => {

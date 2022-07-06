@@ -27,7 +27,7 @@ a {
 #img{
     height: 650px;
     width: 100%;
-    background-image: url('/brix-bootcamp-template/src/data/image_korona.png');
+    background-image: url('/src/data/image_korona.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;

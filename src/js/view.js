@@ -1,4 +1,4 @@
-import { repList } from "../data/reportList.js";
+// import { repList } from "../data/reportList.js";
 const content = document.getElementById("content");
 const filter_input = document.getElementById("filter");
 const order_by_date = document.getElementById("order_by_date");
@@ -8,9 +8,9 @@ const sort_rep = (rep, bool) => {
     if (bool) {
         const sorted = [...rep]
         return sorted.sort((a, b) => {
-            let date_a = a.start_date.getTime();
-            let date_b = b.start_date.getTime();
-            return date_b - date_a;
+            const date_a = new Date(a.startDate);
+            const date_b = new Date(b.endDate);
+            return date_b.getTime() - date_a.getTime();
         })
     }
     else
@@ -26,34 +26,70 @@ const filter_rep = (rep, searchText) => {
     })
 };
 
-const tideDate = (dt) =>{
-    let Date = dt.getDate() + "." + (dt.getMonth() + 1) + "." + dt.getFullYear() +" " + dt.getHours()+":"+dt.getMinutes();
+const tideDate = (dt) => {
+    let Date = dt.getDate() + "." + (dt.getMonth() + 1) + "." + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes();
     return Date;
 }
 
-filter_input.onchange = filter_input.onkeyup = () => {
-    PrintReport();
+filter_input.onkeyup = () => {
+    
+    if (filter_input.value != "") {
+        fetch(`https://localhost:44337/api/Location/city/${filter_input.value}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                PrintReport(data)
+            }
+            )
+            .catch(error => console.error('Unable to get Users.', error));
+    }
+    else
+        GetAllUsers();
 }
 
-order_by_date.onchange = order_by_date.onkeyup = () => {
-    PrintReport();
+// order_by_date.onkeyup = () => {
+//     PrintReport();
+// }
+
+
+const GetAllUsers = () => {
+    fetch('https://localhost:44337/api/Location', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            PrintReport(data)
+        }
+        )
+        .catch(error => console.error('Unable to get Users.', error));
 }
 
 const printRep = (r) => {
-    let description = "-from: "+tideDate(r.start_date)+" untill: "+tideDate(r.end_date)+
-    " in: "+r.city+" at: "+r.location
+    const sd = new Date(r.startDate);
+    const ed = new Date(r.endDate);
+    let description = "-from: " + tideDate(sd) + " untill: " + tideDate(ed) +
+        " in: " + r.city + " at: " + r.location
     let rep = document.createElement('h3');
     rep.innerHTML = description;
     content.append(rep);
 }
 
-const PrintReport = () => {
-    const filtered_report = filter_rep(repList, filter_input.value);
-    const sorted_report = sort_rep(filtered_report, order_by_date.checked);
+const PrintReport = (repList) => {
+    //const filtered_report = filter_rep(repList, filter_input.value);
+    const sorted_report = sort_rep(repList, order_by_date.checked);
     content.innerHTML = '';
-    sorted_report.forEach((r)=>{
+    sorted_report.forEach((r) => {
         printRep(r);
     });
 }
-PrintReport();
 
