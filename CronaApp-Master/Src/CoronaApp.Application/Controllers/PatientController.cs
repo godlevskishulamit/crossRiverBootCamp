@@ -21,14 +21,34 @@ namespace CoronaApp.Api.Controllers
             this.ip = ip;
         }
         [HttpGet]
-        public Task<List<Patient>> Get()
+        public async Task<ActionResult<List<Patient>>> Get()
         {
-            return ip.Get();
+            try
+            {
+                List<Patient> listPat = await ip.Get();
+                if (listPat != null)
+                {
+                    return Ok(listPat);
+                }
+                return StatusCode(404, "not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         [HttpPost]
         public void Add([FromBody] Patient pat)
         {
-            ip.postPatient(pat);
+            try
+            {
+                ip.postPatient(pat);
+            }
+            catch(Exception ex)
+            {
+                StatusCode(500, ex.Message);
+            }
+            
         }
 
     }

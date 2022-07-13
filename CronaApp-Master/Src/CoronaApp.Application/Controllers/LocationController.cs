@@ -21,37 +21,103 @@ namespace CoronaApp.Api.Controllers
         }
         // GET: api/<LocationController>
         [HttpGet]
-        public Task<List<Location>> Get()
+        public async Task<ActionResult<List<Location>>> Get()
         {
-            return il.Get();
+            try
+            {
+                List<Location> listLoc = await il.Get();
+                if(listLoc != null)
+                {
+                    return Ok(listLoc);
+                }
+                return StatusCode(404, "not found");
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpGet("id/{id}")]
-        public Task<List<Location>> GetById(string id)
+        public async Task<ActionResult<List<Location>>> GetById(string id)
         {
-            return il.getLocationsById(id);
+            try
+            {
+                List<Location> listLoc = await il.getLocationsById(id);
+                if (listLoc != null)
+                {
+                    return Ok(listLoc);
+                }
+                return StatusCode(404, "not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         [HttpGet("city/{city}")]
-        public Task<List<Location>> GetByCity(string city)
+        public async Task<ActionResult<List<Location>>> GetByCity(string city)
         {
-            return il.getLocationByCity(city);
+            try
+            {
+                List<Location> listLoc = await il.getLocationByCity(city);
+                if (listLoc != null)
+                {
+                    return Ok(listLoc);
+                }
+                return StatusCode(404, "not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         [HttpPost]
         public void Add([FromBody] Location loc)
         {
-            il.postLocation(loc);
+            try
+            {
+                il.postLocation(loc);
+            }
+            catch(Exception ex)
+            {
+                 StatusCode(500, ex.Message);
+            }
         }
-        [HttpGet("{age}")]
-        public Task<List<Location>> GetByAge(LocationSearch ls)
+        [HttpGet("age")]
+        public async Task<ActionResult<List<Location>>> GetByAge([FromBody] LocationSearch ls)
         {
-            int age = ls.Age;
-            return il.GetByAge(age);
+            try
+            {
+                List<Location> listLoc = await il.GetByAge(ls.Age);
+                if (listLoc != null)
+                {
+                    return Ok(listLoc);
+                }
+                return StatusCode(404, "not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
-        [HttpGet("date/{date}")]
-        public Task<List<Location>> GetByDate(LocationSearch ls)
+        [HttpGet("date")]
+        public async Task<ActionResult<List<Location>>> GetByDate([FromBody] LocationSearch ls)
         {
-            DateTime sdate = ls.StartDate; DateTime edate = ls.EndDate;
-            return il.GetByDate(sdate,edate);
+            try
+            {
+                List<Location> listLoc = await il.GetByDate(Convert.ToDateTime(ls.StartDate), Convert.ToDateTime(ls.EndDate));
+                if (listLoc != null)
+                {
+                    return Ok(listLoc);
+                }
+                return StatusCode(404, "not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
     }

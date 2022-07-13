@@ -13,6 +13,6 @@ namespace CoronaApp.Services
         void postLocation(Location loc);
         Task<List<Location>> getLocationByCity(string city);
         Task<List<Location>> GetByAge(int age);
-        Task<List<Location>> GetByDate(DateTime sdate, DateTime edate);
+        Task<List<Location>> GetByDate(DateTime sdate, DateTime eDate);
     }
 }
