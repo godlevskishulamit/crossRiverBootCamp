@@ -42,14 +42,16 @@ namespace CoronaApp.Api.Controllers
             il.postLocation(loc);
         }
         [HttpGet("{age}")]
-        public Task<List<Location>> GetByAge(int age)
+        public Task<List<Location>> GetByAge(LocationSearch ls)
         {
+            int age = ls.Age;
             return il.GetByAge(age);
         }
         [HttpGet("date/{date}")]
-        public Task<List<Location>> GetByDate(string sdate, string edate)
+        public Task<List<Location>> GetByDate(LocationSearch ls)
         {
-            return il.GetByDate(Convert.ToDateTime(sdate), Convert.ToDateTime(edate));
+            DateTime sdate = ls.StartDate; DateTime edate = ls.EndDate;
+            return il.GetByDate(sdate,edate);
         }
 
     }
