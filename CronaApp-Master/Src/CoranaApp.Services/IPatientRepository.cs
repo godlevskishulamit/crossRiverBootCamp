@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CoronaApp.Services
 {
     public interface IPatientRepository
     {
-        Patient Get(string id);
+        Task<List<Patient>> Get();
 
-        void Save(Patient patient);
+        void postPatient(Patient pat);
+
     }
 }
