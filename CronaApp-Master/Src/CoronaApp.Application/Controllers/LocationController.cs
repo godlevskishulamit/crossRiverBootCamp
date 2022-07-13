@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaApp.Dal.Models;
+using CoronaApp.Services;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CoronaApp.Api.Controllers
 {
@@ -12,15 +12,47 @@ namespace CoronaApp.Api.Controllers
     [ApiController]
     public class LocationController : ControllerBase
     {
-        // GET: api/<LocationController>
-        [HttpGet]
-        public IEnumerable<string> Get([FromQuery] Services.Models.LocationSearch locationSearch)
+        ILocationRepository locationRepository;
+        public LocationController(ILocationRepository locationRepository)
         {
-            return new string[] { "value1", "value2" };
+            this.locationRepository = locationRepository;
+        }
+        [HttpGet]
+        public async Task<ICollection<Location>> GetLocations([FromQuery] Services.Models.LocationSearch locationSearch)
+        {
+            
+            return await locationRepository.GetLocations(locationSearch);
+        }
+        [HttpGet("city")]
+        public async Task<List<Location>> GetLocationsByCity([FromQuery] string city)
+        {
+            return await this.locationRepository.GetLocationsByCity(city);
+        }
+        [HttpGet("{patientId}")]
+        public async Task<List<Location>> GetLocationsByPatientId(string patientId)
+        {
+            return await this.locationRepository.GetLocationsByPatientId(patientId);
         }
 
-     
+        /*[HttpGet("locationSearch")]
+        public async Task<List<Location>> FilterLocations([FromQuery] Services.Models.LocationSearch locationSearch)
+        {
+            return await this.locationRepository.FilterLocations(locationSearch);
 
-      
+        }*/
+        [HttpPost]
+        public async Task PostLocation(Location location)
+        {
+            await this.locationRepository.PostLocation(location);
+        }
+        [HttpDelete("{patientId}/{locationId}")]
+        public async Task Delete(string patientId, int locationId)
+        {
+            await this.locationRepository.Delete(patientId, locationId);
+        }
+
+
+
+
     }
 }
