@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CoronaApp.Services.Models
+namespace CoronaApp.Dal.Models
 {
     public class Location
     {
@@ -11,7 +15,9 @@ namespace CoronaApp.Services.Models
         public string Address { get; set; }
         public string City { get; set; }
 
+        [ForeignKey("Patient")]
         public int PatientId { get; set; }
+        public virtual Patient Patient { get; set; }
 
     }
 }
