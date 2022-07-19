@@ -28,8 +28,11 @@ namespace CoronaApp.Dal
         }
         public async Task<List<Location>> GetLocationsByPatientId(string patientId)
         {
-            return await this._dbContext.Locations
+            List<Location> locations= await this._dbContext.Locations
                 .Where(location => location.PatientId == patientId).ToListAsync();
+            if (locations.Count == 0)
+                throw new Exception("Patient id not Exsit");
+            return locations;
         }
         public async Task<List<Location>> GetLocationsByDate(DateTime? startDate, DateTime? endDate)
         {
@@ -45,7 +48,7 @@ namespace CoronaApp.Dal
         }
         public async Task<List<Location>> GetLocationsByDateAndPatientAge(DateTime? startDate, DateTime? endDate,int? age)
         {
-            return  this.GetLocationsByPatientAge(age).Result.Where(location => location.StartDate >= startDate && location.StartDate <= endDate
+            return this.GetLocationsByPatientAge(age).Result.Where(location => location.StartDate >= startDate && location.StartDate <= endDate
                  || location.EndDate >= startDate && location.EndDate <= endDate).ToList();
         }
         public async Task PostLocation(Location location)

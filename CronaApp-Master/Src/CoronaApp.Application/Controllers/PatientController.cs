@@ -14,15 +14,15 @@ namespace CoronaApp.Api.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        IPatientRepository PatientRepository;
+        IPatientRepository _patientRepository;
         public PatientController(IPatientRepository patientRepository)
         {
-            this.PatientRepository = patientRepository;
+            this._patientRepository = patientRepository;
         }
         [HttpGet]
         public async Task<ICollection<Patient>> GetAllUsers()
         {
-            return await this.PatientRepository.GetAllPatient();
+            return await this._patientRepository.GetAllPatient();
         }
 
         // GET api/<PatientController>/5
@@ -36,14 +36,14 @@ namespace CoronaApp.Api.Controllers
         [HttpPost]
         public async Task Post([FromBody] Patient patient)
         {
-            await this.PatientRepository.PostPatient(patient);
+            await this._patientRepository.PostPatient(patient);
         }
 
         // PUT api/<PatientController>/5
         [HttpPut/*("{id}")*/]
         public async Task Put([FromBody] Patient patient)
         {
-            await this.PatientRepository.UpdatePatient(patient);
+            await this._patientRepository.UpdatePatient(patient);
         }
 
      

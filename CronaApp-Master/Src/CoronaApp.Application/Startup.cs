@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaApp.Api.Controllers;
 using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services;
@@ -49,6 +50,7 @@ namespace CoronaApp.Api
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPatientDal, PatientDal>();
+            services.AddScoped<LocationController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +60,7 @@ namespace CoronaApp.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-           
+            app.UseTryCatchMiddleware();
             app.UseHttpsRedirection();
 
             app.UseRouting();
