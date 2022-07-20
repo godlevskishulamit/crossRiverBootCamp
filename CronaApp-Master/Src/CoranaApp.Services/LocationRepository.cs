@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using CoronaApp.Dal.Interfaces;
+using CoronaApp.Dal.Models;
+
+namespace CoronaApp.Services
+{
+    public class LocationRepository : ILocationRepository
+    {
+        ILocationDal _dal;
+        
+        public LocationRepository(ILocationDal dal)
+        {
+            _dal = dal;
+        }
+        public Task<List<Location>> getAllLocations()
+        {
+          return _dal.getAllLocations();
+        }
+
+        public Task<List<Location>> getByAge(int age)
+        {
+            return _dal.getByAge(age);
+        }
+
+        public Task<List<Location>> getByCity(string city)
+        {
+            return _dal.getByCity(city);
+        }
+
+        public Task<List<Location>> getByDate(DateTime startDate, DateTime endDate)
+        {
+            return _dal.getByDate(startDate, endDate);
+        }
+
+        public Task<List<Location>> getByUserId(int id)
+        {
+            return _dal.getByUserId(id);
+        }
+
+        public void postExposure(int id, Location location)
+        {
+            _dal.postExposure(id, location);
+        }
+    }
+}
