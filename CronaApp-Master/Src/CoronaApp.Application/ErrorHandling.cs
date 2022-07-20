@@ -28,6 +28,10 @@ namespace CoronaApp.Api
                 {
                     _logger.LogError("Not enough information");
                 }
+                if (status == 404)
+                {
+                    _logger.LogError("404 error");
+                }
                 if (status == 500)
                 {
                     _logger.LogError("Status code: 500");
