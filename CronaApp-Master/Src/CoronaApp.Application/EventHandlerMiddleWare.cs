@@ -9,19 +9,28 @@ using System.Threading.Tasks;
 namespace CoronaApp.Api
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
-    public class ErrorsMiddleware
+    public class EventHandlerMiddleWare
     {
         private readonly RequestDelegate _next;
-
-        public ErrorsMiddleware(RequestDelegate next)
+        private readonly ILogger _logger;
+        public string Message { get; set; }
+        public EventHandlerMiddleWare(RequestDelegate next, ILogger<EventHandlerMiddleWare> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
-        public async Task Invoke(HttpContext httpContext, ILogger<ErrorsMiddleware> logger)
+       /* public void OnGet()
+        {
+            Message = $"About page visited at {DateTime.UtcNow.ToLongTimeString()}";
+            _logger.LogInformation(Message);
+        }*/
+        public async Task Invoke(HttpContext httpContext, ILogger<EventHandlerMiddleWare> logger)
         {
             try
             {
+                Message = $"Message From My Logger {DateTime.UtcNow.ToLongTimeString()}";
+                _logger.LogInformation(Message);
                 await _next(httpContext);
                 if (httpContext.Response.StatusCode >= 400 && httpContext.Response.StatusCode < 500)
                     throw new Exception();
@@ -41,9 +50,9 @@ namespace CoronaApp.Api
     // Extension method used to add the middleware to the HTTP request pipeline.
     public static class ErrorsMiddlewareExtensions
     {
-        public static IApplicationBuilder UseErrorsMiddleware(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseEventHandlerMiddleWare(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<ErrorsMiddleware>();
+            return builder.UseMiddleware<EventHandlerMiddleWare>();
         }
     }
 }
