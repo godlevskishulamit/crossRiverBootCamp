@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoronaApp.Dal
 {
-   public class DalPatient : IDalPatient
+   public class DalPatient : IMockDalPatient
     {
         public CoronaDbContext context;
         public DalPatient(CoronaDbContext context)

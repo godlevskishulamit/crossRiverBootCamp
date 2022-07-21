@@ -19,6 +19,36 @@ namespace CoronaApp.Dal.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("CoronaApp.Api.Logging.LoggingMessege", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Level")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogEvent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Properties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThreadId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messeges");
+                });
+
             modelBuilder.Entity("CoronaApp.Services.Models.Location", b =>
                 {
                     b.Property<int>("LocaionId")
@@ -63,20 +93,6 @@ namespace CoronaApp.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "212825376",
-                            age = 0,
-                            name = "Shani"
-                        },
-                        new
-                        {
-                            Id = "324103357",
-                            age = 0,
-                            name = "Miriam"
-                        });
                 });
 
             modelBuilder.Entity("CoronaApp.Services.Models.Location", b =>

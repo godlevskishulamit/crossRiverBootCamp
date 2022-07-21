@@ -27,8 +27,8 @@ namespace CoronaApp.Dal.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(20)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(20)", nullable: true),
                     PatientId = table.Column<string>(type: "nvarchar(9)", nullable: true)
                 },
                 constraints: table =>

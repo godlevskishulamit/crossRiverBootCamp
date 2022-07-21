@@ -45,7 +45,7 @@ namespace CoronaApp.Api.Controllers
             try
             {
                 List<Location> listLoc = await il.getLocationsById(id);
-                if (listLoc != null)
+                if (listLoc != null && listLoc.Count != 0)
                 {
                     return Ok(listLoc);
                 }

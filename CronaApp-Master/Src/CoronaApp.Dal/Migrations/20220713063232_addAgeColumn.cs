@@ -11,7 +11,7 @@ namespace CoronaApp.Dal.Migrations
                 table: "Patients",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 10);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

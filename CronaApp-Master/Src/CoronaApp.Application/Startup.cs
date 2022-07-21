@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CoronaApp.Dal;
 using CoronaApp.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace CoronaApp.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IMockDalPatient, MockDataPatient>();
             services.AddScoped<IDalPatient, DalPatient>();
             services.AddScoped<IDalLocation, DalLocation>();
             services.AddScoped<IPatientRepository, PatientRepository>();
@@ -38,14 +40,26 @@ namespace CoronaApp.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILogger<Startup> _logger)
         {
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
+
+            //app.UseExceptionHandler(a => a.Run(async context =>
+            //{
+            //    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+            //    var exception = exceptionHandlerPathFeature.Error;
+            //    _logger.LogError($"Something went wrong: {exception.Message}");
+
+            //    //await context.Response.WriteAsJsonAsync(new { error = exception.Message });
+            //}));
+            app.ConfigureCustomExceptionMiddleware();
 
             app.UseRouting();
 
