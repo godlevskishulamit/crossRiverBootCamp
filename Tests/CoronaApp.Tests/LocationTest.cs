@@ -12,11 +12,11 @@ using Xunit;
 
 namespace CoronaApp.Tests
 {
-    public class LocationTest : IClassFixture<WebApplicationFactory<Startup>>
+    public class LocationTest : IClassFixture<WebApplicationFactory<Program>>
     {
 
-        private WebApplicationFactory<Startup> _coronaApp;
-        public LocationTest(WebApplicationFactory<Startup> coronaApp)
+        private WebApplicationFactory<Program> _coronaApp;
+        public LocationTest(WebApplicationFactory<Program> coronaApp)
         {
             _coronaApp = coronaApp;
         }
@@ -26,13 +26,21 @@ namespace CoronaApp.Tests
         public async Task getLocationsByPatientId(string url)
         {
             //Arrange:
-            var client = _coronaApp.WithWebHostBuilder(builder => {
+            var client = _coronaApp.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddScoped<ILocationDal, MockLocationDal>();
+                });
+            })
+      .CreateClient();
+            /*var client = _coronaApp.WithWebHostBuilder(builder => {
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddScoped<ILocationDal, MockLocationDal>();
                 });
             }).CreateClient();
-
+*/
             //Act:
             var res = await client.GetAsync(url);
 
