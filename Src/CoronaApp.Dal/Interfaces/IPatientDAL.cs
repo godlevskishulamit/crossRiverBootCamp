@@ -1,10 +1,9 @@
 ﻿using CoronaApp.Dal.Models;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal.Interfaces
+namespace CoronaApp.Dal.Interfaces;
+
+public interface IPatientDAL
 {
-    public interface IPatientDAL
-    {
-        Task AddPatient(Patient patient);
-    }
+    Task AddPatient(Patient patient);
 }

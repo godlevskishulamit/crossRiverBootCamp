@@ -7,18 +7,17 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Services.Classes
+namespace CoronaApp.Services.Classes;
+
+public class PatientService : IPatientService
 {
-    public class PatientService : IPatientService
+    private readonly IPatientDAL _patientDal;
+    public PatientService(IPatientDAL patientDal)
     {
-        private readonly IPatientDAL _patientDal;
-        public PatientService(IPatientDAL patientDal)
-        {
-            _patientDal = patientDal;
-        }
-        public async Task AddPatient(Patient patient)
-        {
-            await _patientDal.AddPatient(patient);
-        }
+        _patientDal = patientDal;
+    }
+    public async Task AddPatient(Patient patient)
+    {
+        await _patientDal.AddPatient(patient);
     }
 }

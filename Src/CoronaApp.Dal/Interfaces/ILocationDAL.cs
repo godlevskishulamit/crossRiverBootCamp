@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal.Interfaces
+namespace CoronaApp.Dal.Interfaces;
+
+public interface ILocationDAL
 {
-    public interface ILocationDAL
-    {
-        Task<List<Location>> GetAllLocations(string city = "");
-        Task<List<Location>> GetLocationByAge(LocationSearch location);
-        Task<List<Location>> GetLocationsByDate(LocationSearch location);
-        Task<List<Location>> GetLocationsPerPatient(string id);
-        Task AddLocation(Location location);
-        Task DeleteLocation(Location location);
-    }
+    Task<List<Location>> GetAllLocations(string city = "");
+    Task<List<Location>> GetLocationByAge(LocationSearch location);
+    Task<List<Location>> GetLocationsByDate(LocationSearch location);
+    Task<List<Location>> GetLocationsPerPatient(string id);
+    Task AddLocation(Location location);
+    Task DeleteLocation(Location location);
 }

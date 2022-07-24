@@ -7,17 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal.Models
+namespace CoronaApp.Dal.Models;
+
+ public class Log
 {
-     public class Log
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Message { get; set; }
-        public string Level { get; set; }
-        [Timestamp]
-        public DateTimeKind Timestamp { get; set; }
-        public  string Properties { get; set; }
-        public string LogEvent { get; set; }
-    }
+    [Key]
+    public int Id { get; set; }
+    public string Message { get; set; }
+    public string Level { get; set; }
+    [Timestamp]
+    public DateTimeKind Timestamp { get; set; }
+    public  string Properties { get; set; }
+    public string LogEvent { get; set; }
 }
