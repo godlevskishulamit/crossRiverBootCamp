@@ -26,7 +26,7 @@ namespace CoronaApp.Api.Controllers
             try
             {
                 List<Location> listLoc = await il.Get();
-                if(listLoc != null)
+                if(listLoc != null&& listLoc.Any())
                 {
                     return Ok(listLoc);
                 }
