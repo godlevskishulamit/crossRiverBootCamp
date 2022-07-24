@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\CronaApp-Master",
+    "\\CronaApp-Master\\Src",
+    "\\CronaApp-Master\\Src\\CoranaApp.Services",
+    "\\CronaApp-Master\\Src\\CoronaApp.Application",
+    "\\CronaApp-Master\\Src\\CoronaApp.Application\\Controllers",
+    "\\CronaApp-Master\\Src\\CoronaApp.Dal"
+  ],
+  "SelectedNode": "\\CronaApp-Master\\Src\\CoronaApp.Dal\\LocationDal.cs",
+  "PreviewInSolutionExplorer": false
+}
