@@ -12,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog();
 builder.Services.AddControllers();
-//services.AddScoped<IMockDalPatient, MockDataPatient>();
 builder.Services.AddScoped<IDalLocation, DalLocation>();
 builder.Services.AddScoped<IDalPatient, DalPatient>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
@@ -45,3 +44,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

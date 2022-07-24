@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Services
+namespace CoronaApp.Services;
+
+public interface IPatientRepository
 {
-    public interface IPatientRepository
-    {
-        Task<List<Patient>> Get();
+    Task<List<Patient>> Get();
 
-        void postPatient(Patient pat);
+    void postPatient(Patient pat);
 
-    }
 }

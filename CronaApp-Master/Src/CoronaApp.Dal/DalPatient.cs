@@ -6,24 +6,23 @@ using System.Threading.Tasks;
 using CoronaApp.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoronaApp.Dal
-{
-   public class DalPatient : IDalPatient
-    {
-        public CoronaDbContext context;
-        public DalPatient(CoronaDbContext context)
-        {
-            this.context = context;
-        }
-        public async Task<List<Patient>> getAllPatients()
-        {
-            return await context.Patients.ToListAsync();
-        }
-        public void postPatient(Patient pat)
-        {
-            context.Patients.Add(pat);
-            context.SaveChanges();
-        }
+namespace CoronaApp.Dal;
 
+public class DalPatient : IDalPatient
+{
+    public CoronaDbContext context;
+    public DalPatient(CoronaDbContext context)
+    {
+        this.context = context;
     }
+    public async Task<List<Patient>> getAllPatients()
+    {
+        return await context.Patients.ToListAsync();
+    }
+    public void postPatient(Patient pat)
+    {
+        context.Patients.Add(pat);
+        context.SaveChanges();
+    }
+
 }

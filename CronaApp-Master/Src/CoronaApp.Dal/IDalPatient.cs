@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using CoronaApp.Services.Models;
 
-namespace CoronaApp.Dal
+namespace CoronaApp.Dal;
+
+public interface IDalPatient
 {
-   public interface IDalPatient
-    {
-        Task<List<Patient>> getAllPatients();
-        void postPatient(Patient pat);
-    }
+    Task<List<Patient>> getAllPatients();
+    void postPatient(Patient pat);
 }

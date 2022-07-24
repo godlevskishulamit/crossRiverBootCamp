@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using CoronaApp.Dal;
+using CoronaApp.Api;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
 
@@ -16,17 +19,23 @@ namespace CoronaApp.Tests
             _factory = factory;
         }
         [Theory]
-        [InlineData("https://localhost:44381/api/Location/")]
+        [InlineData("https://localhost:44381/api/Patient/")]
         public async Task getHttpRequest(string url)
         {
             //arrange
-            var Client = _factory.CreateClient();
+            var Client = _factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddScoped<IDalPatient, MockDataPatient>();
+                });
+            })
+                .CreateClient();
             //act
             var response = await Client.GetAsync(url);
             //assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal("application/json; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
+            Assert.NotEqual(response.Content,null);
         }
     }
 }
