@@ -25,7 +25,7 @@ namespace CoronaApp.Api.Middlewares
             try
             {
                 await _next(httpContext);
-                if (httpContext.Response.StatusCode > 400 && httpContext.Response.StatusCode < 500)
+                if (httpContext.Response.StatusCode >= 400 && httpContext.Response.StatusCode < 500)
                 {
                     throw new Exception("Not Found");
                 }
@@ -33,6 +33,7 @@ namespace CoronaApp.Api.Middlewares
             catch (Exception ex)
             {
                 _ilogger.Log(LogLevel.Information, ex.Message);
+                httpContext.Response.StatusCode = 500;
             }
         }
     }
