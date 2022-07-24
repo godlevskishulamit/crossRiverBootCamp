@@ -1,15 +1,8 @@
-﻿
-using CoronaApp.Dal;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CoronaApp.Dal;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Services
+namespace CoronaApp.Services;
+public interface IPatientRepository
 {
-    public interface IPatientRepository
-    {
-         Task<string> addNewPatient(Patient newPatient);
-
-    }
+     Task<string> addNewPatient(Patient newPatient);
 }

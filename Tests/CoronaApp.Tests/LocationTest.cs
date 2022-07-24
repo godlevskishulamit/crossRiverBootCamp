@@ -10,50 +10,37 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CoronaApp.Tests
+namespace CoronaApp.Tests;
+
+public class LocationTest : IClassFixture<WebApplicationFactory<Program>>
 {
-    public class LocationTest : IClassFixture<WebApplicationFactory<Program>>
+
+    private WebApplicationFactory<Program> _coronaApp;
+    public LocationTest(WebApplicationFactory<Program> coronaApp)
     {
-
-        private WebApplicationFactory<Program> _coronaApp;
-        public LocationTest(WebApplicationFactory<Program> coronaApp)
-        {
-            _coronaApp = coronaApp;
-        }
-
-        [Theory]
-        [InlineData("api/Location/212625917")]
-        public async Task getLocationsByPatientId(string url)
-        {
-            //Arrange:
-            var client = _coronaApp.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    services.AddScoped<ILocationDal, MockLocationDal>();
-                });
-            })
-      .CreateClient();
-            /*var client = _coronaApp.WithWebHostBuilder(builder => {
-                builder.ConfigureTestServices(services =>
-                {
-                    services.AddScoped<ILocationDal, MockLocationDal>();
-                });
-            }).CreateClient();
-*/
-            //Act:
-            var res = await client.GetAsync(url);
-
-            //Assert:
-            res.EnsureSuccessStatusCode();
-            Assert.NotEqual(res.Content, null);
-        }
-
-        /*    [Fact]*/
-
-        /*    public async Task locations()
-            {
-
-            }*/
+        _coronaApp = coronaApp;
     }
+
+    [Theory]
+    [InlineData("api/Location/212625917")]
+    public async Task getLocationsByPatientId(string url)
+    {
+        //Arrange:
+        var client = _coronaApp.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureTestServices(services =>
+            {
+                services.AddScoped<ILocationDal, MockLocationDal>();
+            });
+        })
+            .CreateClient();
+        //Act:
+        var res = await client.GetAsync(url);
+
+        //Assert:
+        res.EnsureSuccessStatusCode();
+        Assert.NotEqual(res.Content, null);
+    }
+
 }
+

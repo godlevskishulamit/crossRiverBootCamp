@@ -50,10 +50,8 @@ namespace CoronaApp.Dal
 
         public async Task<List<Location>> getLocationsByPatientId(string id)
         {
-           // return await Task.FromResult(new List<Location>() { l1 });
            return await Task.FromResult(db.Where(location => location.PatientId == id).ToList());
         }
-
        
     }
 }

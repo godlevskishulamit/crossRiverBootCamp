@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace CoronaApp.Dal
+namespace CoronaApp.Dal;
+public interface IPatientDal
 {
-    public interface IPatientDal
-    {
-        public Task<string> addNewPatient(Patient newPatient);
+    public Task<string> addNewPatient(Patient newPatient);
 
-    }
 }
