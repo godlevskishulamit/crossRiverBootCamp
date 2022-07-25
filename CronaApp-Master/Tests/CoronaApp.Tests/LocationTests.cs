@@ -9,14 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using CoronaApp.Api;
 
 namespace CoronaApp.Tests
 {
-    public class LocationTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class LocationTests : IClassFixture<WebApplicationFactory<Program>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
+        private readonly WebApplicationFactory<Program> _factory;
 
-        public LocationTests(WebApplicationFactory<Startup> factory)
+        public LocationTests(WebApplicationFactory<Program> factory)
         {
             _factory = factory;
         }

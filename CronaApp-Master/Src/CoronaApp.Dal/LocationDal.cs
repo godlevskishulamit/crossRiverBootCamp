@@ -44,7 +44,7 @@ namespace CoronaApp.Dal
         }*/
         public async Task<List<Location>> getAllLocationByCity(string city)
         {
-            return await _CoronaAppDBContext.Locations.Where(location => location.City.Contains(city)).ToListAsync();
+            return await _CoronaAppDBContext.Locations.Where(location => location.City.ToUpper().Contains(city.ToUpper())).ToListAsync();
         }
 
     }
