@@ -18,9 +18,14 @@ namespace CoronaApp.Dal
         }
        public async Task<User> getUser(UserDTO user)
         {
-            return context.Users.First(x => x.UserName == user.UserName && x.Password == user.Password);
-            
+            return await context.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
+           
         }
 
+        public async Task PostUser(UserDTO user)
+        {
+            await context.Users.AddAsync(new User() { UserName = user.UserName, Password = user.Password });
+            await context.SaveChangesAsync();
+        }
     }
 }

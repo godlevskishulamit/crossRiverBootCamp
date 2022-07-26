@@ -1,5 +1,7 @@
 ﻿using CoronaApp.Dal.DTO;
+using CoronaApp.Dal.Models;
 using CoronaApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -22,8 +24,9 @@ public class UserController : Controller
     public UserController(IUserRepository iur, IConfiguration _configuration)
     {
         this.iur = iur;
+        this._configuration = _configuration; 
     }
-    [HttpPost]
+    [HttpPost("login")]
     public  ActionResult<string> login([FromBody] UserDTO userDTO)
     {
        var user= iur.getUser(userDTO).Result;
@@ -33,25 +36,25 @@ public class UserController : Controller
             return NotFound();
         }
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration.GetSection("key").Value);
-        
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                    new Claim(user.Password, user.Id.ToString())
-            }),
-            Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-
-
-        return Ok(tokenHandler.WriteToken(token));
+       return iur.createToken(user);
 
     }
 
+  
+    // [Authorize]
+    [HttpPost]
+    public async Task<ActionResult<string>> PostUser([FromBody]UserDTO user)
+    {
+        if (user!=null&&user.UserName.Length>0&&user.Password.Length>0)
+        { 
+            await iur.PostUser(user);
+            return iur.createToken(user);
+        }
+        else
+        {
+            return BadRequest();
+        }
+    }
 
 
 }

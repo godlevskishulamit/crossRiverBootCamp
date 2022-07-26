@@ -7,4 +7,5 @@ namespace CoronaApp.Dal;
 public interface IDalUser
 {
      Task<User> getUser(UserDTO user);
+    Task PostUser(UserDTO user);
 }
