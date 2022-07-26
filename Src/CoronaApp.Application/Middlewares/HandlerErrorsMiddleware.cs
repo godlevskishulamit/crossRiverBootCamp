@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Api.Midllewares;
@@ -25,15 +26,32 @@ public class HandlerErrorsMiddleware
             await _next(httpContext);
             if (httpContext.Response.StatusCode > 400 && httpContext.Response.StatusCode < 500)
             {
-                throw new Exception("Not Found");
+                throw new KeyNotFoundException("Not Found");
             }
         }
-        catch (Exception ex)
+        catch (Exception error)
         {
-
-            _ILogger.Log(LogLevel.Error, ex.Message);
-            httpContext.Response.StatusCode = 500;
-
+            var response = httpContext.Response;
+            response.ContentType = "application/json";
+            _ILogger.Log(LogLevel.Error, error.Message);
+            switch (error)
+            {
+                case ArgumentNullException e:
+                    // custom application error
+                    await response.WriteAsync("Oppps... \n the argument {e.Message} is null!");
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+                case KeyNotFoundException e:
+                    // not found error
+                    await response.WriteAsync("Oppps... \n Page Not Found!");
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+                default:
+                    // unhandled error
+                    await response.WriteAsync("Oppps... \n we are trying to fix the problem!");
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
+            }
         }
     }
 }

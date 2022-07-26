@@ -16,9 +16,16 @@ public  class PatientDal : IPatientDal
     }
     public async Task<string> addNewPatient(Patient newPatient)
     {
-        await _CoronaAppDBContext.Patients.AddAsync(newPatient);
-        await _CoronaAppDBContext.SaveChangesAsync();
-        return newPatient.Id;
+        if (newPatient == null)
+        {
+            throw new ArgumentNullException("newPatient");
+        }
+        else
+        {
+            await _CoronaAppDBContext.Patients.AddAsync(newPatient);
+            await _CoronaAppDBContext.SaveChangesAsync();
+            return newPatient.Id;
+        }
     }
 
 }

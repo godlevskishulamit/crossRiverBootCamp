@@ -43,14 +43,14 @@ public class LocationController : ControllerBase
     }
 
     // GET:
-    [HttpGet("dates")]
+    [HttpPost("dates")]
     public async Task<List<Location>> getAllLocationBetweenDates([FromBody] LocationSearch dates)
     {
         return await _LocationRepository.getAllLocationBetweenDates(dates);
     }
 
     // GET:
-    [HttpGet("age")]
+    [HttpPost("age")]
     public async Task<List<Location>> getAllLocationByAge([FromBody] LocationSearch age)
     {
         return await _LocationRepository.getAllLocationByAge(age);
