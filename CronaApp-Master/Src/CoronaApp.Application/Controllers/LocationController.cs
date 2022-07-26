@@ -86,11 +86,11 @@ public class LocationController : ControllerBase
         }
     }
     [HttpPost]
-    public void Add([FromBody] Location loc)
+    public async Task Add([FromBody] Location loc)
     {
         try
         {
-            il.postLocation(loc);
+          await il.postLocation(loc);
         }
         catch(Exception ex)
         {

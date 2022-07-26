@@ -20,7 +20,6 @@ builder.Services.AddMvc();
 builder.Services.AddDbContext<CoronaDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("myconn")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 IConfigurationRoot configuration = new
             ConfigurationBuilder().AddJsonFile("appsettings.json",
             optional: false, reloadOnChange: true).Build();
@@ -35,6 +34,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+});
 app.UseHttpsRedirection();
 
 app.ConfigureCustomExceptionMiddleware();

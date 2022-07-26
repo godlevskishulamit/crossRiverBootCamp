@@ -19,10 +19,13 @@ public class DalPatient : IDalPatient
     {
         return await context.Patients.ToListAsync();
     }
-    public void postPatient(Patient pat)
+    public async Task postPatient(Patient pat)
     {
-        context.Patients.Add(pat);
-        context.SaveChanges();
+        await Task.Run(() =>
+        {
+            context.Patients.Add(pat);
+            context.SaveChanges();
+        });
     }
 
 }

@@ -10,6 +10,6 @@ public interface IPatientRepository
 {
     Task<List<Patient>> Get();
 
-    void postPatient(Patient pat);
+    Task postPatient(Patient pat);
 
 }

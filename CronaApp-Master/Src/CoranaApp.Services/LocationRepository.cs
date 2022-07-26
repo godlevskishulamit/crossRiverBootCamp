@@ -22,9 +22,9 @@ public class LocationRepository : ILocationRepository
     {
         return await idl.getLocationsById(id);
     }
-    public void postLocation(Location loc)
+    public async Task postLocation(Location loc)
     {
-        idl.postLocation(loc);
+       await idl.postLocation(loc);
     }
     public async Task<List<Location>> getLocationByCity(string city)
     {

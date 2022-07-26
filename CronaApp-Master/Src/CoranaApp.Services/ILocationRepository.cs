@@ -10,7 +10,7 @@ public interface ILocationRepository
 {
     Task<List<Location>> Get();
     Task<List<Location>> getLocationsById(string id);
-    void postLocation(Location loc);
+    Task postLocation(Location loc);
     Task<List<Location>> getLocationByCity(string city);
     Task<List<Location>> GetByAge(int age);
     Task<List<Location>> GetByDate(DateTime sdate, DateTime eDate);

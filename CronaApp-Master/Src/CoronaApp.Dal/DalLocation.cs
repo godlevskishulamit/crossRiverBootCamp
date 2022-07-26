@@ -23,10 +23,14 @@ public class DalLocation : IDalLocation
     {
         return await context.Locations.Where(l => l.PatientId == id).ToListAsync();
     }
-    public void postLocation(Location loc)
+    public async Task postLocation(Location loc)
     {
-        context.Locations.Add(loc);
-        context.SaveChanges();
+        await Task.Run(() =>
+        {
+            context.Locations.Add(loc);
+            context.SaveChanges();
+        });
+      
     }
     public async Task<List<Location>> getLocationByCity(string city)
     {

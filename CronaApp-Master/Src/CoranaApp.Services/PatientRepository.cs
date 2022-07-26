@@ -18,8 +18,8 @@ public class PatientRepository : IPatientRepository
     {
         return await idp.getAllPatients();
     }
-    public void postPatient(Patient pat)
+    public async Task postPatient(Patient pat)
     {
-        idp.postPatient(pat);
+       await idp.postPatient(pat);
     }
 }

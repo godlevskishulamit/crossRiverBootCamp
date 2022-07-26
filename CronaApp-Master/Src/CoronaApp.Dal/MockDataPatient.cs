@@ -13,19 +13,18 @@ public class MockDataPatient : IDalPatient
         new Patient{ Id="222222222",name="second",age=2},
         new Patient{ Id="333333333",name="theared",age=3},
     };
-    public async Task<List<Patient>> GetPatients()
+
+    public async Task<List<Patient>> getAllPatients()
     {
         return await Task.FromResult(patients);
     }
 
-    public async Task<List<Patient>> getAllPatients()
+    public async Task postPatient(Patient pat)
     {
-        return await GetPatients();
-    }
-
-    public void postPatient(Patient pat)
-    {
-        patients.Add(pat);
+        await Task.Run(() =>
+        {
+            patients.Add(pat);
+        });
     }
 
 }

@@ -7,5 +7,5 @@ namespace CoronaApp.Dal;
 public interface IDalPatient
 {
     Task<List<Patient>> getAllPatients();
-    void postPatient(Patient pat);
+    Task postPatient(Patient pat);
 }

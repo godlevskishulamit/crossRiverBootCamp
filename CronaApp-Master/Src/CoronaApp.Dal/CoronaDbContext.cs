@@ -1,5 +1,6 @@
 ﻿using System;
 using CoronaApp.Api.Logging;
+using CoronaApp.Dal.Models;
 using CoronaApp.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,7 @@ public class CoronaDbContext : DbContext
 
    public DbSet<Location> Locations { get; set; }
     public DbSet<Patient> Patients { get; set; }
-    public DbSet<LoggingMessege> Messeges { get; set; }
+    public DbSet<User> Users { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 

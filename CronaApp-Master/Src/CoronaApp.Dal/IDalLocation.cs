@@ -9,7 +9,7 @@ public interface IDalLocation
 {
     Task<List<Location>> getAllLocations();
     Task<List<Location>> getLocationsById(string id);
-    void postLocation(Location loc);
+    Task postLocation(Location loc);
     Task<List<Location>> getLocationByCity(string city);
     Task<List<Location>> getByAge(int age);
     Task<List<Location>> getByDate(DateTime sdate,DateTime edate);
