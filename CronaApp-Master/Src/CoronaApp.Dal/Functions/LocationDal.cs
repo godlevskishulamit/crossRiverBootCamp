@@ -19,19 +19,19 @@ namespace CoronaApp.Dal.Services
             db = _db;
         }
 
-        public async Task<List<Location>> getAllLocations()
+        public async Task<List<Location>> getAllLocationsAsync()
         {
             return await db.Locations.ToListAsync();
         }
 
 
-        public async Task<List<Location>> getByCity(string city)
+        public async Task<List<Location>> getByCityAsync(string city)
         {
             return await db.Locations.Where(l => l.City == city).ToListAsync();
 
         }
 
-        public async Task<List<Location>> getByUserId(int id)
+        public async Task<List<Location>> getByUserIdAsync(int id)
         {
             return await db.Locations.Where(l => l.PatientId == id).ToListAsync();
         }
@@ -48,12 +48,12 @@ namespace CoronaApp.Dal.Services
 
         }
 
-        public async Task<List<Location>> getByDate(DateTime startDate, DateTime endDate)
+        public async Task<List<Location>> getByDateAsync(DateTime startDate, DateTime endDate)
         {
             return await db.Locations.Where(l => DateTime.Compare(startDate, l.StartDate) >= 0 && DateTime.Compare(endDate, l.EndDate) <= 0).ToListAsync();
 
         }
-        public async Task<List<Location>> getByAge(int age)
+        public async Task<List<Location>> getByAgeAsync(int age)
         {
 
             List<Location> result = new List<Location>();

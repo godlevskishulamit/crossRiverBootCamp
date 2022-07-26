@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using CoronaApp.Dal.Interfaces;
 
 namespace CoronaApp.Dal.Functions
 {
-    class UserDal
+    public class UserDal:IUserDal
     {
+        public UserDal()
+        {
+        }
     }
 }
+

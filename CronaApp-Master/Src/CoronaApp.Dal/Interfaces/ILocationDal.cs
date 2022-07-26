@@ -8,19 +8,19 @@ namespace CoronaApp.Dal.Interfaces
 {
    public interface ILocationDal
     {
-        Task<List<Location>> getAllLocations();
+        Task<List<Location>> getAllLocationsAsync();
 
 
-        Task<List<Location>> getByCity(string city);
+        Task<List<Location>> getByCityAsync(string city);
 
 
-        Task<List<Location>> getByUserId(int id);
+        Task<List<Location>> getByUserIdAsync(int id);
 
 
         void postExposure(int id, Location location);
 
-        Task<List<Location>> getByDate(DateTime startDate, DateTime endDate);
-        Task<List<Location>> getByAge(int age);
+        Task<List<Location>> getByDateAsync(DateTime startDate, DateTime endDate);
+        Task<List<Location>> getByAgeAsync(int age);
 
     }
 }

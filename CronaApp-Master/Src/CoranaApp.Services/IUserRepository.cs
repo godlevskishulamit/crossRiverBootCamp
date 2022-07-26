@@ -4,7 +4,11 @@ using System.Text;
 
 namespace CoronaApp.Services
 {
-    class IUserRepository
+    public class IUserRepository
     {
+        public IUserRepository()
+        {
+        }
     }
 }
+

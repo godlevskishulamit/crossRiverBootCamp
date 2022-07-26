@@ -17,27 +17,27 @@ namespace CoronaApp.Services
         }
         public Task<List<Location>> getAllLocations()
         {
-          return _dal.getAllLocations();
+          return _dal.getAllLocationsAsync();
         }
 
         public Task<List<Location>> getByAge(int age)
         {
-            return _dal.getByAge(age);
+            return _dal.getByAgeAsync(age);
         }
 
         public Task<List<Location>> getByCity(string city)
         {
-            return _dal.getByCity(city);
+            return _dal.getByCityAsync(city);
         }
 
         public Task<List<Location>> getByDate(DateTime startDate, DateTime endDate)
         {
-            return _dal.getByDate(startDate, endDate);
+            return _dal.getByDateAsync(startDate, endDate);
         }
 
         public Task<List<Location>> getByUserId(int id)
         {
-            return _dal.getByUserId(id);
+            return _dal.getByUserIdAsync(id);
         }
 
         public void postExposure(int id, Location location)

@@ -4,8 +4,11 @@ using System.Text;
 
 namespace CoronaApp.Dal.Interfaces
 {
-   public interface IUserDal
+    public class IUserDal
     {
-
+        public IUserDal()
+        {
+        }
     }
 }
+
