@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Dr0ZVkettpD/8pMxnm+R31ESjXu04dLBFsKNRXx3vgng9j7kgfQCooBiSxfIwX2778I/rtJnuIXh/pr4ta9BDg==",
+  "dgSpecHash": "H3zjnkTRidDfTGY1CmJxlemuirzhsID1eDG9MgY+j0x3L6qy29AXkKCSkmpfQ4nPICPZGjti1bYfOrBkPEB8GA==",
   "success": true,
-  "projectFilePath": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\korona_project\\web_korona\\web_korona\\web_korona.csproj",
+  "projectFilePath": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\week2\\korona_project\\brix-bootcamp-template\\web_korona\\web_korona\\web_korona.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\888\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\888\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

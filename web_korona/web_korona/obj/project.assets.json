@@ -235,11 +235,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\korona_project\\web_korona\\web_korona\\web_korona.csproj",
+      "projectUniqueName": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\week2\\korona_project\\brix-bootcamp-template\\web_korona\\web_korona\\web_korona.csproj",
       "projectName": "web_korona",
-      "projectPath": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\korona_project\\web_korona\\web_korona\\web_korona.csproj",
+      "projectPath": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\week2\\korona_project\\brix-bootcamp-template\\web_korona\\web_korona\\web_korona.csproj",
       "packagesPath": "C:\\Users\\888\\.nuget\\packages\\",
-      "outputPath": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\korona_project\\web_korona\\web_korona\\obj\\",
+      "outputPath": "G:\\סמינר\\בוטקאמפ קרוס ריבר\\week2\\korona_project\\brix-bootcamp-template\\web_korona\\web_korona\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\888\\AppData\\Roaming\\NuGet\\NuGet.Config",

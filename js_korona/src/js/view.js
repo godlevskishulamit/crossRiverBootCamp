@@ -34,7 +34,7 @@ const tideDate = (dt) => {
 filter_input.onkeyup = () => {
     
     if (filter_input.value != "") {
-        fetch(`https://localhost:44337/api/Location/city/${filter_input.value}`, {
+        fetch(`https://localhost:44381/api/Location/city/${filter_input.value}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -58,7 +58,7 @@ filter_input.onkeyup = () => {
 
 
 const GetAllUsers = () => {
-    fetch('https://localhost:44337/api/Location', {
+    fetch('https://localhost:44381/api/Location', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

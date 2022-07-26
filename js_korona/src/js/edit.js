@@ -20,7 +20,7 @@ form.onsubmit = (e) => {
         endDate: new Date(new_end_date_input.value),
         location: new_location_input.value
     };
-    fetch(`https://localhost:44337/${id_input.value}`, {
+    fetch(`https://localhost:44381/${id_input.value}`, {
         method: 'Post',
         headers: {
             'Accept': 'application/json',
@@ -51,7 +51,7 @@ id_input.onkeyup = () => {
         getReportById();
 }
 const getReportById = () => {
-    fetch(`https://localhost:44337/api/Location/id/${id_input.value}`, {
+    fetch(`https://localhost:44381/api/Location/id/${id_input.value}`, {
         method: 'Get',
         headers: {
             'Accept': 'application/json',
@@ -111,7 +111,7 @@ const PrintMyTable = (myDetails) => {
 }
 
 const deleteThisLocation = (date) => {
-    fetch(`https://localhost:44337/${id_input.value}`, {
+    fetch(`https://localhost:44381/${id_input.value}`, {
         method: 'Delete',
         headers: {
             'Accept': 'application/json',
