@@ -17,10 +17,12 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.1" />
     <PackageReference Include="System.Text.Json" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Microsoft.EntityFrameworkCore" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoronaApp.Dal\CoronaApp.Dal.csproj">

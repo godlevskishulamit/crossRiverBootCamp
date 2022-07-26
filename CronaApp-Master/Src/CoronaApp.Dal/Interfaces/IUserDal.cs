@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using CoronaApp.Dal.Models;
 
 namespace CoronaApp.Dal.Interfaces
 {
-    public class IUserDal
+    public interface IUserDal
     {
-        public IUserDal()
-        {
-        }
+      Task<User> getUser(int userId, string password, string name);
     }
 }
 
