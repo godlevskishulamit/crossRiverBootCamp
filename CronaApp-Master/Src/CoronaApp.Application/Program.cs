@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoronaApp.Api;
+using CoronaApp.Dal.Functions;
 using CoronaApp.Dal.Interfaces;
 using CoronaApp.Dal.Models;
 using CoronaApp.Dal.Services;
@@ -23,6 +24,7 @@ builder.Services.AddControllers();
 builder.Services.AddMvc();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<ILocationDal, LocationDal>();
+
 builder.Services.AddDbContext<CoronaContext>(item => item.UseSqlServer("Server = DESKTOP-0OR8G5P\\ADINA; Database = CoronaApp; Trusted_Connection = true"));
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
