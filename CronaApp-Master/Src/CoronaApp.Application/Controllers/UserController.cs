@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using CoronaApp.Dal.Functions;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
-u
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,11 +36,11 @@ namespace CoronaApp.Api.Controllers
             if (_user.UserId != null && _user.Password != null && _user.UserName != null)
             {
                 var user = await GetUser(_user.UserId, _user.Password, _user.UserName);
-            }
-            if (user != null)
-            {
-                var claims = new[]
+
+                if (user != null)
                 {
+                    var claims = new[]
+                    {
                     new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
@@ -47,13 +48,32 @@ namespace CoronaApp.Api.Controllers
                     new Claim("Password", _user.Password),
                     new Claim("Name", _user.UserName)
                 };
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
+                        _configuration["Jwt:Issuer"],
+                        _configuration["Jwt:Audience"],
+                        claims,
+                        expires: DateTime.UtcNow.AddMinutes(10),
+                        signingCredentials: signIn);
+
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                }
+                else
+                {
+                    return BadRequest("Invalid credentials");
+                }
+            }
+            else
+            {
+                return BadRequest();
             }
         }
 
         [HttpGet]
         public async Task<User> GetUser(int userId, string password, string name)
         {
-            return  null;
+            return await _repo.getUser(userId,password,name);
         }
 
     }
