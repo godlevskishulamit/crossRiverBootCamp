@@ -42,19 +42,19 @@ public class UserController : Controller
 
   
     // [Authorize]
-    [HttpPost]
-    public async Task<ActionResult<string>> PostUser([FromBody]UserDTO user)
-    {
-        if (user!=null&&user.UserName.Length>0&&user.Password.Length>0)
-        { 
-            await iur.PostUser(user);
-            return iur.createToken(user);
-        }
-        else
-        {
-            return BadRequest();
-        }
-    }
+    //[HttpPost]
+    //public async Task<ActionResult<string>> PostUser([FromBody]UserDTO user)
+    //{
+    //    if (user!=null&&user.UserName.Length>0&&user.Password.Length>0)
+    //    { 
+    //        await iur.PostUser(user);
+    //        return iur.createToken(user);
+    //    }
+    //    else
+    //    {
+    //        return BadRequest();
+    //    }
+    //}
 
 
 }

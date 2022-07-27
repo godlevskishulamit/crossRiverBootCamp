@@ -6,97 +6,103 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-#nullable disable
+namespace CoronaApp.Dal.Migrations;
 
-namespace CoronaApp.Dal.Migrations
+[DbContext(typeof(CoronaDbContext))]
+partial class CoronaDbContextModelSnapshot : ModelSnapshot
 {
-    [DbContext(typeof(CoronaDbContext))]
-    partial class CoronaDbContextModelSnapshot : ModelSnapshot
+    protected override void BuildModel(ModelBuilder modelBuilder)
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+        modelBuilder
+            .HasAnnotation("Relational:MaxIdentifierLength", 128)
+            .HasAnnotation("ProductVersion", "5.0.12")
+            .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+        modelBuilder.Entity("CoronaApp.Api.Logging.LoggingMessege", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CoronaApp.Dal.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                b.Property<string>("Level")
+                    .HasColumnType("nvarchar(max)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                b.Property<string>("LogEvent")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Message")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Properties")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.Property<string>("ThreadId")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Users");
-                });
+                b.Property<DateTimeOffset>("Timestamp")
+                    .HasColumnType("datetimeoffset");
 
-            modelBuilder.Entity("CoronaApp.Services.Models.Location", b =>
-                {
-                    b.Property<int>("LocaionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                b.HasKey("Id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocaionId"), 1L, 1);
+                b.ToTable("Messeges");
+            });
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+        modelBuilder.Entity("CoronaApp.Services.Models.Location", b =>
+            {
+                b.Property<int>("LocaionId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Address")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                b.Property<string>("City")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(9)");
+                b.Property<DateTime>("EndDate")
+                    .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                b.Property<string>("PatientId")
+                    .HasColumnType("nvarchar(9)");
 
-                    b.HasKey("LocaionId");
+                b.Property<DateTime>("StartDate")
+                    .HasColumnType("datetime2");
 
-                    b.HasIndex("PatientId");
+                b.HasKey("LocaionId");
 
-                    b.ToTable("Locations");
-                });
+                b.HasIndex("PatientId");
 
-            modelBuilder.Entity("CoronaApp.Services.Models.Patient", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
+                b.ToTable("Locations");
+            });
 
-                    b.Property<int>("age")
-                        .HasColumnType("int");
+        modelBuilder.Entity("CoronaApp.Services.Models.Patient", b =>
+            {
+                b.Property<string>("Id")
+                    .HasMaxLength(9)
+                    .HasColumnType("nvarchar(9)");
 
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int>("age")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.Property<string>("name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Patients");
-                });
+                b.HasKey("Id");
 
-            modelBuilder.Entity("CoronaApp.Services.Models.Location", b =>
-                {
-                    b.HasOne("CoronaApp.Services.Models.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId");
+                b.ToTable("Patients");
+            });
 
-                    b.Navigation("Patient");
-                });
+        modelBuilder.Entity("CoronaApp.Services.Models.Location", b =>
+            {
+                b.HasOne("CoronaApp.Services.Models.Patient", "Patient")
+                    .WithMany()
+                    .HasForeignKey("PatientId");
+
+                b.Navigation("Patient");
+            });
 #pragma warning restore 612, 618
-        }
     }
 }
