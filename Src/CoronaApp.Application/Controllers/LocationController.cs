@@ -23,44 +23,97 @@ public class LocationController : ControllerBase
 
     // GET:
     [HttpGet]
-    public async Task<List<Location>> getAllLocation()
+    public async Task<ActionResult<List<Location>>> getAllLocation()
     {
-        return await _LocationRepository.getAllLocation();
+        var result =  await _LocationRepository.getAllLocation();
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 
     // GET:
     [HttpGet("{id}")]
-    public async Task<List<Location>> getLocationsByPatientId(string id)
+    public async Task<ActionResult<List<Location>>> getLocationsByPatientId(string id)
     {
-        return await _LocationRepository.getLocationsByPatientId(id);
+        var result = await _LocationRepository.getLocationsByPatientId(id);
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 
     // GET:
     [HttpGet ("city")]
-    public async Task<List<Location>> getAllLocationByCity([FromQuery] string city)
+    public async Task<ActionResult<List<Location>>> getAllLocationByCity([FromQuery] string city)
     {
-        return await _LocationRepository.getAllLocationByCity(city);
+        var result = await _LocationRepository.getAllLocationByCity(city);
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 
     // GET:
     [HttpPost("dates")]
-    public async Task<List<Location>> getAllLocationBetweenDates([FromBody] LocationSearch dates)
+    public async Task<ActionResult<List<Location>>> getAllLocationBetweenDates([FromBody] LocationSearch dates)
     {
-        return await _LocationRepository.getAllLocationBetweenDates(dates);
+        var result = await _LocationRepository.getAllLocationBetweenDates(dates);
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 
     // GET:
     [HttpPost("age")]
-    public async Task<List<Location>> getAllLocationByAge([FromBody] LocationSearch age)
+    public async Task<ActionResult<List<Location>>> getAllLocationByAge([FromBody] LocationSearch age)
     {
-        return await _LocationRepository.getAllLocationByAge(age);
+        var result = await _LocationRepository.getAllLocationByAge(age); if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 
     // POST:
     [HttpPost]
-    public async Task<int> addNewLocation([FromBody] Location newLocation)
+    public async Task<ActionResult<int>> addNewLocation([FromBody] Location newLocation)
     {
-        return await _LocationRepository.addNewLocation(newLocation);
+        var result = await _LocationRepository.addNewLocation(newLocation);
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (result==0)
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 
 

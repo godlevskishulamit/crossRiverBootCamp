@@ -22,8 +22,17 @@ public class PatientController : ControllerBase
 
     // POST:
     [HttpPost]
-    public async Task<string> Post([FromBody] Patient newPatient)
+    public async Task<ActionResult<string>> Post([FromBody] Patient newPatient)
     {
-        return await _PatientRepository.addNewPatient(newPatient);
+        var result = await _PatientRepository.addNewPatient(newPatient);
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     } 
 }

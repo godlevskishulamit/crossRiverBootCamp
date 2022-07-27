@@ -13,7 +13,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog();
-builder.Services.AddDbContext<CoronaAppDBContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("home")));
+//builder.Services.AddDbContext<CoronaAppDBContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("home")));
 builder.Services.AddControllers();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();

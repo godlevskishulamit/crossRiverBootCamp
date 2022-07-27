@@ -8,15 +8,12 @@ using System.Threading.Tasks;
 namespace CoronaApp.Dal;
 public class LocationDal : ILocationDal
 {
-    CoronaAppDBContext _CoronaAppDBContext;
-    public LocationDal(CoronaAppDBContext CoronaAppDBContext)
-    {
-        _CoronaAppDBContext = CoronaAppDBContext;
-    }
-
     public async Task<List<Location>> getAllLocation()
     {
-        return await _CoronaAppDBContext.Locations.ToListAsync();
+        using (var _CoronaAppDBContext = new CoronaAppDBContext())
+        {
+            return await _CoronaAppDBContext.Locations.ToListAsync();
+        }
     }
 
     public async Task<List<Location>> getLocationsByPatientId(string id)
@@ -27,7 +24,10 @@ public class LocationDal : ILocationDal
         }
         else
         {
-            return await _CoronaAppDBContext.Locations.Where(location => location.Patient.Id.CompareTo(id) == 0).ToListAsync();
+            using (var _CoronaAppDBContext = new CoronaAppDBContext())
+            {
+                return await _CoronaAppDBContext.Locations.Where(location => location.Patient.Id.CompareTo(id) == 0).ToListAsync();
+            }
         }
 
     }
@@ -41,9 +41,11 @@ public class LocationDal : ILocationDal
         }
         else
         {
-            return await _CoronaAppDBContext.Locations.Where(location => DateTime.Compare(dates.StartDate, location.StartDate) <= 0 && DateTime.Compare(dates.EndDate, location.EndDate) >= 0).ToListAsync();
+            using (var _CoronaAppDBContext = new CoronaAppDBContext())
+            {
+                return await _CoronaAppDBContext.Locations.Where(location => DateTime.Compare(dates.StartDate, location.StartDate) <= 0 && DateTime.Compare(dates.EndDate, location.EndDate) >= 0).ToListAsync();
+            }
         }
-
     }
 
     public async Task<List<Location>> getAllLocationByCity(string city)
@@ -54,7 +56,10 @@ public class LocationDal : ILocationDal
         }
         else
         {
-            return await _CoronaAppDBContext.Locations.Where(location => location.City.Contains(city)).ToListAsync();
+            using (var _CoronaAppDBContext = new CoronaAppDBContext())
+            {
+                return await _CoronaAppDBContext.Locations.Where(location => location.City.Contains(city)).ToListAsync();
+            }
         }
     }
 
@@ -66,11 +71,13 @@ public class LocationDal : ILocationDal
         }
         else
         {
-            return await _CoronaAppDBContext.Locations.Include(location => location.Patient)
+            using (var _CoronaAppDBContext = new CoronaAppDBContext())
+            {
+                return await _CoronaAppDBContext.Locations.Include(location => location.Patient)
                 .Where(location => location.Patient.Age == age.Age).ToListAsync();
+            }
         }
     }
-
     public async Task<int> addNewLocation(Location newLocation)
     {
         if (newLocation == null)
@@ -79,9 +86,20 @@ public class LocationDal : ILocationDal
         }
         else
         {
-            await _CoronaAppDBContext.Locations.AddAsync(newLocation);
-            await _CoronaAppDBContext.SaveChangesAsync();
-            return newLocation.Id;
+            try
+            {
+                using (var _CoronaAppDBContext = new CoronaAppDBContext())
+                {
+                    await _CoronaAppDBContext.Locations.AddAsync(newLocation);
+                    await _CoronaAppDBContext.SaveChangesAsync();
+                }
+                return newLocation.Id;
+            }
+            catch(Exception)
+            {
+                throw new Exception("internal error with SaveChangesAsync function");
+            }
+           
         }
     }
 }

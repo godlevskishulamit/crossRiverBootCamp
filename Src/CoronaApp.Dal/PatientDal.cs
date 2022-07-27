@@ -9,11 +9,7 @@ using System.Threading.Tasks;
 namespace CoronaApp.Dal;
 public  class PatientDal : IPatientDal
 {
-    CoronaAppDBContext _CoronaAppDBContext;
-    public PatientDal(CoronaAppDBContext CoronaAppDBContext)
-    {
-        _CoronaAppDBContext =CoronaAppDBContext;
-    }
+   
     public async Task<string> addNewPatient(Patient newPatient)
     {
         if (newPatient == null)
@@ -22,9 +18,20 @@ public  class PatientDal : IPatientDal
         }
         else
         {
-            await _CoronaAppDBContext.Patients.AddAsync(newPatient);
-            await _CoronaAppDBContext.SaveChangesAsync();
-            return newPatient.Id;
+            try
+            {
+                using (var _CoronaAppDBContext = new CoronaAppDBContext())
+                {
+                    await _CoronaAppDBContext.Patients.AddAsync(newPatient);
+                    await _CoronaAppDBContext.SaveChangesAsync();
+                    return newPatient.Id;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("internal error with SaveChangesAsync function");
+            }
+
         }
     }
 
