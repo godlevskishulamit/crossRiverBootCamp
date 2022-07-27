@@ -26,11 +26,10 @@ public class PatientDal : IPatientDal
     }
 
     //A function that add location
-    public async Task<Location> PostLocation(Location location)
+    public async Task PostLocation(Location location)
     {
         var l= await _context.Locations.AddAsync(location);
         await _context.SaveChangesAsync();
-        return l.Entity;
     }
 
     //A function that delete location by patintId

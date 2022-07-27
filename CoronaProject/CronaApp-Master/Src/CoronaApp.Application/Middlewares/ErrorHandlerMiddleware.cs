@@ -30,8 +30,11 @@ public class ErrorHandlerMiddleware
 
             if (httpContext.Response.StatusCode == 400)
             {
-            // throw new Exception("model is invalid");
-             _logger.LogInformation("model is invalid");
+                //httpContext.Response
+                //    response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+                // throw new Exception("model is invalid");
+                _logger.LogInformation("model is invalid");
              _logger.LogError("model is invalid - ERROR!!!");
             }
 

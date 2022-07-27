@@ -5,51 +5,53 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
+using Microsoft.AspNetCore.Authorization;
+using CoronaApp.Services;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CoronaApp.Api.Controllers;
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class PatientController : ControllerBase
 {
-    private readonly IPatientDal _patientDal;
-    public PatientController(IPatientDal patientDal)
+    private readonly IPatientRepository _patientRepository;
+    public PatientController(IPatientRepository patientRepository)
     {
-        _patientDal = patientDal;
+        _patientRepository = patientRepository;
     }
 
     // GET api/<PatientController>/5
-    [HttpGet("{patintId}")]
-    public async Task<ActionResult<List<Location>>> Get(string patintId)
+    [HttpGet("{patintId}")]   
+    public async Task<ActionResult> Get(string patintId)
     {
-        var res = await _patientDal.GetPatientLocations(patintId);
+        var res = await _patientRepository.GetPatientLocations(patintId);
         if (res == null)
         {
             return NotFound();
         }
-        return res;
-
+        return Ok(res);
     }
 
     // POST api/<PatientController>
     [HttpPost]
-    public async Task<ActionResult<Location>> Post([FromBody] Location location)
+    public async Task Post([FromBody] Location location)
     {
-        return await _patientDal.PostLocation(location);
+         await _patientRepository.PostLocation(location);
     }
+
     [HttpPost("patient")]
     public async Task Post([FromBody] Patient patient)
     {
-         await _patientDal.PostPatient(patient);
+         await _patientRepository.PostPatient(patient);
     }
 
     // DELETE api/<PatientController>
     [HttpDelete("{locationId}")]
     public async Task Delete(int locationId)
     {
-        await _patientDal.DeleteLocation(locationId);
+        await _patientRepository.DeleteLocation(locationId);
     }
 }

@@ -10,6 +10,8 @@ public class CoronaContext:DbContext
 {
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Location> Locations { get; set; }
+    public DbSet<User> Users { get; set; }
+    
     public CoronaContext(DbContextOptions options) : base(options)
     {
 
@@ -21,4 +23,6 @@ public class CoronaContext:DbContext
             new Patient() { Id = "1", Name = "Chris" });
 
     }
+
+
 }

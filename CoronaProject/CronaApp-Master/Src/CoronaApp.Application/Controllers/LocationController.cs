@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CoronaApp.Dal.Models;
 using CoronaApp.Dal;
+using CoronaApp.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,59 +15,60 @@ namespace CoronaApp.Api.Controllers;
 [ApiController]
 public class LocationController : ControllerBase
 {
-    private readonly ILocationDal _locationDal;
+    private readonly ILocationRepository _locationRepository;
 
-    public LocationController(ILocationDal locationDal)
+    public LocationController(ILocationRepository locationRepository)
     {
-        _locationDal = locationDal;
+        _locationRepository = locationRepository;
     }        
     //get all locations
     // GET: api/<LocationController>
     [HttpGet]
-    public async Task<ActionResult<List<Location>>> Get()
+    public async Task<ActionResult> Get()
     {
-        var res = await _locationDal.GetAllLocations();
+        var res = await _locationRepository.GetAllLocations();
         if (res == null)
         {
             return NotFound();
         }
-        return res;
+        return Ok(res);
     }
 
     //get locations by city
     // GET api/<LocationController>/5
+    
     [HttpGet("city")]
-    public async Task<ActionResult<List<Location>>> Get([FromQuery] string city)
+    public async Task<ActionResult> Get([FromQuery] string city)
     {
-        var res = await _locationDal.GetLocationsByCity(city);
+        var res = await _locationRepository.GetLocationsByCity(city);
         if (res == null)
         {
             return NotFound();
         }
-        return res;
+        return Ok(res);   
     }
 
     //filter by date
     [HttpGet("GetLocationsByDate")]
-    public async Task<ActionResult<List<Location>>> Get([FromBody] LocationSearch locationSearch)
+    public async Task<ActionResult> Get([FromBody] LocationSearch locationSearch)
     {
-        var res = await _locationDal.GetLocationsByDate(locationSearch);
+        var res = await _locationRepository.GetLocationsByDate(locationSearch);
         if (res == null)
         {
             return NotFound();
         }
-        return res;
+        return Ok(res);
     }
 
     //filter by age
     [HttpGet("GetLocationsByAge")]
-    public async Task<ActionResult<List<Location>>> GetByAge([FromBody] LocationSearch locationSearch)
+    public async Task<ActionResult> GetByAge([FromBody] LocationSearch locationSearch)
     {
-        var res = await _locationDal.GetLocationsByAge(locationSearch);
+        var res = await _locationRepository.GetLocationsByAge(locationSearch);
         if (res == null)
         {
             return NotFound();
         }
-        return res;
+        return Ok(res);
     }
 }

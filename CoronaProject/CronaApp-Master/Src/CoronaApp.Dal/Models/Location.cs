@@ -18,4 +18,5 @@ public class Location
 
     [ForeignKey("PatientId")]
     public virtual Patient Patient { get; set; }
-}
+
+ }       
