@@ -28,6 +28,8 @@ public class LocationController : ControllerBase
         //try
         //{
         List<Location> locations = await _locationService.GetAllLocations();
+        if(locations == null)
+            return BadRequest("failed! try again later...");
         if (locations.ToArray().Length == 0)
             return NoContent();
         return Ok(locations);
@@ -46,6 +48,8 @@ public class LocationController : ControllerBase
         try
         {
             List<Location> locations = await _locationService.GetAllLocations(city);
+            if (locations == null)
+                return BadRequest("failed! try again later...");
             if (locations.ToArray().Length == 0)
                 return NoContent();
             return Ok(locations);
@@ -63,7 +67,11 @@ public class LocationController : ControllerBase
     {
         try
         {
+            if (locationSearch == null)
+                throw new ArgumentNullException(nameof(locationSearch));
             List<Location> locations = await _locationService.GetLocationsByLocationSearch(locationSearch);
+            if (locations == null)
+                return BadRequest("failed! try again later...");
             if (locations.ToArray().Length == 0)
                 return NoContent();
             return Ok(locations);
@@ -81,7 +89,11 @@ public class LocationController : ControllerBase
     {
         try
         {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
             List<Location> locations = await _locationService.GetLocationsPerPatient(id);
+            if (locations == null)
+                return BadRequest("failed! try again later...");
             if (locations.ToArray().Length == 0)
                 return NoContent();
             return Ok(locations);
@@ -99,7 +111,13 @@ public class LocationController : ControllerBase
     {
         try
         {
-            await _locationService.AddLocation(location);
+            if (location == null)
+                throw new ArgumentNullException(nameof(location));
+            bool success = await _locationService.AddLocation(location);
+            if (!success)
+            {
+                return BadRequest("Adding location failed! try again later...");
+            }
             return Ok();
         }
         catch (Exception ex)
@@ -115,7 +133,13 @@ public class LocationController : ControllerBase
     {
         try
         {
-            await _locationService.DeleteLocation(location);
+            if (location == null)
+                throw new ArgumentNullException(nameof(location));
+            bool success=await _locationService.DeleteLocation(location);
+            if(!success)
+            {
+                return BadRequest("Deleting location failed! try again later...");
+            }
             return Ok();
         }
         catch (Exception ex)

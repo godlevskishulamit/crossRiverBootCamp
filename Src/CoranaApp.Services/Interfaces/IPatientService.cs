@@ -4,5 +4,5 @@ using System.Threading.Tasks;
 namespace CoronaApp.Services.Interfaces;
 public interface IPatientService
 {
-    Task AddPatient(Patient patient);
+    Task<bool> AddPatient(Patient patient);
 }

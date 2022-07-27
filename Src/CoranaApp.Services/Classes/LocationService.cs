@@ -31,12 +31,12 @@ public class LocationService : ILocationService
     {
         return await _locationDal.GetLocationsPerPatient(id);
     }
-    public async Task AddLocation(Location location)
+    public async Task<bool> AddLocation(Location location)
     {
-        await _locationDal.AddLocation(location);
+        return await _locationDal.AddLocation(location);
     }
-    public async Task DeleteLocation(Location location)
+    public async Task<bool> DeleteLocation(Location location)
     {
-        await _locationDal.DeleteLocation(location);
+        return await _locationDal.DeleteLocation(location);
     }
 }

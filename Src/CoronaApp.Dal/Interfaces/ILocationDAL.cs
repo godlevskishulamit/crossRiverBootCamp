@@ -9,6 +9,6 @@ public interface ILocationDAL
     Task<List<Location>> GetLocationByAge(LocationSearch location);
     Task<List<Location>> GetLocationsByDate(LocationSearch location);
     Task<List<Location>> GetLocationsPerPatient(string id);
-    Task AddLocation(Location location);
-    Task DeleteLocation(Location location);
+    Task<bool> AddLocation(Location location);
+    Task<bool> DeleteLocation(Location location);
 }

@@ -4,6 +4,7 @@ using CoronaApp.Dal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoronaApp.Dal.Migrations
 {
     [DbContext(typeof(CoronaContext))]
-    partial class CoronaContextModelSnapshot : ModelSnapshot
+    [Migration("20220726073246_addUserModel")]
+    partial class addUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace CoronaApp.Dal.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Location", (string)null);
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("CoronaApp.Dal.Models.Patient", b =>
@@ -65,7 +67,7 @@ namespace CoronaApp.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patient", (string)null);
+                    b.ToTable("Patient");
                 });
 
             modelBuilder.Entity("CoronaApp.Dal.Models.User", b =>
@@ -84,7 +86,7 @@ namespace CoronaApp.Dal.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("CoronaApp.Dal.Models.Location", b =>

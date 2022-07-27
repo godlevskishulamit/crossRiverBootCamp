@@ -15,8 +15,8 @@ public class PatientService : IPatientService
     {
         _patientDal = patientDal;
     }
-    public async Task AddPatient(Patient patient)
+    public async Task<bool> AddPatient(Patient patient)
     {
-        await _patientDal.AddPatient(patient);
+        return await _patientDal.AddPatient(patient);
     }
 }

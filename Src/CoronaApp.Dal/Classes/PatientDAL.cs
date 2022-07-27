@@ -9,14 +9,26 @@ using System.Threading.Tasks;
 namespace CoronaApp.Dal.Classes;
 public class PatientDAL : IPatientDAL
 {
-    private readonly CoronaContext _context;
-    public PatientDAL(CoronaContext context)
+    //private readonly CoronaContext _context;
+    //public PatientDAL(CoronaContext context)
+    //{
+    //    _context = context;
+    //}
+    public async Task<bool> AddPatient(Patient patient)
     {
-        _context = context;
-    }
-    public async Task AddPatient(Patient patient)
-    {
-        await _context.Patient.AddAsync(patient);
-        await _context.SaveChangesAsync();
+
+        try
+        {
+            using (var _context = new CoronaContext())
+            {
+                await _context.Patient.AddAsync(patient);
+                await _context.SaveChangesAsync();
+            }
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

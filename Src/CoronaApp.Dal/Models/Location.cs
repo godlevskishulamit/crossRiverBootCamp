@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
@@ -6,9 +7,13 @@ namespace CoronaApp.Dal.Models;
 public class Location : IComparable<Location>
 {
     public int Id { get; set; }
+    [DataType(DataType.DateTime)]
     public DateTime StartDate { get; set; }
+    [DataType(DataType.DateTime)]
     public DateTime EndDate { get; set; }
+    [MinLength(3)]
     public string City { get; set; }
+    [MinLength(3)]
     public string Adress { get; set; }
     [ForeignKey("PatientId")]
     public virtual Patient Patient { get; set; }

@@ -18,12 +18,12 @@ public class LocationDalMock : ILocationDAL
             new Location(1,DateTime.Now,DateTime.Now,"Bnei-brak","Here","987654321"){ }
         };
 
-    public Task AddLocation(Location location)
+    public Task<bool> AddLocation(Location location)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteLocation(Location location)
+    public Task<bool> DeleteLocation(Location location)
     {
         throw new NotImplementedException();
     }
