@@ -2,7 +2,7 @@
 using CoronaApp.Dal.Models;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Services
+namespace CoronaApp.Services.Interfaces
 {
     public interface IUserRepository
     {

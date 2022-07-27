@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CoronaApp.Services.Models;
 
-namespace CoronaApp.Dal;
+namespace CoronaApp.Dal.Interfaces;
 
 public interface IDalPatient
 {

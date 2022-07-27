@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using CoronaApp.Dal;
 using CoronaApp.Api;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
+using CoronaApp.Dal.Interfaces;
+using CoronaApp.Dal.Dal;
 
 namespace CoronaApp.Tests
 {

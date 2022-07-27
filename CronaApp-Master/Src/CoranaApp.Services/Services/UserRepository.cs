@@ -1,6 +1,7 @@
-﻿using CoronaApp.Dal;
-using CoronaApp.Dal.DTO;
+﻿using CoronaApp.Dal.DTO;
+using CoronaApp.Dal.Interfaces;
 using CoronaApp.Dal.Models;
+using CoronaApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,9 +12,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Services
+namespace CoronaApp.Services.Services
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
         public IDalUser idu;
         public IConfiguration _configuration;

@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoronaApp.Services.Models;
 
-namespace CoronaApp.Dal;
+namespace CoronaApp.Dal.Dal;
 
 public class MockDataPatient : IDalPatient
 {

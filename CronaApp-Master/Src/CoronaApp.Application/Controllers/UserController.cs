@@ -1,6 +1,6 @@
 ﻿using CoronaApp.Dal.DTO;
 using CoronaApp.Dal.Models;
-using CoronaApp.Services;
+using CoronaApp.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

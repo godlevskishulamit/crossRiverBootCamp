@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoronaApp.Dal.Interfaces;
 using CoronaApp.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoronaApp.Dal;
+namespace CoronaApp.Dal.Dal;
 
 public class DalLocation : IDalLocation
 {
@@ -30,7 +31,7 @@ public class DalLocation : IDalLocation
             context.Locations.Add(loc);
             context.SaveChanges();
         });
-      
+
     }
     public async Task<List<Location>> getLocationByCity(string city)
     {
@@ -38,9 +39,9 @@ public class DalLocation : IDalLocation
     }
     public async Task<List<Location>> getByAge(int age)
     {
-       return await context.Locations.Where(l => context.Patients.Any
-        (p => p.Id == l.PatientId && p.age == age))
-            .ToListAsync();
+        return await context.Locations.Where(l => context.Patients.Any
+         (p => p.Id == l.PatientId && p.age == age))
+             .ToListAsync();
     }
     public async Task<List<Location>> getByDate(DateTime sdate, DateTime edate)
     {

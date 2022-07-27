@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoronaApp.Services.Models;
 
-namespace CoronaApp.Dal;
+namespace CoronaApp.Dal.Interfaces;
 
 public interface IDalLocation
 {
@@ -12,5 +12,5 @@ public interface IDalLocation
     Task postLocation(Location loc);
     Task<List<Location>> getLocationByCity(string city);
     Task<List<Location>> getByAge(int age);
-    Task<List<Location>> getByDate(DateTime sdate,DateTime edate);
+    Task<List<Location>> getByDate(DateTime sdate, DateTime edate);
 }

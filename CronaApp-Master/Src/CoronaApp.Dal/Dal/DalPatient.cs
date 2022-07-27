@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoronaApp.Dal.Interfaces;
 using CoronaApp.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoronaApp.Dal;
+namespace CoronaApp.Dal.Dal;
 
 public class DalPatient : IDalPatient
 {

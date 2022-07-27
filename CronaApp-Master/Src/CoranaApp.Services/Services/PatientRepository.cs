@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CoronaApp.Dal;
 using CoronaApp.Services.Models;
 
-namespace CoronaApp.Services;
+namespace CoronaApp.Services.Services;
 
 public class PatientRepository : IPatientRepository
 {
@@ -20,6 +20,6 @@ public class PatientRepository : IPatientRepository
     }
     public async Task postPatient(Patient pat)
     {
-       await idp.postPatient(pat);
+        await idp.postPatient(pat);
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CoronaApp.Dal;
 using CoronaApp.Services.Models;
 
-namespace CoronaApp.Services;
+namespace CoronaApp.Services.Services;
 
 public class LocationRepository : ILocationRepository
 {
@@ -24,7 +24,7 @@ public class LocationRepository : ILocationRepository
     }
     public async Task postLocation(Location loc)
     {
-       await idl.postLocation(loc);
+        await idl.postLocation(loc);
     }
     public async Task<List<Location>> getLocationByCity(string city)
     {
@@ -34,7 +34,7 @@ public class LocationRepository : ILocationRepository
     {
         return await idl.getByAge(age);
     }
-    public async Task<List<Location>> GetByDate(DateTime sdate,DateTime edate)
+    public async Task<List<Location>> GetByDate(DateTime sdate, DateTime edate)
     {
         return await idl.getByDate(sdate, edate);
     }
