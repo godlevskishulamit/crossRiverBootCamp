@@ -10,25 +10,36 @@ namespace CoronaApp.Dal
 {
     public class UserDal : IUserDal
     {
-        CoronaAppContext _CoronaAppContext;
-        public UserDal(CoronaAppContext coronaAppContext)
-        {
-            _CoronaAppContext = coronaAppContext;
-        }
         public async Task<User> logIn(User newUser)
         {
-            return await _CoronaAppContext.Users.FirstOrDefaultAsync(user => user.Name == newUser.Name);
+            try
+            {
+                using (var _CoronaAppDBContext = new CoronaAppDBContext())
+                {
+                    return await _CoronaAppDBContext.Users.FirstOrDefaultAsync(user => user.Name == newUser.Name);
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("internal error with SaveChangesAsync function");
+            }
         }
-
         public async Task signUp(User newUser)
         {
-            if (logIn(newUser) != null)
+            try
             {
-                await _CoronaAppContext.Users.AddAsync(newUser);
-                await _CoronaAppContext.SaveChangesAsync();
-                return;
-
+                using (var _CoronaAppDBContext = new CoronaAppDBContext())
+                {
+                    await _CoronaAppDBContext.Users.AddAsync(newUser);
+                    await _CoronaAppDBContext.SaveChangesAsync();
+                    return;
+                }
             }
+            catch (Exception)
+            {
+                throw new Exception("internal error with SaveChangesAsync function");
+            }
+            
         }
     }
 }

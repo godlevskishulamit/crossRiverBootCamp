@@ -2,6 +2,8 @@
 using CoronaApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Api.Controllers;
@@ -19,15 +21,41 @@ public class UserController : ControllerBase
     }
     // Post: User
     [HttpPost("logIn")]
-    public async Task<string> logIn([FromBody] User newUser)
+    public async Task<ActionResult<string>> logIn([FromBody] User newUser)
     {
-        return await _IUser.logIn(newUser);
+        if (newUser == null)
+        {
+            throw new ArgumentNullException("newUser");
+        }
+        var result =  await _IUser.logIn(newUser);
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 
     // Post: User
     [HttpPost("signUp")]
-    public async Task<string> signUp([FromBody] User newUser)
+    public async Task<ActionResult<string>> signUp([FromBody] User newUser)
     {
-        return await _IUser.signUp(newUser);
+        if (newUser == null)
+        {
+            throw new ArgumentNullException("newUser");
+        }
+        var result =  await _IUser.signUp(newUser);
+        if (result == null)
+        {
+            return StatusCode(404, "not found");
+        }
+        if (!result.Any())
+        {
+            return StatusCode(204, "no content");
+        }
+        return Ok(result);
     }
 }

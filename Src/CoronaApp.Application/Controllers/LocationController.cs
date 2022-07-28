@@ -43,7 +43,10 @@ public class LocationController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<List<Location>>> getLocationsByPatientId(string id)
     {
-        
+        if (id == null)
+        {
+            throw new ArgumentNullException("id");
+        }
         var result = await _LocationRepository.getLocationsByPatientId(id);
         if (result == null)
         {
@@ -63,10 +66,6 @@ public class LocationController : ControllerBase
         if (city == null)
         {
             throw new ArgumentNullException("city");
-        }
-        if (!Regex.IsMatch(city, @"^[a-zA-Z]+$"))
-        {
-            return StatusCode(500, "not a valid argument");
         }
 
         var result = await _LocationRepository.getAllLocationByCity(city);
