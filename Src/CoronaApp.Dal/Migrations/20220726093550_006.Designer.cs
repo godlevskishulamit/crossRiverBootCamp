@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoronaApp.Dal.Migrations
 {
-    [DbContext(typeof(CoronaAppContext))]
+    [DbContext(typeof(CoronaAppDBContext))]
     [Migration("20220726093550_006")]
     partial class _006
     {

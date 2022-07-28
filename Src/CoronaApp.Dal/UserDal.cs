@@ -16,7 +16,8 @@ namespace CoronaApp.Dal
             {
                 using (var _CoronaAppDBContext = new CoronaAppDBContext())
                 {
-                    return await _CoronaAppDBContext.Users.FirstOrDefaultAsync(user => user.Name == newUser.Name);
+                    var r = await _CoronaAppDBContext.Users.FirstOrDefaultAsync(user => user.Name == newUser.Name && user.Password==newUser.Password);
+                    return r;
                 }
             }
             catch (Exception)
