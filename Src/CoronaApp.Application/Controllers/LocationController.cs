@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace CoronaApp.Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class LocationController : ControllerBase
@@ -42,15 +41,15 @@ public class LocationController : ControllerBase
         return await _LocationRepository.getAllLocationByCity(city);
     }
 
-    // GET:
+    // PUT:
     [HttpGet("dates")]
     public async Task<List<Location>> getAllLocationBetweenDates([FromBody] LocationSearch dates)
     {
         return await _LocationRepository.getAllLocationBetweenDates(dates);
     }
 
-    // GET:
-    [HttpGet("age")]
+    // PUT:
+    [HttpPut("age")]
     public async Task<List<Location>> getAllLocationByAge([FromBody] LocationSearch age)
     {
         return await _LocationRepository.getAllLocationByAge(age);
