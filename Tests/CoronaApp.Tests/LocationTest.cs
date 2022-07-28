@@ -1,17 +1,11 @@
-﻿using CoronaApp.Api;
-using CoronaApp.Dal;
+﻿using CoronaApp.Dal;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace CoronaApp.Tests;
-
 public class LocationTest : IClassFixture<WebApplicationFactory<Program>>
 {
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoronaApp.Dal.Migrations
 {
-    [DbContext(typeof(CoronaAppDBContext))]
+    [DbContext(typeof(CoronaAppContext))]
     [Migration("20220712121957_updateLocationTable")]
     partial class updateLocationTable
     {

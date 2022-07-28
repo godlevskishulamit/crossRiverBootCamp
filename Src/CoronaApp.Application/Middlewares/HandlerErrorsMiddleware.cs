@@ -28,6 +28,7 @@ public class HandlerErrorsMiddleware
             {
                 throw new KeyNotFoundException("Not Found");
             }
+
         }
         catch (Exception error)
         {
