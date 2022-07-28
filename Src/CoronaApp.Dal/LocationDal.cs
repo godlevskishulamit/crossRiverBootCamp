@@ -18,33 +18,17 @@ public class LocationDal : ILocationDal
 
     public async Task<List<Location>> getLocationsByPatientId(string id)
     {
-        if (id == null)
+        using (var _CoronaAppDBContext = new CoronaAppDBContext())
         {
-            throw new ArgumentNullException("id");
+            return await _CoronaAppDBContext.Locations.Where(location => location.Patient.Id.CompareTo(id) == 0).ToListAsync();
         }
-        else
-        {
-            using (var _CoronaAppDBContext = new CoronaAppDBContext())
-            {
-                return await _CoronaAppDBContext.Locations.Where(location => location.Patient.Id.CompareTo(id) == 0).ToListAsync();
-            }
-        }
-
     }
 
     public async Task<List<Location>> getAllLocationBetweenDates(LocationSearch dates)
     {
-        throw new Exception("jbihbi");
-        if (dates == null)
+        using (var _CoronaAppDBContext = new CoronaAppDBContext())
         {
-            throw new ArgumentNullException("dates");
-        }
-        else
-        {
-            using (var _CoronaAppDBContext = new CoronaAppDBContext())
-            {
-                return await _CoronaAppDBContext.Locations.Where(location => DateTime.Compare(dates.StartDate, location.StartDate) <= 0 && DateTime.Compare(dates.EndDate, location.EndDate) >= 0).ToListAsync();
-            }
+            return await _CoronaAppDBContext.Locations.Where(location => DateTime.Compare(dates.StartDate, location.StartDate) <= 0 && DateTime.Compare(dates.EndDate, location.EndDate) >= 0).ToListAsync();
         }
     }
 
@@ -65,41 +49,28 @@ public class LocationDal : ILocationDal
 
     public async Task<List<Location>> getAllLocationByAge(LocationSearch age)
     {
-        if (age == null)
+        using (var _CoronaAppDBContext = new CoronaAppDBContext())
         {
-            throw new ArgumentNullException("age");
+            return await _CoronaAppDBContext.Locations.Include(location => location.Patient)
+            .Where(location => location.Patient.Age == age.Age).ToListAsync();
         }
-        else
-        {
-            using (var _CoronaAppDBContext = new CoronaAppDBContext())
-            {
-                return await _CoronaAppDBContext.Locations.Include(location => location.Patient)
-                .Where(location => location.Patient.Age == age.Age).ToListAsync();
-            }
-        }
+
     }
     public async Task<int> addNewLocation(Location newLocation)
     {
-        if (newLocation == null)
+        try
         {
-            throw new ArgumentNullException("newLocation");
+            using (var _CoronaAppDBContext = new CoronaAppDBContext())
+            {
+                await _CoronaAppDBContext.Locations.AddAsync(newLocation);
+                await _CoronaAppDBContext.SaveChangesAsync();
+            }
+            return newLocation.Id;
         }
-        else
+        catch (Exception)
         {
-            try
-            {
-                using (var _CoronaAppDBContext = new CoronaAppDBContext())
-                {
-                    await _CoronaAppDBContext.Locations.AddAsync(newLocation);
-                    await _CoronaAppDBContext.SaveChangesAsync();
-                }
-                return newLocation.Id;
-            }
-            catch(Exception)
-            {
-                throw new Exception("internal error with SaveChangesAsync function");
-            }
-           
+            throw new Exception("internal error with SaveChangesAsync function");
         }
+
     }
 }
