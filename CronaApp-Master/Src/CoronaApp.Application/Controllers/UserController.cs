@@ -24,56 +24,37 @@ namespace CoronaApp.Api.Controllers
         private readonly IUserRepository _repo;
         private IConfiguration _configuration;
 
-        public UserController(IUserRepository repo, IConfiguration configuration)
+
+        public UserController(IUserRepository repo,IConfiguration configuration)
         {
             _repo = repo;
-            _configuration =configuration;
+            _configuration=configuration;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> signIn(User _user)
+        [HttpPost("signIn")]
+        public async Task signIn([FromBody]User user)
         {
-            if (_user.UserId != null && _user.Password != null && _user.UserName != null)
-            {
-                var user = await GetUser(_user.UserId, _user.Password, _user.UserName);
-
-                if (user != null)
-                {
-                    var claims = new[]
-                    {
-                    new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                    new Claim("UserId", _user.UserId.ToString()),
-                    new Claim("Password", _user.Password),
-                    new Claim("Name", _user.UserName)
-                };
-                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                    var token = new JwtSecurityToken(
-                        _configuration["Jwt:Issuer"],
-                        _configuration["Jwt:Audience"],
-                        claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
-                        signingCredentials: signIn);
-
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-                }
-                else
-                {
-                    return BadRequest("Invalid credentials");
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
+            await _repo.PostUser(user);
         }
+
+        [HttpPost("Token")]
+        public async Task<IActionResult> createToken(string userName, string password)
+        {
+            var token = await _repo.createToken(userName, password);
+            return token!=null ? Ok(token) : BadRequest(new {message="UserName or password is incorrect"}); 
+        }
+
 
         [HttpGet]
         public async Task<User> GetUser(int userId, string password, string name)
         {
             return await _repo.getUser(userId,password,name);
+        }
+
+        [HttpGet("getUserName")]
+        public async Task<string> getUserName(ClaimsPrincipal user)
+        {
+            return await _repo.getUserName(user);
         }
 
     }

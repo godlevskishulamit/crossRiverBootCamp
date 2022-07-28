@@ -1,16 +1,16 @@
 ﻿using CoronaApp.Dal.Models;
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Services
+namespace CoronaApp.Dal.Interfaces
 {
-    public interface IPatientRepository
+    public interface IPatientDal
     {
-        Task<Patient> GetAsync(ClaimsPrincipal user);
         Task SaveAsync(Patient patient);
+        Task<Patient> GetAsync(ClaimsPrincipal user);
     }
 }

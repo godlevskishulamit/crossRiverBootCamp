@@ -35,12 +35,12 @@ namespace CoronaApp.Services
             return _dal.getByDateAsync(startDate, endDate);
         }
 
-        public Task<List<Location>> getByUserId(int id)
+        public Task<List<Location>> getByUserId(string id)
         {
             return _dal.getByUserIdAsync(id);
         }
 
-        public void postExposure(int id, Location location)
+        public void postExposure(string id, Location location)
         {
             _dal.postExposure(id, location);
         }

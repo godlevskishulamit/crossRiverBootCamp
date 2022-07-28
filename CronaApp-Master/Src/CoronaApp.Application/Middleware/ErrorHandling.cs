@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace CoronaApp.Api
+namespace CoronaApp.Api.Middleware
 {
     public class ErrorHandling
     {
         private readonly RequestDelegate _next;
-        ILogger<ErrorHandling> _logger;
+         ILogger<ErrorHandling> _logger;
         public ErrorHandling(RequestDelegate next)
         {
             _next = next;
@@ -23,7 +23,7 @@ namespace CoronaApp.Api
             try
             {
                 await _next(httpContext);
-                int status=httpContext.Response.StatusCode;
+                int status = httpContext.Response.StatusCode;
                 if (status == 400 || status == 405)
                 {
                     _logger.LogError("Not enough information");
@@ -39,7 +39,7 @@ namespace CoronaApp.Api
             }
             catch (Exception e)
             {
-                _logger.LogError("Error from my middleware"+e.Message+"Stack error is:"+e.StackTrace);
+                _logger.LogError("Error from my middleware" + e.Message + "Stack error is:" + e.StackTrace);
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 

@@ -41,13 +41,13 @@ namespace CoronaApp.Api.Controllers
             return Ok(repo.getByCity(city));
         }
         [HttpGet("getByUserId/{id}")]
-        public ActionResult<List<Location>> getByUserId(int id)
+        public ActionResult<List<Location>> getByUserId(string id)
         {
             return Ok(repo.getByUserId(id));
         }
 
         [HttpPost("addExposure/{id}")]
-        public IActionResult addExposure(int id, [FromBody] Location location)
+        public IActionResult addExposure(string id, [FromBody] Location location)
         {
            repo.postExposure(id,location);
             return Ok();

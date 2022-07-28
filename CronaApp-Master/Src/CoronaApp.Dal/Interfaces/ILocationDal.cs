@@ -14,10 +14,10 @@ namespace CoronaApp.Dal.Interfaces
         Task<List<Location>> getByCityAsync(string city);
 
 
-        Task<List<Location>> getByUserIdAsync(int id);
+        Task<List<Location>> getByUserIdAsync(string id);
 
 
-        void postExposure(int id, Location location);
+        void postExposure(string id, Location location);
 
         Task<List<Location>> getByDateAsync(DateTime startDate, DateTime endDate);
         Task<List<Location>> getByAgeAsync(int age);

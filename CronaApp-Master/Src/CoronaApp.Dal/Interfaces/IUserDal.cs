@@ -9,6 +9,7 @@ namespace CoronaApp.Dal.Interfaces
     public interface IUserDal
     {
       Task<User> getUser(int userId, string password, string name);
+       Task PostUser(User user);
     }
 }
 

@@ -13,8 +13,8 @@ namespace CoronaApp.Services
        // ICollection<Location> Get(LocationSearch locationSearch);
         Task<List<Location>> getByAge(int age);
         Task<List<Location>> getByDate(DateTime startDate, DateTime endDate);
-        void postExposure(int id, Location location);
-        Task<List<Location>> getByUserId(int id);
+        void postExposure(string id, Location location);
+        Task<List<Location>> getByUserId(string id);
         Task<List<Location>> getByCity(string city);
         Task<List<Location>> getAllLocations();
 
