@@ -28,6 +28,11 @@ public class DalLocation : IDalLocation
     {
         using (var context = new CoronaDbContext(_configuration))
         {
+            Patient patient = await context.Patients.FirstOrDefaultAsync(p=>p.Id == id);
+            if(patient == null)
+            {
+                return null;
+            }
             return await context.Locations.Where(l => l.PatientId == id).ToListAsync();
         }
     }
@@ -44,7 +49,12 @@ public class DalLocation : IDalLocation
     {
         using (var context = new CoronaDbContext(_configuration))
         {
-            return await context.Locations.Where(l => l.City == city).ToListAsync();
+            List<Location> listLoc = await context.Locations.Where(l => l.City == city).ToListAsync();
+            if(listLoc.Any())
+            {
+                return listLoc;
+            }
+            return null;
         }
     }
     public async Task<List<Location>> getByAge(int age)
