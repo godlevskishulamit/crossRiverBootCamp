@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 namespace CoronaApp.Dal.Classes;
 public class PatientDAL : IPatientDAL
 {
-    //private readonly CoronaContext _context;
-    //public PatientDAL(CoronaContext context)
-    //{
-    //    _context = context;
-    //}
     public async Task<bool> AddPatient(Patient patient)
     {
 

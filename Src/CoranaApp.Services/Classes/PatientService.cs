@@ -17,6 +17,8 @@ public class PatientService : IPatientService
     }
     public async Task<bool> AddPatient(Patient patient)
     {
+        if (patient == null)
+            throw new ArgumentNullException(nameof(patient));
         return await _patientDal.AddPatient(patient);
     }
 }

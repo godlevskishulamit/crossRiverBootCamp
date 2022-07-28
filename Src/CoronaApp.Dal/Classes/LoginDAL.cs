@@ -11,11 +11,6 @@ namespace CoronaApp.Dal.Classes
 {
     public class LoginDAL : ILoginDAL
     {
-        //private readonly CoronaContext _context;
-        //public LoginDAL(CoronaContext context)
-        //{
-        //    _context = context;
-        //}
         public async Task<User> GetUser(User user)
         {
             User u;
@@ -41,6 +36,5 @@ namespace CoronaApp.Dal.Classes
                 return false;
             }
         }
-
     }
 }

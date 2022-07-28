@@ -30,8 +30,6 @@ public class PatientController : ControllerBase
     {
         try
         {
-            if (patient == null)
-                throw new ArgumentNullException(nameof(patient));
             bool success= await _patientService.AddPatient(patient);
             if (!success)
             {

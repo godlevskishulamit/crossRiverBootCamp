@@ -10,11 +10,6 @@ using System.Threading.Tasks;
 namespace CoronaApp.Dal.Classes;
 public class LocationDAL : ILocationDAL
 {
-    //private readonly CoronaContext _context;
-    //public LocationDAL(CoronaContext context)
-    //{
-    //    _context = context;
-    //}
     public async Task<List<Location>> GetAllLocations(string city = "")
     {
         List<Location> result;
@@ -44,7 +39,7 @@ public class LocationDAL : ILocationDAL
         using (var _context = new CoronaContext())
         {
             List<string> patientsId = await _context.Patient.Where(x => x.Age == location.Age).Select(x => x.Id).ToListAsync();
-            result = await _context.Location.Where(x => patientsId.IndexOf(x.PatientId)!=-1).ToListAsync();
+            result = await _context.Location.Where(x=>patientsId.Contains(x.PatientId)).ToListAsync();
         }
         return result;
         //List<Location> result= await _context.Location.Include(l => l.Patient).Where(x => x.Patient.Age == location.Age).ToListAsync();
