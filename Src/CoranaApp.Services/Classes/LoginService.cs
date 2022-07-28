@@ -79,19 +79,12 @@ namespace CoronaApp.Services.Classes
             return token;
         }
 
-        //public object GetUserNameFromToken(ClaimsIdentity identity)
-        //{
-        //    string userNameClaim;
-        //    //= identity.Claims.Where(x => x.Type == ClaimTypes.).FirstOrDefault().ToString();
-        //    if (identity != null)
-        //    {
-        //        IEnumerable<Claim> claims = identity.Claims;
-        //        // or
-        //        userNameClaim=identity.Claims.FirstOrDefault(x=>x.Properties.Keys.).Claims.FirstOrDefault("UserName").Value;
-
-        //    }
-        //    return userNameClaim;
-        //}
+        public string GetUserNameFromToken(ClaimsPrincipal User)
+        {
+            string userNameClaim=User.Claims.FirstOrDefault(
+                            x => x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).Value;
+            return userNameClaim;
+        }
 
     }
 }

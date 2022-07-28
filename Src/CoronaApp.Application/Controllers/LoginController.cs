@@ -71,8 +71,7 @@ namespace CoronaApp.Api.Controllers
         {
             try
             {
-                var userName = User.Claims.FirstOrDefault(
-                            x => x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).Value;
+                var userName = _loginService.GetUserNameFromToken(User);
                 return Ok(userName);
             }
             catch (Exception ex)

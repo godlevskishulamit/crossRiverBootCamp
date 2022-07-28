@@ -1,5 +1,6 @@
 ﻿using CoronaApp.Dal.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Services.Interfaces
@@ -8,6 +9,6 @@ namespace CoronaApp.Services.Interfaces
     {
         Task<string> Login(User u);
         Task<string> SignUp(User u);
-        //string GetUserNameFromToken(JwtSecurityToken token);
+        string GetUserNameFromToken(ClaimsPrincipal token);
     }
 }
