@@ -6,45 +6,61 @@ using System.Threading.Tasks;
 using CoronaApp.Dal.Interfaces;
 using CoronaApp.Services.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CoronaApp.Dal.Dal;
 
 public class DalLocation : IDalLocation
 {
-    public CoronaDbContext context;
-    public DalLocation(CoronaDbContext context)
+    public IConfiguration _configuration;
+    public DalLocation(IConfiguration configuration)
     {
-        this.context = context;
+        _configuration = configuration;
     }
     public async Task<List<Location>> getAllLocations()
     {
-        return await context.Locations.ToListAsync();
+        using (var context = new CoronaDbContext(_configuration))
+        {
+            return await context.Locations.ToListAsync();
+        }
     }
     public async Task<List<Location>> getLocationsById(string id)
     {
-        return await context.Locations.Where(l => l.PatientId == id).ToListAsync();
+        using (var context = new CoronaDbContext(_configuration))
+        {
+            return await context.Locations.Where(l => l.PatientId == id).ToListAsync();
+        }
     }
     public async Task postLocation(Location loc)
     {
-        await Task.Run(() =>
+        using (var context = new CoronaDbContext(_configuration))
         {
-            context.Locations.Add(loc);
-            context.SaveChanges();
-        });
+          await context.Locations.AddAsync(loc);
+           await context.SaveChangesAsync();
+        }
 
     }
     public async Task<List<Location>> getLocationByCity(string city)
     {
-        return await context.Locations.Where(l => l.City == city).ToListAsync();
+        using (var context = new CoronaDbContext(_configuration))
+        {
+            return await context.Locations.Where(l => l.City == city).ToListAsync();
+        }
     }
     public async Task<List<Location>> getByAge(int age)
     {
-        return await context.Locations.Where(l => context.Patients.Any
-         (p => p.Id == l.PatientId && p.age == age))
+        using (var context = new CoronaDbContext(_configuration))
+        {
+            return await context.Locations.Where(l => context.Patients.Any
+            (p => p.Id == l.PatientId && p.age == age))
              .ToListAsync();
+        }
     }
     public async Task<List<Location>> getByDate(DateTime sdate, DateTime edate)
     {
-        return await context.Locations.Where(l => l.StartDate <= sdate && l.EndDate >= edate).ToListAsync();
+        using (var context = new CoronaDbContext(_configuration))
+        {
+            return await context.Locations.Where(l => l.StartDate <= sdate && l.EndDate >= edate).ToListAsync();
+        }
     }
 }

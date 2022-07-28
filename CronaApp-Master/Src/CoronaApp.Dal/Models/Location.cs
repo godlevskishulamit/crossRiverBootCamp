@@ -10,7 +10,9 @@ public class Location
     public int LocaionId { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    [MaxLength(20)]
     public string City { get; set; }
+    [MaxLength(50)]
     public string Address { get; set; }
 
     public string PatientId { get; set; }

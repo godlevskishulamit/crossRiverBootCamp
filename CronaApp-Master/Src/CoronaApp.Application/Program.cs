@@ -1,6 +1,9 @@
 using CoronaApp.Api;
 using CoronaApp.Dal;
-using CoronaApp.Services;
+using CoronaApp.Dal.Dal;
+using CoronaApp.Dal.Interfaces;
+using CoronaApp.Services.Interfaces;
+using CoronaApp.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +68,7 @@ builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddMvc();
-builder.Services.AddDbContext<CoronaDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("myconn")));
+//builder.Services.AddDbContext<CoronaDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("myconn")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 IConfigurationRoot configuration = new

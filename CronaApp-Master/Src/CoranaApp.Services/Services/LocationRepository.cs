@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using CoronaApp.Dal;
+using CoronaApp.Dal.Interfaces;
+using CoronaApp.Services.Interfaces;
 using CoronaApp.Services.Models;
 
 namespace CoronaApp.Services.Services;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoronaApp.Services;
+using CoronaApp.Services.Interfaces;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,11 +28,11 @@ public class LocationController : ControllerBase
             List<Location> listLoc = await il.Get();
             if(listLoc == null)
             {
-                return StatusCode(404, "not found");
+                return StatusCode(404);
             }
             if (!listLoc.Any())
             {
-                return StatusCode(204, "no content");
+                return StatusCode(204);
             }
             return Ok(listLoc);
         }
@@ -46,16 +46,20 @@ public class LocationController : ControllerBase
     [HttpGet("id/{id}")]
     public async Task<ActionResult<List<Location>>> GetById(string id)
     {
+        if (id == null || id.Length != 9)
+        {
+            return StatusCode(400, "bad request");
+        }
         try
         {
             List<Location> listLoc = await il.getLocationsById(id);
             if (listLoc == null)
             {
-                return StatusCode(404, "not found");
+                return StatusCode(404);
             }
             if (!listLoc.Any())
             {
-                return StatusCode(204, "no content");
+                return StatusCode(204);
             }
             return Ok(listLoc);
         }
@@ -67,16 +71,20 @@ public class LocationController : ControllerBase
     [HttpGet("city/{city}")]
     public async Task<ActionResult<List<Location>>> GetByCity(string city)
     {
+        if(city == null)
+        {
+            return StatusCode(400);
+        }
         try
         {
             List<Location> listLoc = await il.getLocationByCity(city);
             if (listLoc == null)
             {
-                return StatusCode(404, "not found");
+                return StatusCode(404);
             }
             if (!listLoc.Any())
             {
-                return StatusCode(204, "no content");
+                return StatusCode(204);
             }
             return Ok(listLoc);
         }
@@ -85,6 +93,7 @@ public class LocationController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+    // bad request if dont get all Location object?
     [HttpPost]
     public async Task Add([FromBody] Location loc)
     {
@@ -102,14 +111,14 @@ public class LocationController : ControllerBase
     {
         try
         {
-            List<Location> listLoc = await il.GetByAge(ls.Age);
+            List<Location> listLoc = await il.GetByAge((int)ls.Age);
             if (listLoc == null)
             {
-                return StatusCode(404, "not found");
+                return StatusCode(404);
             }
             if (!listLoc.Any())
             {
-                return StatusCode(204, "no content");
+                return StatusCode(204);
             }
             return Ok(listLoc);
         }
@@ -126,11 +135,11 @@ public class LocationController : ControllerBase
             List<Location> listLoc = await il.GetByDate(Convert.ToDateTime(ls.StartDate), Convert.ToDateTime(ls.EndDate));
             if (listLoc == null)
             {
-                return StatusCode(404, "not found");
+                return StatusCode(404);
             }
             if (!listLoc.Any())
             {
-                return StatusCode(204, "no content");
+                return StatusCode(204);
             }
             return Ok(listLoc);
         }

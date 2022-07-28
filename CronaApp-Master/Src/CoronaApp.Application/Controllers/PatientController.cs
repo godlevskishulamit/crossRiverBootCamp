@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoronaApp.Services;
+using CoronaApp.Services.Interfaces;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,11 +30,11 @@ public class PatientController : ControllerBase
             List<Patient> listPat = await ip.Get();
             if (listPat == null)
             {
-                return StatusCode(404, "not found");
+                return StatusCode(404);
             }
             if (!listPat.Any())
             {
-                return StatusCode(204, "no content");
+                return StatusCode(204);
             }
             return Ok(listPat);
         }

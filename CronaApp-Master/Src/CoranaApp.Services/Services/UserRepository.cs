@@ -42,7 +42,9 @@ namespace CoronaApp.Services.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(user.Password, user.Id.ToString()),
+                    new Claim("userId", user.Id.ToString()),
+                    new Claim("userPassword", user.Password),
+                    new Claim("userName", user.UserName),
                     new Claim(JwtRegisteredClaimNames.Aud, _configuration["Jwt:Audience"]),
                     new Claim(JwtRegisteredClaimNames.Iss, _configuration["Jwt:Issuer"])
                 }),

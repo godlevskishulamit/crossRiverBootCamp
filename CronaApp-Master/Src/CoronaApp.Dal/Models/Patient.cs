@@ -9,5 +9,5 @@ public class Patient
     [MaxLength(9)]
     public string Id { get; set; }
     public string name { get; set; }
-    public int age { get; set; }
+    public int? age { get; set; }
 }
