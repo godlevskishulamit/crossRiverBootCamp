@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal
-{
+namespace CoronaApp.Dal;
+
     public interface IPatientDal
     {
         Task<List<Patient>> Get();
@@ -11,4 +11,3 @@ namespace CoronaApp.Dal
         Task Post(Patient patient);
         Task Put(Patient patient);
     }
-}

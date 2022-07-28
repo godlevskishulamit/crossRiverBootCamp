@@ -32,8 +32,8 @@ namespace CoronaApp.Api.Middlewares
             }
             catch (Exception ex)
             {
-                _ilogger.Log(LogLevel.Information, ex.Message);
-                httpContext.Response.StatusCode = 500;
+                _ilogger.Log(LogLevel.Error, ex.Message);
+                httpContext.Response.StatusCode = 500   ;
             }
         }
     }

@@ -3,8 +3,8 @@ using CoronaApp.Services.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal
-{
+namespace CoronaApp.Dal;
+
     public interface ILocationDal
     {
         Task Delete(Location location);
@@ -15,4 +15,3 @@ namespace CoronaApp.Dal
         Task Post(Location location);
         Task Put(Location location);
     }
-}

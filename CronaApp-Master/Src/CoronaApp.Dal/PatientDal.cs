@@ -18,12 +18,12 @@ namespace CoronaApp.Dal
         }
         public async Task<List<Patient>> Get()
         {
-            //using (var context = new CoronaAppContext())
+            using (var context = new CoronaAppContext())
             {
-                List<Patient> patientList = await ct.Patients.ToListAsync();
+                List<Patient> patientList = await context.Patients.ToListAsync();
                 return patientList;
             }
-           
+
         }
         public async Task<Patient> GetById(int id)
         {
@@ -40,7 +40,7 @@ namespace CoronaApp.Dal
                 await context.Patients.AddAsync(patient);
                 await context.SaveChangesAsync();
             }
-               
+
         }
         public async Task Put(Patient patient)
         {
