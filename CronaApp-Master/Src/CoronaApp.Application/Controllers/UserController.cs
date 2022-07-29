@@ -22,7 +22,7 @@ namespace CoronaApp.Api.Controllers
             _UserService = UserService;
         }
         // GET: api/<LoginController>
-      
+
         // GET api/<LoginController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -39,7 +39,7 @@ namespace CoronaApp.Api.Controllers
                 return StatusCode(400, "bad request");
             try
             {
-                UserDTO user  = await _UserService.login(userLogin);
+                UserDTO user = await _UserService.login(userLogin);
 
                 if (user == null)
                 {
@@ -68,18 +68,30 @@ namespace CoronaApp.Api.Controllers
                 {
                     return StatusCode(204, "no such user");
                 }
-                return Ok(newUser);
+                return Ok(user);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-        /*[HttpGet("getUserName")]
-        public Task<ActionResult<string>> getUserName()
+        [HttpGet("getUserName")]
+        public ActionResult<string> getUserNameFromToken()
         {
-            return _UserService.getUserName();
-        }*/
+            try
+            {
+                string userName = _UserService.getUserNameFromToken(User);
+                if (userName == null)
+                {
+                    return StatusCode(204, "no such user");
+                }
+                return Ok(userName);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         // PUT api/<LoginController>/5
         [HttpPut("{id}")]

@@ -72,4 +72,13 @@ public class UserService : IUserService
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
+
+    public string getUserNameFromToken(ClaimsPrincipal User)
+    {
+        string userName=User.Claims.FirstOrDefault(
+                        x => x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).Value;
+        return userName;
+   
+    }
+
 }
