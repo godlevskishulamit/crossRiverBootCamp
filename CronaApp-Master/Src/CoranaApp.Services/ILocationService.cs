@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Services
 {
-    public interface ILocationRepository
+    public interface ILocationService
     {
         public Task<List<Location>> getAllLocation();
         public Task<List<Location>> getLocationsByPatientId(string id);

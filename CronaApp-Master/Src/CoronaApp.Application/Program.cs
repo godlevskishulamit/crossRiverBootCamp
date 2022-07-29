@@ -24,14 +24,23 @@ IConfigurationRoot configuration = new
             ConfigurationBuilder().AddJsonFile("appsettings.json",
             optional: false, reloadOnChange: true).Build();
 
-var connectipnString = builder.Configuration.GetConnectionString("home");
-builder.Services.AddDbContext<CoronaAppDBContext>(options => options.UseSqlServer(connectipnString));
+//var connectipnString = builder.Configuration.GetConnectionString("home");
+//builder.Services.AddDbContext<CoronaAppDBContext>(options => options.UseSqlServer(connectipnString));
+builder.Services.AddCors(options =>
+            {
+    options.AddPolicy("AllowAll", p =>
+    {
+        p.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ILocationDal, LocationDal>();
-builder.Services.AddScoped<IPatientDal, PatientDal>();
-builder.Services.AddScoped<IUserDal, UserDal>();
 builder.Services.AddControllers();
 
 var key = Encoding.ASCII.GetBytes(configuration["JWT:key"]);
@@ -96,7 +105,7 @@ if (app.Environment.IsDevelopment())
 
     });
 }
-//app.UseEventHandlerMiddleWare();
+app.UseEventHandlerMiddleWare();
 
 app.UseHttpsRedirection();
 

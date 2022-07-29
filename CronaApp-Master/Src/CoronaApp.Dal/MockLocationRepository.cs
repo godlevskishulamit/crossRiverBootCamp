@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Tests
 {
-    public class MockLocationDal : ILocationDal
+    public class MockLocationRepository : ILocationRepository
     {
         Patient p1;
         Patient p2;
@@ -16,7 +16,7 @@ namespace CoronaApp.Tests
         Location l2;
         Location l3;
         public  List<Location> DB;
-        public MockLocationDal()
+        public MockLocationRepository()
         {
             p1 = new Patient() { Id = "111", Name = "Shira", Age = 20 };
             p2 = new Patient() { Id = "222", Name = "Chanchy", Age = 20 };

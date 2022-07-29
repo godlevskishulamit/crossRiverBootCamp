@@ -3,6 +3,7 @@ using CoronaApp.Services;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,18 +16,13 @@ namespace CoronaApp.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        IUserRepository _UserRepositoty;
-        public UserController(IUserRepository UserRepositoty)
+        IUserService _UserService;
+        public UserController(IUserService UserService)
         {
-            _UserRepositoty = UserRepositoty;
+            _UserService = UserService;
         }
         // GET: api/<LoginController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
+      
         // GET api/<LoginController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -37,17 +33,53 @@ namespace CoronaApp.Api.Controllers
         // POST api/<LoginController>
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<UserDTO> login([FromBody] UserLoginDTO userLogin)
+        public async Task<ActionResult<UserDTO>> login([FromBody] UserLoginDTO userLogin)
         {
-            return await _UserRepositoty.login(userLogin);
+            if (userLogin == null)
+                return StatusCode(400, "bad request");
+            try
+            {
+                UserDTO user  = await _UserService.login(userLogin);
+
+                if (user == null)
+                {
+                    return StatusCode(204, "no such user");
+                }
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         // POST api/<LoginController>
         [HttpPost("signUp")]
         [AllowAnonymous]
-        public async Task<UserDTO> signUp([FromBody] UserLoginDTO newUser)
+        public async Task<ActionResult<UserDTO>> signUp([FromBody] UserLoginDTO newUser)
         {
-            return await _UserRepositoty.signUp(newUser);
+
+            if (newUser == null)
+                return StatusCode(400, "bad request");
+            try
+            {
+                UserDTO user = await _UserService.signUp(newUser);
+
+                if (user == null)
+                {
+                    return StatusCode(204, "no such user");
+                }
+                return Ok(newUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
+        /*[HttpGet("getUserName")]
+        public Task<ActionResult<string>> getUserName()
+        {
+            return _UserService.getUserName();
+        }*/
 
         // PUT api/<LoginController>/5
         [HttpPut("{id}")]

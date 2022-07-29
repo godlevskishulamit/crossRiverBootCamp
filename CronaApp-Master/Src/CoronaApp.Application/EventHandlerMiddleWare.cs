@@ -25,7 +25,7 @@ namespace CoronaApp.Api
             Message = $"About page visited at {DateTime.UtcNow.ToLongTimeString()}";
             _logger.LogInformation(Message);
         }*/
-        public async Task Invoke(HttpContext httpContext, ILogger<EventHandlerMiddleWare> logger)
+        public async Task Invoke(HttpContext httpContext)
         {
             try
             {
@@ -37,12 +37,11 @@ namespace CoronaApp.Api
             }
             catch (Exception ex)
             {
-                logger.LogError("Error from My MiddleWAre : " + ex.Message + "stack Trace is:" + ex.StackTrace);
+                _logger.LogError("Error from My MiddleWAre : " + ex.Message + "stack Trace is:" + ex.StackTrace);
                 if (httpContext.Response.StatusCode >= 400 && httpContext.Response.StatusCode < 500)
                     httpContext.Response.StatusCode = httpContext.Response.StatusCode;
                 else
                 httpContext.Response.StatusCode = 500;
-                //httpContext.Response.ContentType = ex;
             }
         }
     }

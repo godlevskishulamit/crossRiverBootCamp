@@ -16,19 +16,29 @@ namespace CoronaApp.Api.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        IPatientRepository _PatientRepository;
-        public PatientController(IPatientRepository PatientRepository)
+        IPatientService _PatientRepository;
+        public PatientController(IPatientService PatientRepository)
         {
             _PatientRepository = PatientRepository;
         }
 
 
-       
+
         // POST api/<PatientController>
         [HttpPost]
-        public async Task<string> Post([FromBody] Patient newPatient)
+        public async Task<ActionResult<string>> Post([FromBody] Patient newPatient)
         {
-            return await _PatientRepository.addNewPatient(newPatient);
+            if (newPatient == null)
+                return StatusCode(400, "bad request");
+            try
+            {
+                return await _PatientRepository.addNewPatient(newPatient);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+
+            }
         }
 
         // PUT api/<PatientController>/5
@@ -37,6 +47,6 @@ namespace CoronaApp.Api.Controllers
         {
         }
 
-     
+
     }
 }

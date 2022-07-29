@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Dal
 {
-    public class LocationRepository: ILocationRepository
+    public class LocationService: ILocationService
     {
-        ILocationDal _LocationDal;
-        public LocationRepository(ILocationDal LocationDal)
+        ILocationRepository _LocationDal;
+        public LocationService(ILocationRepository LocationDal)
         {
             _LocationDal =LocationDal;
         }

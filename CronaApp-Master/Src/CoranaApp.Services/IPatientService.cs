@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Services
 {
-    public interface IPatientRepository
+    public interface IPatientService
     {
          Task<string> addNewPatient(Patient newPatient);
 

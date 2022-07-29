@@ -31,7 +31,7 @@ namespace CoronaApp.Tests
             {
                 builder.ConfigureTestServices(services =>
                 {
-                    services.AddScoped<ILocationDal, MockLocationDal>();
+                    services.AddScoped<ILocationRepository, MockLocationRepository>();
                 });
             })
         .CreateClient();

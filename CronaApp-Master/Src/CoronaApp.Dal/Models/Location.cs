@@ -10,6 +10,7 @@ namespace CoronaApp.Dal
 {
     public class Location
     {
+        [Required]
         public int Id { get; set; }
         [Required]
         public DateTime StartDate { get; set; }

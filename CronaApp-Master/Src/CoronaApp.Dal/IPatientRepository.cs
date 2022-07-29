@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Dal
 {
-    public interface IPatientDal
+    public interface IPatientRepository
     {
         public Task<string> addNewPatient(Patient newPatient);
 

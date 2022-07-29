@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Services;
 
-public interface IUserRepository
+public interface IUserService
 {
     public Task<UserDTO> login(UserLoginDTO userLogin);
     public Task<UserDTO> signUp(UserLoginDTO userLogin);

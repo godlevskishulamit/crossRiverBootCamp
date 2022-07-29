@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Dal
 {
-    public interface ILocationDal
+    public interface ILocationRepository
     {
         Task<List<Location>> getAllLocation();
         Task<int> addNewLocation(Location newLocation);

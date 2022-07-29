@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Dal;
 
-public interface IUserDal
+public interface IUserRepository
 {
     public Task<User> login(string name, string password);
     public Task<User> signUp(string name, string password);

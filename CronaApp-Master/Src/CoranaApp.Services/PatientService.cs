@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Services
 {
-    public class PatientRepository : IPatientRepository
+    public class PatientService : IPatientService
     {
-        IPatientDal _PatientDal;
-        public PatientRepository(IPatientDal PatientDal)
+        IPatientRepository _PatientDal;
+        public PatientService(IPatientRepository PatientDal)
         {
             _PatientDal = PatientDal;
         }
