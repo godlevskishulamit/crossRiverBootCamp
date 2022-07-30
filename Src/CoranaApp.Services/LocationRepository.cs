@@ -1,5 +1,6 @@
 ﻿using CoronaApp.Dal.Models;
 using CoronaApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -38,8 +39,8 @@ public class LocationRepository : ILocationRepository
     }
 
     public async Task<List<Location>> getAllLocationByAge(LocationSearch age)
-    {
-        return await _LocationDal.getAllLocationByAge(age);
+    { 
+       return await _LocationDal.getAllLocationByAge(age);
     }
 
 }

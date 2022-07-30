@@ -24,6 +24,10 @@ public class PatientController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<string>> Post([FromBody] Patient newPatient)
     {
+        if (newPatient == null)
+        {
+            throw new ArgumentNullException("newPatient");
+        }
         var result = await _PatientRepository.addNewPatient(newPatient);
         if (result == null)
         {

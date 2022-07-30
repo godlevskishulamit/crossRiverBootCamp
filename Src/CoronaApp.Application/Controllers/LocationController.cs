@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace CoronaApp.Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class LocationController : ControllerBase
@@ -40,9 +41,12 @@ public class LocationController : ControllerBase
 
     // GET:
     [HttpGet("{id}")]
-    public async Task<ActionResult<List<Location>>> getLocationsByPatientId(int id)
+    public async Task<ActionResult<List<Location>>> getLocationsByPatientId(string id)
     {
-        
+        if (id == null)
+        {
+            throw new ArgumentNullException("id");
+        }
         var result = await _LocationRepository.getLocationsByPatientId(id);
         if (result == null)
         {
@@ -62,10 +66,6 @@ public class LocationController : ControllerBase
         if (city == null)
         {
             throw new ArgumentNullException("city");
-        }
-        if (!Regex.IsMatch(city, @"^[a-zA-Z]+$"))
-        {
-            return StatusCode(500, "not a valid argument");
         }
 
         var result = await _LocationRepository.getAllLocationByCity(city);
