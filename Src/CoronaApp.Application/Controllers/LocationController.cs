@@ -89,13 +89,20 @@ public class LocationController : ControllerBase
     {
         if (dates == null)
         {
-            throw new ArgumentNullException("LocationSearch");
+            throw new ArgumentNullException("LocationSearch by dates");
         }
-        if (DateTime.Compare( dates.StartDate,dates.EndDate)<0)
+        if(dates.StartDate == null)
+        {
+            dates.StartDate = DateTime.Now;
+        }
+        if (dates.EndDate == null)
+        {
+            dates.EndDate = DateTime.Now;
+        }
+            if (DateTime.Compare( dates.StartDate,dates.EndDate)<0)
         {
             return StatusCode(500, "not a valid argument");
         }
-
 
         var result = await _LocationRepository.getAllLocationBetweenDates(dates);
         if (result == null)
@@ -113,9 +120,9 @@ public class LocationController : ControllerBase
     [HttpPost("age")]
     public async Task<ActionResult<List<Location>>> getAllLocationByAge([FromBody] LocationSearch age)
     {
-        if (age == null)
+        if (age == null || age.Age == null)
         {
-            throw new ArgumentNullException("LocationSearch");
+            throw new ArgumentNullException("LocationSearch by age");
         }
         var result = await _LocationRepository.getAllLocationByAge(age); 
         if (result == null)
