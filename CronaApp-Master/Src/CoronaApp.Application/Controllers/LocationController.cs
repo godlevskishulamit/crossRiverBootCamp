@@ -30,37 +30,37 @@ namespace CoronaApp.Api.Controllers
 
 
         [HttpGet("getAllLocations")]
-        public ActionResult<List<Location>> getAllLocations()
+        public ActionResult<List<LocationDto>> getAllLocations()
         {
             
             return Ok(repo.getAllLocations());
         }
         [HttpGet("getByCity/{city}")]
-        public ActionResult<List<Location>> getByCity(string city)
+        public ActionResult<List<LocationDto>> getByCity(string city)
         {
             return Ok(repo.getByCity(city));
         }
         [HttpGet("getByUserId/{id}")]
-        public ActionResult<List<Location>> getByUserId(string id)
+        public ActionResult<List<LocationDto>> getByUserId(string id)
         {
             return Ok(repo.getByUserId(id));
         }
 
         [HttpPost("addExposure/{id}")]
-        public IActionResult addExposure(string id, [FromBody] Location location)
+        public IActionResult addExposure(string id, [FromBody] LocationDto location)
         {
            repo.postExposure(id,location);
             return Ok();
         }
 
         [HttpGet("getByDate/{startDate}/{endDate}")]
-        public ActionResult<List<Location>> getByDate(DateTime startDate, DateTime endDate)
+        public ActionResult<List<LocationDto>> getByDate(DateTime startDate, DateTime endDate)
         {
             return Ok(repo.getByDate(startDate,endDate));
         }
 
         [HttpGet("getByAge/{age}")]
-        public ActionResult<List<Location>> getByAge(int age)
+        public ActionResult<List<LocationDto>> getByAge(int age)
         {
             return Ok(repo.getByAge(age));
         }

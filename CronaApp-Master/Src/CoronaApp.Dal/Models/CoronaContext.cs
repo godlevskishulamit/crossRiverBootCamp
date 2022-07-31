@@ -17,7 +17,7 @@ namespace CoronaApp.Dal.Models
         {
             _configuration=config;
         }
-        public DbSet<Location> Locations { get; set; }
+        public DbSet<LocationDto> Locations { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<User> Users { get; set; }
 

@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CoronaApp.Dal.Interfaces;
 using CoronaApp.Dal.Models;
+using CoronaApp.Services.Dto;
 
 namespace CoronaApp.Services
 {
     public class LocationRepository : ILocationRepository
     {
         ILocationDal _dal;
+        IMapper _mapper;
         
-        public LocationRepository(ILocationDal dal)
+        public LocationRepository(ILocationDal dal, IMapper mapper)
         {
             _dal = dal;
+            _mapper = mapper;
         }
         public Task<List<Location>> getAllLocations()
         {
@@ -40,9 +44,11 @@ namespace CoronaApp.Services
             return _dal.getByUserIdAsync(id);
         }
 
-        public void postExposure(string id, Location location)
+        public void postExposure(string id, LocationPostDto location)
         {
-            _dal.postExposure(id, location);
+            Location newLocation= _mapper.Map<Location>(location);
+             
+            _dal.postExposure(id, newLocation);
         }
     }
 }
