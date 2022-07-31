@@ -16,11 +16,19 @@ namespace CoronaApp.Dal
         {
             this.ct = ct;
         }
-        public async Task<List<Patient>> Get()
+        public async Task<List<Patient>> GetAllPatients()
         {
             using (var context = new CoronaAppContext())
             {
-                List<Patient> patientList = await context.Patients.ToListAsync();
+                List<Patient> patientList;
+                try
+                {
+                     patientList = await context.Patients.ToListAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Server error when trying to read data from db");
+                }
                 return patientList;
             }
 
@@ -29,20 +37,34 @@ namespace CoronaApp.Dal
         {
             using (var context = new CoronaAppContext())
             {
-                Patient patient = await context.Patients.Where(p => p.Id == id).FirstOrDefaultAsync();
+                Patient patient;
+                try { 
+                patient = await context.Patients.Where(p => p.Id == id).FirstOrDefaultAsync();
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception("Server error when trying to read data from db");
+                }
                 return patient;
             }
         }
-        public async Task Post(Patient patient)
+        public async Task AddNewPatient(Patient patient)
         {
             using (var context = new CoronaAppContext())
             {
-                await context.Patients.AddAsync(patient);
-                await context.SaveChangesAsync();
+                try
+                {
+                    await context.Patients.AddAsync(patient);
+                    await context.SaveChangesAsync();
+                }
+                catch(Exception e)
+                {
+                    throw new Exception("Failed to save changes in db");
+                }
             }
 
         }
-        public async Task Put(Patient patient)
+        public async Task EditPatient(Patient patient)
         {
             using (var context = new CoronaAppContext())
             {
@@ -50,7 +72,14 @@ namespace CoronaApp.Dal
                 if (patientToUpdate == null)
                     return;
                 context.Entry(patientToUpdate).CurrentValues.SetValues(patient);
-                await context.SaveChangesAsync();
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Failed to save changes in db");
+                }
             }
         }
     }

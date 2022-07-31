@@ -22,15 +22,15 @@ public class UserRepository : IUserRepository
         this.userdal = userdal;
         this._configuration = configuration;
     }
-    public HttpContent getUserName(HttpContent httpContext)
+    public string GetUserName(ClaimsPrincipal user)
     {
-        return httpContext;
-        
+       return user.Claims.FirstOrDefault(
+                                x => x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).ToString();
     }
-    public async Task<string> Post(User user)
+    public async Task<string> AddNewUser(User user)
     {
-        if(userdal.LogIn(user)==null)
-              await userdal.Post(user);
+        if(await userdal.LogIn(user)==null)
+              await userdal.AddNewUser(user);
         return await LogIn(user);
     }
     public async Task<string> LogIn(User user)
@@ -48,6 +48,7 @@ public class UserRepository : IUserRepository
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("UserId", user.Id.ToString()),
                         new Claim("UserName", user.UserName),
+                        new Claim(ClaimTypes.Role,"user")
                         
                     };
 

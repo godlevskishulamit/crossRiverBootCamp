@@ -6,8 +6,8 @@ namespace CoronaApp.Dal;
 
     public interface IPatientDal
     {
-        Task<List<Patient>> Get();
+        Task<List<Patient>> GetAllPatients();
         Task<Patient> GetById(int id);
-        Task Post(Patient patient);
-        Task Put(Patient patient);
+        Task AddNewPatient(Patient patient);
+        Task EditPatient(Patient patient);
     }

@@ -34,17 +34,17 @@ namespace CoronaApp.Services
             return await locationdal.GetByLocationSearch(locationSearch);
         }
        
-        public async Task Post(Location location)
+        public async Task AddNewLocation(Location location)
         {
-            await locationdal.Post(location);
+            await locationdal.AddNewLocation(location);
         }
-        public async Task Put(Location location)
+        public async Task EditLocation(Location location)
         {
-            await locationdal.Put(location);
+            await locationdal.EditLocation(location);
         }
-        public async Task Delete(Location location)
+        public async Task DeleteLocation(Location location)
         {
-            await locationdal.Delete(location);
+            await locationdal.DeleteLocation(location);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CoronaApp.Dal.models;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Services
@@ -7,7 +8,7 @@ namespace CoronaApp.Services
     public interface IUserRepository
     {
         Task<string> LogIn(User user);
-        Task<string> Post(User user);
-        HttpContent getUserName(HttpContent httpContext);
+        Task<string> AddNewUser(User user);
+        string GetUserName(ClaimsPrincipal user);
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Api.Middlewares
@@ -27,13 +28,32 @@ namespace CoronaApp.Api.Middlewares
                 await _next(httpContext);
                 if (httpContext.Response.StatusCode >= 400 && httpContext.Response.StatusCode < 500)
                 {
-                    throw new Exception("Not Found");
+                //    throw new KeyNotFoundException();
                 }
             }
             catch (Exception ex)
             {
+                var response = httpContext.Response;
+                response.ContentType = "application/json";
+                switch (ex)
+                {
+                    case ArgumentNullException e:
+                      //  await response.WriteAsync(e.Message+" contains null");
+                        response.StatusCode = 404;
+                       
+                        break;
+
+                    case KeyNotFoundException e:
+                        await response.WriteAsync(" page not found");
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
+                    default:
+                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        break;
+                }
+
                 _ilogger.Log(LogLevel.Error, ex.Message);
-                httpContext.Response.StatusCode = 500   ;
+                //httpContext.Response.StatusCode = 500   ;
             }
         }
     }

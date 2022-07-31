@@ -53,7 +53,7 @@ public class LocationDal : ILocationDal
             return null;
         return locations;
     }
-    public async Task Post(Location location)
+    public async Task AddNewLocation(Location location)
     {
         try
         {
@@ -65,7 +65,7 @@ public class LocationDal : ILocationDal
             throw new Exception("failed to save changes in data base");
         }
     }
-    public async Task Put(Location location)
+    public async Task EditLocation(Location location)
     {
         Location locationToUpdate = await ct.Locations.Where(l => l.Id == location.Id).FirstOrDefaultAsync();
         if (locationToUpdate == null)
@@ -73,7 +73,7 @@ public class LocationDal : ILocationDal
         ct.Entry(locationToUpdate).CurrentValues.SetValues(location);
         await ct.SaveChangesAsync();
     }
-    public async Task Delete(Location location)
+    public async Task DeleteLocation(Location location)
     {
         ct.Locations.Remove(location);
         await ct.SaveChangesAsync();

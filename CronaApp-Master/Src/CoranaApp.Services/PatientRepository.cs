@@ -15,21 +15,21 @@ namespace CoronaApp.Services
         {
             this.patientdl = patientdl;
         }
-        public async Task<List<Patient>> Get()
+        public async Task<List<Patient>> GetAllPatients()
         {
-            return await patientdl.Get();
+            return await patientdl.GetAllPatients();
         }
         public async Task<Patient> GetById(int id)
         {
             return await patientdl.GetById(id);
         }
-        public async Task Post(Patient patient)
+        public async Task AddNewPatient(Patient patient)
         {
-            await patientdl.Post(patient);
+            await patientdl.AddNewPatient(patient);
         }
-        public async Task Put(Patient patient)
+        public async Task EditPatient(Patient patient)
         {
-            await patientdl.Put(patient);
+            await patientdl.EditPatient(patient);
         }
     }
 }

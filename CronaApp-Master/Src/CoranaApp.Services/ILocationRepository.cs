@@ -7,12 +7,12 @@ namespace CoronaApp.Services
 {
     public interface ILocationRepository
     {
-        Task Delete(Location location);
         
         Task<List<Location>> GetByCity(string city);
         Task<List<Location>> GetByLocationSearch(LocationSearch locationSearch);
         Task<List<Location>> GetByPatientId(string id);
-        Task Post(Location location);
-        Task Put(Location location);
+        Task AddNewLocation(Location location);
+        Task EditLocation(Location location);
+        Task DeleteLocation(Location location);
     }
 }

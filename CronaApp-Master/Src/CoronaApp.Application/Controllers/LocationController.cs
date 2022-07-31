@@ -14,7 +14,7 @@ namespace CoronaApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "user")]
     public class LocationController : ControllerBase
     {
         ILocationRepository locationRepository;
@@ -26,6 +26,8 @@ namespace CoronaApp.Api.Controllers
         [HttpGet("city")]
         public async Task<ActionResult> GetByCity([FromQuery] string city)
         {
+            if(city==null)
+                throw new ArgumentNullException("city");
             List<Location> locations = await locationRepository.GetByCity(city);
             if (locations != null)
                 return Ok(locations);
@@ -34,6 +36,8 @@ namespace CoronaApp.Api.Controllers
         [HttpGet("patient/{id}")]
         public async Task<ActionResult> GetByPatientId(string id)
         {
+            if(id== null)
+                throw new ArgumentNullException("id");
             List<Location> locations = await locationRepository.GetByPatientId(id);
             if (locations != null)
                 return Ok(locations);
@@ -41,7 +45,7 @@ namespace CoronaApp.Api.Controllers
         }
         [HttpGet("locationSearch")]
         public async Task<ActionResult> GetByLocationSearch([FromBody] LocationSearch locationSearch)
-        {
+        {  
             List<Location> locations = await locationRepository.GetByLocationSearch(locationSearch);
             if (locations != null)
                 return Ok(locations);
@@ -52,19 +56,21 @@ namespace CoronaApp.Api.Controllers
         [HttpPost]
         public async Task Post([FromBody] Location location)
         {
-            await locationRepository.Post(location);
+           
+            await locationRepository.AddNewLocation(location);
         }
 
         // PUT api/<PatientController>/5
         [HttpPut]
         public async Task Put([FromBody] Location location)
         {
-            await locationRepository.Put(location);
+            
+            await locationRepository.EditLocation(location);
         }
         [HttpDelete]
         public async Task Delete([FromBody] Location location)
         {
-            await locationRepository.Delete(location);
+            await locationRepository.DeleteLocation(location);
         }
 
 

@@ -16,7 +16,7 @@ namespace CoronaApp.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+[Authorize(Roles =  "user")]
 
 public class UserController : ControllerBase
 {
@@ -31,19 +31,22 @@ public class UserController : ControllerBase
     [HttpGet("userName")]
     public ActionResult<string> GetUserName()
     {
-        var userName = User.Claims.FirstOrDefault(
-                        x => x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase));
+        var userName = userRepository.GetUserName(User);
         if (userName == null)
-            return NoContent();
+            return StatusCode(404, "not found");
+        if (!userName.Any())
+            return StatusCode(204, "no content");
         return Ok(userName);
     }
     [AllowAnonymous]
     [HttpPost("signUp")]
     public async Task<IActionResult> Post([FromBody] User user)
     {
-        string token = await userRepository.Post(user);
+        var token = await userRepository.AddNewUser(user);
         if (token == null)
-            return NotFound();
+            return StatusCode(404, "not found");
+        if(!token.Any())
+            return StatusCode(204, "no content");
         return Ok(token);
     }
     // POST api/<LogInController>
@@ -51,9 +54,11 @@ public class UserController : ControllerBase
     [HttpPost("signIn")]
     public async Task<IActionResult> PostLogIn([FromBody] User user)
     {
-        string token = await userRepository.LogIn(user);
+        var token = await userRepository.LogIn(user);
         if (token == null)
-            return NotFound();
+            return StatusCode(404, "not found");
+        if (!token.Any())
+            return StatusCode(204, "no content");
         return Ok(token);
     }
 
