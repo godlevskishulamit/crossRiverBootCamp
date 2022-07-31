@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CoronaApp.Dal.Models;
 using CoronaApp.Dal.Services;
 using CoronaApp.Services;
+using CoronaApp.Services.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -36,31 +37,31 @@ namespace CoronaApp.Api.Controllers
             return Ok(repo.getAllLocations());
         }
         [HttpGet("getByCity/{city}")]
-        public ActionResult<List<LocationDto>> getByCity(string city)
+        public ActionResult<List<Location>> getByCity(string city)
         {
             return Ok(repo.getByCity(city));
         }
         [HttpGet("getByUserId/{id}")]
-        public ActionResult<List<LocationDto>> getByUserId(string id)
+        public ActionResult<List<Location>> getByUserId(string id)
         {
             return Ok(repo.getByUserId(id));
         }
 
         [HttpPost("addExposure/{id}")]
-        public IActionResult addExposure(string id, [FromBody] LocationDto location)
+        public IActionResult addExposure(string id, [FromBody] LocationPostDto location)
         {
            repo.postExposure(id,location);
             return Ok();
         }
 
         [HttpGet("getByDate/{startDate}/{endDate}")]
-        public ActionResult<List<LocationDto>> getByDate(DateTime startDate, DateTime endDate)
+        public ActionResult<List<Location>> getByDate(DateTime startDate, DateTime endDate)
         {
             return Ok(repo.getByDate(startDate,endDate));
         }
 
         [HttpGet("getByAge/{age}")]
-        public ActionResult<List<LocationDto>> getByAge(int age)
+        public ActionResult<List<Location>> getByAge(int age)
         {
             return Ok(repo.getByAge(age));
         }
