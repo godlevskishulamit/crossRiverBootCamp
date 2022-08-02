@@ -1,5 +1,7 @@
-﻿using CoronaApp.Dal.Interfaces;
+﻿using AutoMapper;
+using CoronaApp.Dal.Interfaces;
 using CoronaApp.Dal.Models;
+using CoronaApp.Services.DTO;
 using CoronaApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -17,17 +19,23 @@ namespace CoronaApp.Services.Classes
     {
         private readonly ILoginDAL _loginDal;
         private readonly IConfiguration _configuration;
+        IMapper mapper;
 
         public LoginService(ILoginDAL loginDal, IConfiguration configuration)
         {
             _loginDal = loginDal;
             _configuration = configuration;
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperProfile>();
+            });
+            mapper = config.CreateMapper();
         }
-        public async Task<string> Login(User u)
+        public async Task<string> Login(UserDTO u)
         {
             if (u == null)
                 throw new ArgumentNullException(nameof(u));
-            User user = await _loginDal.GetUser(u);
+            User user = await _loginDal.GetUser(mapper.Map<UserDTO,User>(u));
             string token = CreateToken(user);
             return token;
         }
@@ -62,14 +70,14 @@ namespace CoronaApp.Services.Classes
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<string> SignUp(User u)
+        public async Task<string> SignUp(UserDTO u)
         {
             if (u == null)
                 throw new ArgumentNullException(nameof(u));
-            User user = await _loginDal.GetUser(u);
+            User user = await _loginDal.GetUser(mapper.Map<UserDTO, User>(u));
             if (user == null)
             {
-                bool success = await _loginDal.AddUser(u);
+                bool success = await _loginDal.AddUser(mapper.Map<UserDTO, User>(u));
                 if (!success)
                 {
                     return "";

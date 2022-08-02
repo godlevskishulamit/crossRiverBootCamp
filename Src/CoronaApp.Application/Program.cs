@@ -56,6 +56,7 @@ builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<ILoginDAL, LoginDAL>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

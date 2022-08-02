@@ -12,8 +12,11 @@ namespace CoronaApp.Services
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDTO>();
-            CreateMap<UserDTO,User>();
+            CreateMap<UserDTO, User>().ForMember(dest =>
+            dest.UserName,
+            opt => opt.MapFrom(src => src.Name));
+            CreateMap<LocationDTO, Location>().ReverseMap();
+            CreateMap<PatientDTO, Patient>();
         }
     }
 }

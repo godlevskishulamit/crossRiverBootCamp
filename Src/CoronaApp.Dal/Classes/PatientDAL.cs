@@ -11,7 +11,6 @@ public class PatientDAL : IPatientDAL
 {
     public async Task<bool> AddPatient(Patient patient)
     {
-
         try
         {
             using (var _context = new CoronaContext())

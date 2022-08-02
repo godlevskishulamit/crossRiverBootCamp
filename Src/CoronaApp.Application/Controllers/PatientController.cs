@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services.Classes;
+using CoronaApp.Services.DTO;
 using CoronaApp.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,16 +27,13 @@ public class PatientController : ControllerBase
     // POST api/<PatientController>/AddPatient
     [HttpPost]
     [Route("AddPatient")]
-    public async Task<IActionResult> AddPatient([FromBody] Patient patient)
+    public async Task<IActionResult> AddPatient([FromBody] PatientDTO patient)
     {
         try
         {
             bool success= await _patientService.AddPatient(patient);
-            if (!success)
-            {
-                return BadRequest("Adding patient failed! try again later...");
-            }
-            return Ok();
+            return !success ? BadRequest("Adding patient failed! try again later...") : Ok();
+
         }
         catch (Exception ex)
         {

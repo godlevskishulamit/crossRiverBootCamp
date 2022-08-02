@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services.Classes;
+using CoronaApp.Services.DTO;
 using CoronaApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,12 +28,9 @@ public class LocationController : ControllerBase
     {
         try
         {
-            List<Location> locations = await _locationService.GetAllLocations();
-            if (locations == null)
-                return BadRequest("failed! try again later...");
-            if (locations.ToArray().Length == 0)
-                return NoContent();
-            return Ok(locations);
+            List<LocationDTO> locations = await _locationService.GetAllLocations();
+            return locations == null ? BadRequest("failed! try again later...") :
+                locations.ToArray().Length == 0 ? NoContent() : Ok(locations);
         }
         catch (Exception ex)
         {
@@ -47,12 +45,9 @@ public class LocationController : ControllerBase
     {
         try
         {
-            List<Location> locations = await _locationService.GetAllLocations(city);
-            if (locations == null)
-                return BadRequest("failed! try again later...");
-            if (locations.ToArray().Length == 0)
-                return NoContent();
-            return Ok(locations);
+            List<LocationDTO> locations = await _locationService.GetAllLocations(city);
+            return locations==null ? BadRequest("failed! try again later...") : 
+                locations.ToArray().Length == 0 ? NoContent(): Ok(locations);
         }
         catch (Exception ex)
         {
@@ -67,12 +62,9 @@ public class LocationController : ControllerBase
     {
         try
         {
-            List<Location> locations = await _locationService.GetLocationsByLocationSearch(locationSearch);
-            if (locations == null)
-                return BadRequest("failed! try again later...");
-            if (locations.ToArray().Length == 0)
-                return NoContent();
-            return Ok(locations);
+            List<LocationDTO> locations = await _locationService.GetLocationsByLocationSearch(locationSearch);
+            return locations == null ? BadRequest("failed! try again later...") :
+                locations.ToArray().Length == 0 ? NoContent() : Ok(locations);
         }
         catch (Exception ex)
         {
@@ -87,12 +79,9 @@ public class LocationController : ControllerBase
     {
         try
         {
-            List<Location> locations = await _locationService.GetLocationsPerPatient(id);
-            if (locations == null)
-                return BadRequest("failed! try again later...");
-            if (locations.ToArray().Length == 0)
-                return NoContent();
-            return Ok(locations);
+            List<LocationDTO> locations = await _locationService.GetLocationsPerPatient(id);
+            return locations == null ? BadRequest("failed! try again later...") :
+                locations.ToArray().Length == 0 ? NoContent() : Ok(locations);
         }
         catch (Exception ex)
         {
@@ -103,16 +92,12 @@ public class LocationController : ControllerBase
     // POST: api/<LocationController>/AddLocation
     [HttpPost]
     [Route("AddLocation")]
-    public async Task<IActionResult> AddLocation([FromBody] Location location)
+    public async Task<IActionResult> AddLocation([FromBody] LocationDTO location)
     {
         try
         {
             bool success = await _locationService.AddLocation(location);
-            if (!success)
-            {
-                return BadRequest("Adding location failed! try again later...");
-            }
-            return Ok();
+            return !success ? BadRequest("Adding location failed! try again later...") : Ok();
         }
         catch (Exception ex)
         {
@@ -123,16 +108,12 @@ public class LocationController : ControllerBase
     // DELETE: api/<LocationController>/123456789
     [HttpDelete]
     [Route("DeleteLocation")]
-    public async Task<IActionResult> DeleteLocation([FromBody] Location location)
+    public async Task<IActionResult> DeleteLocation([FromBody] LocationDTO location)
     {
         try
         {
             bool success = await _locationService.DeleteLocation(location);
-            if (!success)
-            {
-                return BadRequest("Deleting location failed! try again later...");
-            }
-            return Ok();
+            return !success ? BadRequest("Deleting location failed! try again later...") : Ok();
         }
         catch (Exception ex)
         {

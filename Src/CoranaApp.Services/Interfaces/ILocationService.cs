@@ -1,13 +1,14 @@
 ﻿using CoronaApp.Dal.Models;
+using CoronaApp.Services.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Services.Interfaces;
 public interface ILocationService
 {
-    Task<bool> AddLocation(Location location);
-    Task<bool> DeleteLocation(Location location);
-    Task<List<Location>> GetAllLocations(string city = "");
-    Task<List<Location>> GetLocationsByLocationSearch(LocationSearch location);
-    Task<List<Location>> GetLocationsPerPatient(string id);
+    Task<bool> AddLocation(LocationDTO location);
+    Task<bool> DeleteLocation(LocationDTO location);
+    Task<List<LocationDTO>> GetAllLocations(string city = "");
+    Task<List<LocationDTO>> GetLocationsByLocationSearch(LocationSearch location);
+    Task<List<LocationDTO>> GetLocationsPerPatient(string id);
 }
