@@ -12,4 +12,6 @@ public interface ILocationDal
     Task<List<Location>> GetLocationsByCity(string city);
     Task<List<Location>> GetLocationsByDate(LocationSearch locationSearch);
     Task<List<Location>> GetLocationsByAge(LocationSearch locationSearch);
+    Task PostLocation(Location location);
+    Task DeleteLocation(int locationId);
 }

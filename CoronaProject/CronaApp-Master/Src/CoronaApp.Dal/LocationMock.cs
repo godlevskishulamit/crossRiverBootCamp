@@ -8,6 +8,11 @@ namespace CoronaApp.Dal;
 
 public class LocationMock : ILocationDal
 {
+    public Task DeleteLocation(int locationId)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<List<Location>> GetAllLocations()
     {
         throw new NotImplementedException();
@@ -24,6 +29,11 @@ public class LocationMock : ILocationDal
     }
 
     public Task<List<Location>> GetLocationsByDate(LocationSearch locationSearch)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task PostLocation(Location location)
     {
         throw new NotImplementedException();
     }

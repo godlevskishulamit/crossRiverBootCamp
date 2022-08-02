@@ -1,4 +1,5 @@
 ﻿using CoronaApp.Dal.Models;
+using CoronaApp.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,6 @@ namespace CoronaApp.Services;
 
 public interface IPatientRepository
 {
-    Task<List<Location>> GetPatientLocations(string patintId);
-    Task PostLocation(Location location);
-    Task DeleteLocation(int locationId);
-    Task PostPatient(Patient patient);
+    Task<List<LocationDTO>> GetPatientLocations(string patintId);
+    Task PostPatient(PatientDTO patient);
 }

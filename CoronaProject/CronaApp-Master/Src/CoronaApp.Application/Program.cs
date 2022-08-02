@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CoronaApp.Api.Middlewares;
 using CoronaApp.Dal;
 using CoronaApp.Services;
@@ -26,6 +27,16 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
  Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", p =>
+    {
+        p.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 builder.Host.UseSerilog();
 
 // Add services to the container.
@@ -38,6 +49,7 @@ builder.Services.AddScoped<ILocationDal, LocationDal>();
 builder.Services.AddScoped<IUserDal, UserDal>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
 
@@ -54,6 +66,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 
 //configuring Swagger/OpenAPI
@@ -93,7 +107,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "My API v1");
+    });
     app.UseDeveloperExceptionPage();
 }
 
@@ -102,6 +119,8 @@ app.UseHttpsRedirection();
 app.UseErrorHandlerMiddleware();
 
 app.UseRouting();
+
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 

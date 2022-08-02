@@ -7,6 +7,7 @@ using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
 using Microsoft.AspNetCore.Authorization;
 using CoronaApp.Services;
+using CoronaApp.Services.DTOs;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,30 +29,14 @@ public class PatientController : ControllerBase
     public async Task<ActionResult> Get(string patintId)
     {
         var res = await _patientRepository.GetPatientLocations(patintId);
-        if (res == null)
-        {
-            return NotFound();
-        }
-        return Ok(res);
+        return res != null ? Ok(res) : NotFound();
     }
 
-    // POST api/<PatientController>
-    [HttpPost]
-    public async Task Post([FromBody] Location location)
-    {
-         await _patientRepository.PostLocation(location);
-    }
+
 
     [HttpPost("patient")]
-    public async Task Post([FromBody] Patient patient)
+    public async Task Post([FromBody] PatientDTO patient)
     {
          await _patientRepository.PostPatient(patient);
-    }
-
-    // DELETE api/<PatientController>
-    [HttpDelete("{locationId}")]
-    public async Task Delete(int locationId)
-    {
-        await _patientRepository.DeleteLocation(locationId);
     }
 }

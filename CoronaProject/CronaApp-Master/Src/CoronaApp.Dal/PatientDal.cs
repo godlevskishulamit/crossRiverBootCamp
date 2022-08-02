@@ -11,39 +11,42 @@ namespace CoronaApp.Dal;
 public class PatientDal : IPatientDal
 {
 
-    private readonly CoronaContext _context;
-    public PatientDal(CoronaContext coronaContext)
+    //private readonly CoronaContext _context;
+    public PatientDal(/*CoronaContext coronaContext*/)
     {
-        _context = coronaContext;
+        //_context = coronaContext;
     }
 
-  
+
 
     //A function that return locations by patintId
     public async Task<List<Location>> GetPatientLocations(string patintId)
     {
-       return await _context.Locations.Where(l => l.PatientId.Equals(patintId)).ToListAsync();
+        
+        using (CoronaContext context = new CoronaContext())
+        {
+            return await context.Locations.Where(l => l.PatientId.Equals(patintId)).ToListAsync();
+        }
     }
 
-    //A function that add location
-    public async Task PostLocation(Location location)
-    {
-        var l= await _context.Locations.AddAsync(location);
-        await _context.SaveChangesAsync();
-    }
-
-    //A function that delete location by patintId
-    public async Task DeleteLocation(int locationId)
-    {
-        var locationToDelete = _context.Locations.FindAsync(locationId).Result;
-        _context.Locations.Remove(locationToDelete);
-        await _context.SaveChangesAsync();
-    }
+   
 
     //A function that add patient
     public async Task PostPatient(Patient patient)
     {
-        await _context.Patients.AddAsync(patient);
-        await _context.SaveChangesAsync();
+
+        using (CoronaContext context = new CoronaContext())
+        {
+            await context.Patients.AddAsync(patient);
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception("Failed to save changes");
+            }
+        }
+        
     }
 }

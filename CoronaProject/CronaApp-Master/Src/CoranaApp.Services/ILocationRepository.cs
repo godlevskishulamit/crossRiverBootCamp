@@ -1,4 +1,5 @@
 ﻿using CoronaApp.Dal.Models;
+using CoronaApp.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,10 @@ namespace CoronaApp.Services;
 
 public interface ILocationRepository
 {
-    Task<List<Location>> GetAllLocations();
-    Task<List<Location>> GetLocationsByCity(string city);
-    Task<List<Location>> GetLocationsByDate(LocationSearch locationSearch);
-    Task<List<Location>> GetLocationsByAge(LocationSearch locationSearch);
+    Task<List<LocationDTO>> GetAllLocations();
+    Task<List<LocationDTO>> GetLocationsByCity(string city);
+    Task<List<LocationDTO>> GetLocationsByDate(LocationSearch locationSearch);
+    Task<List<LocationDTO>> GetLocationsByAge(LocationSearch locationSearch);
+    Task PostLocation(LocationDTO location);
+    Task DeleteLocation(int locationId);
 }

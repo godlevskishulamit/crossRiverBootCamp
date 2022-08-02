@@ -1,8 +1,13 @@
 ﻿using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
+using CoronaApp.Services;
+using CoronaApp.Services.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Api.Controllers
@@ -11,31 +16,37 @@ namespace CoronaApp.Api.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        private readonly IUserDal _userDal;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(IUserDal userDal)
+        public UserController(IUserRepository userRepository)
         {
-            _userDal = userDal;
-        }
-
-        [HttpPost]
-        public async Task PostUser([FromBody] User user)
-        {
-            await _userDal.PostUser(user);
+            _userRepository = userRepository;
         }
 
         [HttpPost("token")]
-        public async Task<IActionResult> CreateToken(string userName, string password)
+        public async Task<IActionResult> CreateToken([FromBody] UserDTO user)
         {
-            var token  = await _userDal.CreateToken(userName, password);
-            if (token == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-            return Ok(token);
+            var token  = await _userRepository.CreateToken(user);
+            return token != null ? Json(token) : 
+                BadRequest(new { message = "Username or password is incorrect" });
+          
+
         }
-        /*[HttpGet("userName")]
-        public string getUserName()
+
+        [HttpPost]
+        public async Task PostUser([FromBody] UserDTO user)
         {
-            return _userDal.getUserName();
-        }*/
+            await _userRepository.PostUser(user);
+        }
+
+        [Authorize]
+        [HttpGet("getUserName")]
+        public ActionResult GetUserName()
+        {
+            var userName = _userRepository.GetUserName(User);         
+            return userName != null ? Ok(userName) :
+                  BadRequest(new { message = "Username not found!" });
+
+        }
     }
 }

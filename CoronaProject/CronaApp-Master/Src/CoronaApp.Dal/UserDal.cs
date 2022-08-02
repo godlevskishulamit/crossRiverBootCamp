@@ -15,45 +15,45 @@ namespace CoronaApp.Dal;
 
 public class UserDal : IUserDal
 {
-    private readonly CoronaContext _context;
 
-    public UserDal(CoronaContext coronaContext)
+    public UserDal()
     {
-        _context = coronaContext;
+        
     }
 
-    public async Task<string> CreateToken(string userName, string password)
-    {           
-        User user  =  _context.Users.FirstOrDefault(u=>u.Name==userName && u.Password == password);
-      /*  if(user == null)
+    public async Task<User> CreateToken(string userName, string password)
+    {
+        User user;
+        using (CoronaContext context = new CoronaContext())
+        {
+             user = context.Users.FirstOrDefault(u => u.Name == userName && u.Password == password);       
+        }
+        if (user == null)
         {
             return null;
         }
-        else 
+        else
         {
-            return generateJwtToken(user);
-        }*/
+            return user;
+        }
     }
 
     public async Task PostUser(User user)
     {
-        _context.Users.Add(user);   
-        await _context.SaveChangesAsync();
+        
+        using (CoronaContext context = new CoronaContext())
+        {
+            context.Users.Add(user);
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception("Failed to save changes");
+            }
+        }
     }
 
-
-public string getUserName()
-{
-        var userName = ClaimTypes.Name;
-
-        //var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-        //var email = User.Claims.FirstOrDefault(c => c.Type == "sub").Value;
-        //var email = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "sub").Value
-        //string userName = User.FindFirstValue(ClaimTypes.Name);
-        // parse the token.
-        
-        
-        return userName.ToString();
- }
-
 }
+

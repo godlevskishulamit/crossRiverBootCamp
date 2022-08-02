@@ -10,8 +10,8 @@ namespace CoronaApp.Dal
     public interface IUserDal
     {
       
-        Task<string> CreateToken(string userName, string password);
+        Task<User> CreateToken(string userName, string password);
         Task PostUser(User user);
-        string getUserName();
+        
     }
 }

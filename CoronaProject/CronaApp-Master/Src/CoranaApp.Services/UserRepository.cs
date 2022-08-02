@@ -1,5 +1,5 @@
 ﻿using CoronaApp.Dal;
-using CoronaApp.Dal.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,9 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using CoronaApp.Dal.Models;
+using CoronaApp.Services.DTOs;
+using AutoMapper;
 
 namespace CoronaApp.Services
 {
@@ -19,17 +22,25 @@ namespace CoronaApp.Services
     {
         private readonly IUserDal _userDal;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
+
 
 
         public UserRepository(IUserDal userDal, IConfiguration configuration)
         {
             _userDal = userDal;
-            _configuration = configuration; 
+            _configuration = configuration;
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperProfile>();
+            });
+            _mapper = config.CreateMapper();
         }
 
-        /*public async Task<string> CreateToken(string userName, string password)
+        public async Task<string> CreateToken(UserDTO userDTO)
         {
-            User user = await _userDal.CreateToken(userName, password);
+            User userFromDTO = _mapper.Map<UserDTO, User>(userDTO);
+            User user = await _userDal.CreateToken(userFromDTO.Name, userFromDTO.Password);
             if (user == null)
             {
                 return null;
@@ -38,7 +49,7 @@ namespace CoronaApp.Services
             {
                 return generateJwtToken(user);
             }
-        }*/
+        }
 
         private string generateJwtToken(User user)
         {
@@ -48,6 +59,7 @@ namespace CoronaApp.Services
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                     new Claim("UserId", user.Id.ToString()),
                     new Claim("UserName", user.Name),
+                    new Claim("Role", "user"),
 
                 };
 
@@ -63,9 +75,16 @@ namespace CoronaApp.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task PostUser(User user)
+        public async Task PostUser(UserDTO user)
         {
-            await _userDal.PostUser(user);
+            User userFromDTO = _mapper.Map<UserDTO, User>(user);
+            await _userDal.PostUser(userFromDTO);
+        }
+
+        public string GetUserName(ClaimsPrincipal user)
+        {
+           return user.Claims.FirstOrDefault(
+                x => x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).Value;
         }
     }
 }

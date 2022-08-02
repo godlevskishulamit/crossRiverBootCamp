@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using CoronaApp.Dal.Models;
 using CoronaApp.Dal;
 using CoronaApp.Services;
+using AutoMapper;
+using CoronaApp.Services.DTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,11 +29,7 @@ public class LocationController : ControllerBase
     public async Task<ActionResult> Get()
     {
         var res = await _locationRepository.GetAllLocations();
-        if (res == null)
-        {
-            return NotFound();
-        }
-        return Ok(res);
+        return res != null ? Ok(res) : NotFound();
     }
 
     //get locations by city
@@ -41,11 +39,7 @@ public class LocationController : ControllerBase
     public async Task<ActionResult> Get([FromQuery] string city)
     {
         var res = await _locationRepository.GetLocationsByCity(city);
-        if (res == null)
-        {
-            return NotFound();
-        }
-        return Ok(res);   
+        return res != null ? Ok(res) : NotFound();
     }
 
     //filter by date
@@ -53,11 +47,7 @@ public class LocationController : ControllerBase
     public async Task<ActionResult> Get([FromBody] LocationSearch locationSearch)
     {
         var res = await _locationRepository.GetLocationsByDate(locationSearch);
-        if (res == null)
-        {
-            return NotFound();
-        }
-        return Ok(res);
+        return res != null ? Ok(res) : NotFound();
     }
 
     //filter by age
@@ -65,10 +55,19 @@ public class LocationController : ControllerBase
     public async Task<ActionResult> GetByAge([FromBody] LocationSearch locationSearch)
     {
         var res = await _locationRepository.GetLocationsByAge(locationSearch);
-        if (res == null)
-        {
-            return NotFound();
-        }
-        return Ok(res);
+        return res != null ? Ok(res) : NotFound();
+    }
+    // POST api/<PatientController>
+    [HttpPost]
+    public async Task Post([FromBody] LocationDTO location)
+    {
+        await _locationRepository.PostLocation(location);
+    }
+
+    // DELETE api/<PatientController>
+    [HttpDelete("{locationId}")]
+    public async Task Delete(int locationId)
+    {
+        await _locationRepository.DeleteLocation(locationId);
     }
 }
