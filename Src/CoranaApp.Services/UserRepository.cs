@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,14 +47,19 @@ public class UserRepository : IUserRepository
         }
 
     }
-
+    public async Task<string> GetUserName(ClaimsPrincipal User)
+    {
+        string userNameClaim = User.Claims.FirstOrDefault(
+                        x => x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).Value;
+        return userNameClaim;
+    }
     public async Task<string> getToken(User user)
     {
         //create claims details based on the user information
         var claims = new[] {
                         new Claim("UserId", user.ID.ToString()),
                         new Claim("UserName", user.Name),
-                        new Claim("Role", "user")
+                        new Claim(ClaimTypes.Role, "user")
                     };
         var issuer = "https://exemple.com";
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
@@ -66,4 +72,6 @@ public class UserRepository : IUserRepository
             signingCredentials: signIn);
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+
 }

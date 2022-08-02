@@ -2,6 +2,8 @@
 using CoronaApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Dal;
@@ -18,8 +20,10 @@ public class LocationRepository : ILocationRepository
         return await _LocationDal.getAllLocation();
     }
 
-    public async Task<List<Location>> getLocationsByPatientId(string id)
+    public async Task<List<Location>> getLocationsByPatientId(ClaimsPrincipal User)
     {
+        string id  = User.Claims.FirstOrDefault(
+                        x => x.Type.ToString().Equals("UserId", StringComparison.InvariantCultureIgnoreCase)).Value;
         return await _LocationDal.getLocationsByPatientId(id);
     }
 
