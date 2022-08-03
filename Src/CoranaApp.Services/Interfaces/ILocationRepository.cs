@@ -1,4 +1,5 @@
-﻿using CoronaApp.Services.Models;
+﻿using CoronaApp.Dal.DTO;
+using CoronaApp.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,10 +9,10 @@ namespace CoronaApp.Services.Interfaces;
 
 public interface ILocationRepository
 {
-    Task<List<Location>> Get();
-    Task<List<Location>> getLocationsById(string id);
-    Task postLocation(Location loc);
-    Task<List<Location>> getLocationByCity(string city);
-    Task<List<Location>> GetByAge(int age);
-    Task<List<Location>> GetByDate(DateTime sdate, DateTime eDate);
+    Task<List<LocationDTO>> Get();
+    Task<List<LocationDTO>> getLocationsById(string id);
+    Task postLocation(LocationDTO loc);
+    Task<List<LocationDTO>> getLocationByCity(string city);
+    Task<List<LocationDTO>> GetByAge(int age);
+    Task<List<LocationDTO>> GetByDate(DateTime sdate, DateTime eDate);
 }
