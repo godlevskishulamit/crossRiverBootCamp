@@ -11,7 +11,7 @@ public interface ILocationRepository
 {
     Task<List<LocationDTO>> Get();
     Task<List<LocationDTO>> getLocationsById(string id);
-    Task postLocation(LocationDTO loc);
+    Task postLocation(Location loc);
     Task<List<LocationDTO>> getLocationByCity(string city);
     Task<List<LocationDTO>> GetByAge(int age);
     Task<List<LocationDTO>> GetByDate(DateTime sdate, DateTime eDate);

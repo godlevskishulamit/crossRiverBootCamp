@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaApp.Dal.DTO;
 using CoronaApp.Services.Interfaces;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ public class LocationController : ControllerBase
     {
         try
         {
-            List<Location> listLoc = await il.Get();
+            List<LocationDTO> listLoc = await il.Get();
             if(listLoc == null)
             {
                 return StatusCode(404);
@@ -44,7 +45,7 @@ public class LocationController : ControllerBase
     }
 
     [HttpGet("id/{id}")]
-    public async Task<ActionResult<List<Location>>> GetById(string id)
+    public async Task<ActionResult<List<LocationDTO>>> GetById(string id)
     {
         if (id == null || id.Length != 9)
         {
@@ -52,7 +53,7 @@ public class LocationController : ControllerBase
         }
         try
         {
-            List<Location> listLoc = await il.getLocationsById(id);
+            List<LocationDTO> listLoc = await il.getLocationsById(id);
             if (listLoc == null)
             {
                 return StatusCode(404);
@@ -69,7 +70,7 @@ public class LocationController : ControllerBase
         }
     }
     [HttpGet("city/{city}")]
-    public async Task<ActionResult<List<Location>>> GetByCity(string city)
+    public async Task<ActionResult<List<LocationDTO>>> GetByCity(string city)
     {
         if(city == null)
         {
@@ -77,7 +78,7 @@ public class LocationController : ControllerBase
         }
         try
         {
-            List<Location> listLoc = await il.getLocationByCity(city);
+            List<LocationDTO> listLoc = await il.getLocationByCity(city);
             if (listLoc == null)
             {
                 return StatusCode(404);
@@ -107,11 +108,11 @@ public class LocationController : ControllerBase
         }
     }
     [HttpGet("age")]
-    public async Task<ActionResult<List<Location>>> GetByAge([FromBody] LocationSearch ls)
+    public async Task<ActionResult<List<LocationDTO>>> GetByAge([FromBody] LocationSearch ls)
     {
         try
         {
-            List<Location> listLoc = await il.GetByAge((int)ls.Age);
+            List<LocationDTO> listLoc = await il.GetByAge((int)ls.Age);
             if (listLoc == null)
             {
                 return StatusCode(404);
@@ -128,11 +129,11 @@ public class LocationController : ControllerBase
         }
     }
     [HttpGet("date")]
-    public async Task<ActionResult<List<Location>>> GetByDate([FromBody] LocationSearch ls)
+    public async Task<ActionResult<List<LocationDTO>>> GetByDate([FromBody] LocationSearch ls)
     {
         try
         {
-            List<Location> listLoc = await il.GetByDate(Convert.ToDateTime(ls.StartDate), Convert.ToDateTime(ls.EndDate));
+            List<LocationDTO> listLoc = await il.GetByDate(Convert.ToDateTime(ls.StartDate), Convert.ToDateTime(ls.EndDate));
             if (listLoc == null)
             {
                 return StatusCode(404);
