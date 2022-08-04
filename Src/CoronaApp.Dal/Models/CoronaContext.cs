@@ -12,10 +12,10 @@ public class CoronaContext : DbContext
 
     }
     IConfiguration _configurtion;
-    //public CoronaContext(IConfiguration IConfiguration, DbContextOptions<CoronaContext> options) : base(options)
-    //{
-    //    _configurtion = IConfiguration;
-    //}
+    public CoronaContext(IConfiguration IConfiguration, DbContextOptions<CoronaContext> options) : base(options)
+    {
+        _configurtion = IConfiguration;
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-H7OUJ7M\\SQLEXPRESS;Database=Corona;Trusted_Connection=True;");
