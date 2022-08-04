@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,9 +24,16 @@ namespace CoronaApp.Dal.Models
             this.Age = age;
            
         }
+        [MinLength(8)]
+        [Required]
         public string Id { get; set; }
         public string Name { get; set; }
         public int? Age { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

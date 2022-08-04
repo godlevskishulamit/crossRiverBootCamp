@@ -8,44 +8,53 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Dal.Models
 {
-    class LocationDalMock : ILocationDal
+    class LocationDalMock : ILocationRepository
     {
-        Task ILocationDal.Delete(string patientId, int locationId)
+        Task ILocationRepository.Delete(string patientId, int locationId)
         {
             throw new NotImplementedException();
         }
         
-        Task<ICollection<Location>> ILocationDal.GetAllLocation()
+        Task<ICollection<Location>> ILocationRepository.GetAllLocation()
         {
             throw new NotImplementedException();
         }
 
-        Task<List<Location>> ILocationDal.GetLocationsByCity(string city)
+        Task<List<Location>> ILocationRepository.GetLocationsByCity(string city)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<Location>> ILocationDal.GetLocationsByDate(DateTime? startDate, DateTime? endDate)
+        Task<List<Location>> ILocationRepository.GetLocationsByDate(DateTime? 
+            
+            
+            
+            
+            
+            
+            
+            
+            Date, DateTime? endDate)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<Location>> ILocationDal.GetLocationsByDateAndPatientAge(DateTime? startDate, DateTime? endDate, int? age)
+        Task<List<Location>> ILocationRepository.GetLocationsByDateAndPatientAge(DateTime? startDate, DateTime? endDate, int? age)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<Location>> ILocationDal.GetLocationsByPatientAge(int? age)
+        Task<List<Location>> ILocationRepository.GetLocationsByPatientAge(int? age)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<Location>> ILocationDal.GetLocationsByPatientId(string PatientId)
+        Task<List<Location>> ILocationRepository.GetLocationsByPatientId(string PatientId)
         {
             throw new NotImplementedException();
         }
 
-        Task ILocationDal.PostLocation(Location location)
+        Task ILocationRepository.PostLocation(Location location)
         {
             throw new NotImplementedException();
         }

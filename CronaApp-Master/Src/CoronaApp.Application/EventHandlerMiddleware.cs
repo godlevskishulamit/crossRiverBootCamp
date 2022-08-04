@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace CoronaApp.Api
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
-    public class TryCatchMiddleware
+    public class EventHandlerMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public TryCatchMiddleware(RequestDelegate next)
+        public EventHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -34,11 +34,11 @@ namespace CoronaApp.Api
     }
 
     // Extension method used to add the middleware to the HTTP request pipeline.
-    public static class TryCatchMiddlewareExtensions
+    public static class EventHandlerMiddlewareExtensions
     {
-        public static IApplicationBuilder UseTryCatchMiddleware(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseEventHandlerMiddleware(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<TryCatchMiddleware>();
+            return builder.UseMiddleware<EventHandlerMiddleware>();
         }
     }
 }

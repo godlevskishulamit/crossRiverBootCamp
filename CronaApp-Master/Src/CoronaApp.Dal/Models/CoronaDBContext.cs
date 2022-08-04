@@ -1,19 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CoronaApp.Dal.Models
 {
-    public class CoronaDBContext:DbContext
+    public class CoronaDBContext : DbContext
 
     {
-       
-        public CoronaDBContext(DbContextOptions<CoronaDBContext> options):base(options)
+
+        public CoronaDBContext()
         {
-            
+
         }
-       public DbSet<Location> Locations { get; set; }
-       public DbSet<Patient> Patients { get; set; }
+        public CoronaDBContext(DbContextOptions<CoronaDBContext> options) : base(options)
+        {
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=localhost;database=CoronaDB;Trusted_Connection=True;");
+        }
+
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

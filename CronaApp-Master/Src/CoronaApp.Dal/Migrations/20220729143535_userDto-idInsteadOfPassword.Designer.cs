@@ -4,6 +4,7 @@ using CoronaApp.Dal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoronaApp.Dal.Migrations
 {
     [DbContext(typeof(CoronaDBContext))]
-    partial class CoronaDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220729143535_userDto-idInsteadOfPassword")]
+    partial class userDtoidInsteadOfPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

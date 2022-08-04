@@ -40,7 +40,7 @@ namespace CoronaApp.Dal.Migrations
                     b.Property<string>("PatientId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CoronaApp.Dal
 {
    
-    public interface ILocationDal
+    public interface ILocationRepository
     {
         Task<ICollection<Location>> GetAllLocation();
         Task<List<Location>> GetLocationsByCity(string city);

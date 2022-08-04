@@ -4,48 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services;
+using CoronaApp.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace CoronaApp.Api.Controllers
+namespace CoronaApp.Api.Controllers;
+[Authorize]
+[Route("api/[controller]")]
+[ApiController]
+public class PatientController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PatientController : ControllerBase
+    IPatientService _patientService;
+    public PatientController(IPatientService patientService)
     {
-        IPatientRepository _patientRepository;
-        public PatientController(IPatientRepository patientRepository)
-        {
-            this._patientRepository = patientRepository;
-        }
-        [HttpGet]
-        public async Task<ICollection<Patient>> GetAllUsers()
-        {
-            return await this._patientRepository.GetAllPatient();
-        }
-
-        // GET api/<PatientController>/5
-        [HttpGet("{id}")]
-        public object Get(string id)
-        {
-            return "value";
-        }
-
-        // POST api/<PatientController>
-        [HttpPost]
-        public async Task Post([FromBody] Patient patient)
-        {
-            await this._patientRepository.PostPatient(patient);
-        }
-
-        // PUT api/<PatientController>/5
-        [HttpPut/*("{id}")*/]
-        public async Task Put([FromBody] Patient patient)
-        {
-            await this._patientRepository.UpdatePatient(patient);
-        }
-
-     
+        _patientService = patientService;
     }
+
+    [HttpGet]
+    public async Task<ICollection<PatientDTO>> GetAllUsers()
+    {
+        return await _patientService.GetAllPatient();
+    }
+
+    // POST api/<PatientController>
+    [HttpPost]
+    public async Task Post([FromBody] PatientDTO patient)
+    {
+        await _patientService.PostPatient(patient);
+    }
+
+    // PUT api/<PatientController>/5s
+    [HttpPut]
+    public async Task Put([FromBody] PatientDTO patient)
+    {
+        await _patientService.UpdatePatient(patient);
+    }
+
+
 }
