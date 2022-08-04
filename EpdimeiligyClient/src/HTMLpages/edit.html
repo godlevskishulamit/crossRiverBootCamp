@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/edit.css"></link>
+    <link rel="stylesheet" href="../css/global.css" />
+    <script src="../classes/Report.js"></script>
+    <script src="../data/data.js"></script>
+  </head>
+
+  <body onload="appendGlobalElements()">
+   <div class="container">
+    <h1 class="display-4 mainTitle">Report Your Path</h1>
+    <table class="table">
+      <thead class="thead-dark">
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Start date</th>
+            <th scope="col">End date</th>
+            <th scope="col">City</th>
+            <th scope="col">Location</th>
+            <th></th>
+            </tr>
+      </thead>
+      <tbody id="reportsList">
+      </tbody>
+      <tbody>
+            <tr>
+                <td></td>
+                <td><input class="form-control" id="startDate" type="datetime-local"/></td>
+                <td><input class="form-control" id="endDate" type="datetime-local"/></td>
+                <td><input class="form-control" id="city" type="text"/></td>
+                <td><input class="form-control" id="location" type="text"/></td>
+                <td><button type="button" class="btn btn-primary" onclick="AddLocation()">Add</button></td>
+            </tr>
+      </tbody>
+    </table> 
+    </div>
+    <script src="../JS/edit.js"></script>
+    <script src="../JS/global.js"></script>
+  </body>
+</html>

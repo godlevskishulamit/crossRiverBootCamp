@@ -1,0 +1,24 @@
+.central-item{
+    width: 200px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.container{
+    max-width: 2500px;
+    width: 500px;
+    text-align: center;
+    margin: auto;
+    border-radius: 15px;
+    padding-bottom: 30px;
+}
+
+.mainTitle{
+    margin-top: 20px;
+}
+
+#errorBox{
+    margin-top: 20px;
+    width: 400px;
+}

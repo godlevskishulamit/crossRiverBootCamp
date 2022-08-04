@@ -1,0 +1,18 @@
+#IdInput{
+    width: 90px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.container{
+    max-width: 1200px;
+    margin: auto;
+}
+
+.close{
+    margin-right: 20px;
+}
+
+.mainTitle{
+    margin-top: 20px;
+}

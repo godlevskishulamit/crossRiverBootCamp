@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="../classes/User.js"></script>
+    <script src="../data/data.js"></script>
+
+    <link rel="stylesheet" href="../css/signIn.css"></link>
+    <link rel="stylesheet" href="../css/global.css" />
+  </head>
+  <body onload="appendGlobalElements('footer only')">
+    <div class="container my-3 border">
+        <h1 class="display-4 mainTitle">Sign In</h1>
+        <div>
+        <input
+            type="text"
+            class="form-control central-item"
+            id="UserName"
+            placeholder="UserName"
+            oninput="()=>{}"
+        />
+        </div>
+        <div>
+        <input
+            type="password"
+            class="form-control central-item"
+            id="Password"
+            placeholder="Password"
+            oninput="()=>{}"
+        />
+        </div>
+        <button type="button" class="btn btn-primary central-item" onclick="signIn()">sign in</button>
+        <div id="errorBox" class="central-item"></div>
+    </div>
+    <script src="../JS/signIn.js"></script>
+    <script src="../JS/global.js"></script>
+  </body>
+</html>
