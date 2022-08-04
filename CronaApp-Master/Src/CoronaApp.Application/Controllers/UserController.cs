@@ -24,37 +24,74 @@ public class UserController : Controller
     public UserController(IUserRepository iur, IConfiguration _configuration)
     {
         this.iur = iur;
-        this._configuration = _configuration; 
+        this._configuration = _configuration;
     }
     [HttpPost("login")]
-    public  ActionResult<string> login([FromBody] UserDTO userDTO)
+    public async Task<ActionResult<string>> login([FromBody] UserDTO userDTO)
     {
-       var user= iur.getUser(userDTO).Result;
-        //generate token
-        if(user == null)
+        try
         {
-            return NotFound();
+            var user = await iur.getUser(userDTO);
+            if (user == null)
+            {
+                return StatusCode(404);
+            }
+            try
+            {
+                string token = iur.login(user);
+                if (token == null)
+                {
+                    return StatusCode(404);
+                }
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
-
-       return iur.createToken(user);
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
 
     }
 
-  
-    // [Authorize]
-    //[HttpPost]
-    //public async Task<ActionResult<string>> PostUser([FromBody]UserDTO user)
-    //{
-    //    if (user!=null&&user.UserName.Length>0&&user.Password.Length>0)
-    //    { 
-    //        await iur.PostUser(user);
-    //        return iur.createToken(user);
-    //    }
-    //    else
-    //    {
-    //        return BadRequest();
-    //    }
-    //}
+    [Authorize]
+    [HttpPost("signup")]
+    public async Task<ActionResult<string>> signUp([FromBody] UserDTO user)
+    {
+        if (!ModelState.IsValid)
+        {
+            return StatusCode(400, ModelState);
+        }
+        try
+        {
+            //how to return the token of the existing user?
+            string token = await iur.signUp(user);
+            if (token == null)
+            {
+                return StatusCode(404);
+            }
+            return Ok(token);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+    [Authorize]
+    [HttpGet("name")]
+    public async Task<ActionResult<string>> GetNameByToken()
+    {
 
+        var result = await iur.GetNameByToken(User);
+
+        if (result == null)
+        {
+            return StatusCode(404);
+        }
+        return Ok(result);
+    }
 
 }

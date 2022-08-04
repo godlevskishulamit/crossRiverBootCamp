@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaApp.Dal.DTO;
 using CoronaApp.Services.Interfaces;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -95,15 +96,20 @@ public class LocationController : ControllerBase
     }
     // bad request if dont get all Location object?
     [HttpPost]
-    public async Task Add([FromBody] Location loc)
+    public async Task<ActionResult<Location>> Add([FromBody] LocationDTO loc)
     {
+        if (!ModelState.IsValid)
+        {
+           return StatusCode(400, ModelState);
+        }
         try
         {
-          await il.postLocation(loc);
+          var location = await il.postLocation(loc);
+            return location;
         }
         catch(Exception ex)
         {
-             StatusCode(500, ex.Message);
+           return StatusCode(500, ex.Message);
         }
     }
     [HttpGet("age")]
@@ -149,4 +155,25 @@ public class LocationController : ControllerBase
         }
     }
 
+    [HttpGet("filter")]
+    public async Task<ActionResult<List<Location>>> GetByFilteredData([FromBody] LocationSearch ls)
+    {
+        try
+        {
+            List<Location> listLoc = await il.GetByFilteredData(ls);
+            if (listLoc == null)
+            {
+                return StatusCode(404);
+            }
+            if (!listLoc.Any())
+            {
+                return StatusCode(204);
+            }
+            return Ok(listLoc);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }

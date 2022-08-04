@@ -18,20 +18,28 @@ public class DalUser : IDalUser
     {
         _configuration = configuration;
     }
-    public async Task<User> getUser(UserDTO user)
+    public async Task<User> getUser(User user)
     {
         using (var context = new CoronaDbContext(_configuration))
         {
-            return await context.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
+            return await context.Users.FirstOrDefaultAsync(x => x.UserName.Equals(user.UserName) && x.Password.Equals(user.Password));
         }
     }
 
-    public async Task PostUser(UserDTO user)
+    public async Task<User> PostUser(User user)
     {
         using (var context = new CoronaDbContext(_configuration))
         {
-            await context.Users.AddAsync(new User() { UserName = user.UserName, Password = user.Password });
-            await context.SaveChangesAsync();
+            try
+            {
+                await context.Users.AddAsync(user);
+                await context.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

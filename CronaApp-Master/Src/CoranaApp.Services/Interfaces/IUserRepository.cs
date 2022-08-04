@@ -1,5 +1,7 @@
-﻿using CoronaApp.Dal.DTO;
+﻿
+using CoronaApp.Dal.DTO;
 using CoronaApp.Dal.Models;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Services.Interfaces
@@ -7,7 +9,9 @@ namespace CoronaApp.Services.Interfaces
     public interface IUserRepository
     {
         Task<User> getUser(UserDTO userDTO);
-        Task PostUser(UserDTO user);
+        Task<string> signUp(UserDTO user);
+        string login(User user);
         string createToken(User user);
+        Task<string> GetNameByToken(ClaimsPrincipal user);
     }
 }

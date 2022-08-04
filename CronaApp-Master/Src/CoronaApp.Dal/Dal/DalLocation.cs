@@ -28,20 +28,21 @@ public class DalLocation : IDalLocation
     {
         using (var context = new CoronaDbContext(_configuration))
         {
-            Patient patient = await context.Patients.FirstOrDefaultAsync(p=>p.Id == id);
+            Patient patient = await context.Patients.FirstOrDefaultAsync(p=>p.Id.Equals(id));
             if(patient == null)
             {
                 return null;
             }
-            return await context.Locations.Where(l => l.PatientId == id).ToListAsync();
+            return await context.Locations.Where(l => l.PatientId.Equals(id)).ToListAsync();
         }
     }
-    public async Task postLocation(Location loc)
+    public async Task<Location> postLocation(Location loc)
     {
         using (var context = new CoronaDbContext(_configuration))
         {
           await context.Locations.AddAsync(loc);
            await context.SaveChangesAsync();
+            return loc;
         }
 
     }
@@ -49,7 +50,7 @@ public class DalLocation : IDalLocation
     {
         using (var context = new CoronaDbContext(_configuration))
         {
-            List<Location> listLoc = await context.Locations.Where(l => l.City == city).ToListAsync();
+            List<Location> listLoc = await context.Locations.Where(l => l.City.Equals(city)).ToListAsync();
             if(listLoc.Any())
             {
                 return listLoc;
@@ -61,16 +62,33 @@ public class DalLocation : IDalLocation
     {
         using (var context = new CoronaDbContext(_configuration))
         {
-            return await context.Locations.Where(l => context.Patients.Any
-            (p => p.Id == l.PatientId && p.age == age))
-             .ToListAsync();
+            return await context.Locations.Include(p => p.Patient)
+                .Where(location => (location.Patient.age != null && location.Patient.age == age)).ToListAsync();
         }
     }
     public async Task<List<Location>> getByDate(DateTime sdate, DateTime edate)
     {
         using (var context = new CoronaDbContext(_configuration))
         {
-            return await context.Locations.Where(l => l.StartDate <= sdate && l.EndDate >= edate).ToListAsync();
+            return await context.Locations.Where(location => DateTime.Compare(location.StartDate, location.StartDate) <= 0
+                && DateTime.Compare(location.EndDate, location.EndDate) >= 0).ToListAsync();
+        }
+    }
+    public async Task<List<Location>> getByFilteredData(LocationSearch locationSearch)
+    {
+        using (var context = new CoronaDbContext(_configuration))
+        {
+            return await context.Locations.Include(p => p.Patient)
+                .Where(location => (location.Patient.age != null && location.Patient.age == locationSearch.Age) 
+                ||(locationSearch.StartDate != null && locationSearch.EndDate != null 
+                && DateTime.Compare(location.StartDate, location.StartDate) <= 0 
+                && DateTime.Compare(location.EndDate, location.EndDate) >= 0)
+                || location.Patient.age != null && location.Patient.age == locationSearch.Age 
+                && locationSearch.StartDate != null && locationSearch.EndDate != null 
+                && DateTime.Compare(location.StartDate, location.StartDate) <= 0 
+                && DateTime.Compare(location.EndDate, location.EndDate) >= 0)
+                .ToListAsync();
+
         }
     }
 }

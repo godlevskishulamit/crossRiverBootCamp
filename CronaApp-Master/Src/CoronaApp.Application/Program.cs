@@ -67,6 +67,8 @@ builder.Services.AddScoped<IDalUser, DalUser>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddMvc();
 //builder.Services.AddDbContext<CoronaDbContext>(item => item.UseSqlServer(builder.Configuration.GetConnectionString("myconn")));
 builder.Services.AddEndpointsApiExplorer();
