@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaApp.Api.Controllers;
 
-[Authorize(Roles = "user")]
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class LocationController : ControllerBase
@@ -40,10 +40,14 @@ public class LocationController : ControllerBase
     }
 
     // GET:
-    [HttpGet("id")]
-    public async Task<ActionResult<List<Location>>> getLocationsByPatientId()
+    [HttpGet("{id}")]
+    public async Task<ActionResult<List<Location>>> getLocationsByPatientId(string id)
     {
-        var result = await _LocationRepository.getLocationsByPatientId(User);
+        if (id == null)
+        {
+            throw new ArgumentNullException("id");
+        }
+        var result = await _LocationRepository.getLocationsByPatientId(id);
         if (result == null)
         {
             return StatusCode(404, "not found");
