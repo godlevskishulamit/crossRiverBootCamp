@@ -46,28 +46,39 @@ namespace CoronaApp.Dal
                 }
             }
         }
-        public async Task<List<Location>> getFilteredLOcation(LocationSearch locationSearch)
+        public async Task<List<Location>> getLocationsBetweenDates(LocationSearch locationSearch)
         {
             using (var _CoronaAppDBContext = new CoronaAppDBContext())
             {
-                return await _CoronaAppDBContext.Locations.Include(p => p.Patient).Where(location => (location.Patient.Age != null && location.Patient.Age == locationSearch.Age) ||
-            (locationSearch.StartDate != null && locationSearch.EndDate != null && DateTime.Compare(locationSearch.StartDate, location.StartDate) <= 0 && DateTime.Compare(locationSearch.EndDate, location.EndDate) >= 0)
-            || location.Patient.Age != null && location.Patient.Age == locationSearch.Age && locationSearch.StartDate != null && locationSearch.EndDate != null && DateTime.Compare(locationSearch.StartDate, location.StartDate) <= 0 && DateTime.Compare(locationSearch.EndDate, location.EndDate) >= 0).ToListAsync();
-            
+                return await _CoronaAppDBContext.Locations.Where(location => ( DateTime.Compare((DateTime)locationSearch.StartDate, location.StartDate) <= 0 && DateTime.Compare((DateTime)locationSearch.EndDate, location.EndDate) >= 0)).ToListAsync();
+            }
+        }
+        public async Task<List<Location>> getLocationsByAge(LocationSearch locationSearch)
+        {
+            using (var _CoronaAppDBContext = new CoronaAppDBContext())
+            {
+               List<Location> locations = await _CoronaAppDBContext.Locations.Include(location=>location.Patient).Where(location => (DateTime.Now.Year - location.Patient.dateOfBirth.Year) >= locationSearch.Age).ToListAsync();
+                return locations;
+                /*   return await _CoronaAppDBContext.Locations.Where(location => ((DateTime.Now.Year - location.Patient.dateOfBirth.Year) != null && (DateTime.Now.Year - location.Patient.dateOfBirth.Year) == locationSearch.Age) ||
+             (locationSearch.StartDate != null && locationSearch.EndDate != null && DateTime.Compare((DateTime)locationSearch.StartDate, location.StartDate) <= 0 && DateTime.Compare((DateTime)locationSearch.EndDate, location.EndDate) >= 0)
+             || (DateTime.Now.Year - location.Patient.dateOfBirth.Year) != null && (DateTime.Now.Year - location.Patient.dateOfBirth.Year) == locationSearch.Age && locationSearch.StartDate != null && locationSearch.EndDate != null && DateTime.Compare((DateTime)locationSearch.StartDate, location.StartDate) <= 0 && DateTime.Compare((DateTime)locationSearch.EndDate, location.EndDate) >= 0).ToListAsync();*/
+            }
+        }
+        public async Task<List<Location>> getLocationsByLocationSaerch(LocationSearch locationSearch)
+        {
+            using (var _CoronaAppDBContext = new CoronaAppDBContext())
+            {
+                return  await _CoronaAppDBContext.Locations.Include(location => location.Patient).Where(location => (DateTime.Compare((DateTime)locationSearch.StartDate, location.StartDate) <= 0 && DateTime.Compare((DateTime)locationSearch.EndDate, location.EndDate) >= 0)
+                && (DateTime.Now.Year - location.Patient.dateOfBirth.Year) >= locationSearch.Age).ToListAsync();
             }
         }
 
-        public async Task<List<Location>> getAllLocationByCity(string city)
+        public async Task<List<Location>> getLocationsByCity(string city)
         {
             using (var _CoronaAppDBContext = new CoronaAppDBContext())
             {
                 return await _CoronaAppDBContext.Locations.Where(location => location.City.ToUpper().Contains(city.ToUpper())).ToListAsync();
             }
         }
-
     }
 }
-/*public async Task<List<Location>> getAllLocationBetweenDates(LocationSearch dates)
-        {
-            return await _CoronaAppDBContext.Locations.Where(location => DateTime.Compare(dates.StartDate, location.StartDate) <= 0 && DateTime.Compare(dates.EndDate, location.EndDate) >= 0).ToListAsync() ;
-        }*/

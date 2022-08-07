@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using CoronaApp.Dal;
 using CoronaApp.Services;
+using CoronaApp.Services.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +18,10 @@ namespace CoronaApp.Api.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        IPatientService _PatientRepository;
-        public PatientController(IPatientService PatientRepository)
+        IPatientService _PatientService;
+        public PatientController(IPatientService PatientService)
         {
-            _PatientRepository = PatientRepository;
+            _PatientService = PatientService;
         }
 
 
@@ -32,7 +34,7 @@ namespace CoronaApp.Api.Controllers
                 return StatusCode(400, "bad request");
             try
             {
-                return await _PatientRepository.addNewPatient(newPatient);
+                return await _PatientService.addNewPatient(newPatient);
             }
             catch (Exception ex)
             {

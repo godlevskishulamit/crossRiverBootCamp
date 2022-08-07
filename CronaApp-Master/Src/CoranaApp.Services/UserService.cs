@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
-using CoronaApp.Services.Models;
+using CoronaApp.Services.DTO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,10 +17,14 @@ public class UserService : IUserService
 {
     IUserRepository _userRepository;
     IConfiguration _configuration;
-    public UserService(IUserRepository userRepository, IConfiguration configuration)
+    private readonly IMapper _mapper;
+
+    public UserService(IUserRepository userRepository, IConfiguration configuration, IMapper mapper)
     {
         _userRepository = userRepository;
         _configuration = configuration;
+        _mapper = mapper;
+
     }
     public async Task<UserDTO> login(UserLoginDTO userLogin)
     {
@@ -30,11 +34,8 @@ public class UserService : IUserService
             User user = await _userRepository.login(userLogin.Name, userLogin.Password);
             if (user == null)
                 return null;
-            UserDTO userDto = new UserDTO();
-            string token = await getToken(user);
-            userDto.Token = token;
-            userDto.Name = user.Name;
-            userDto.Id = user.Id;
+            UserDTO userDto = _mapper.Map<UserDTO>(user);
+            userDto.Token = await getToken(user);
             return userDto;
         }
         return null;
@@ -46,9 +47,7 @@ public class UserService : IUserService
         {
             User user = await _userRepository.signUp(newUser.Name, newUser.Password);
 
-            UserDTO _newUser = new UserDTO();
-            _newUser.Name = user.Name;
-            _newUser.Id = user.Id;
+            UserDTO _newUser= _mapper.Map<UserDTO>(user);
             _newUser.Token = await getToken(user);
             return _newUser;
         }

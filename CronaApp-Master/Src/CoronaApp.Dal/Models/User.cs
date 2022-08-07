@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApp.Dal.Models;
 
-public class User : IValidatableObject
+public class User 
 {
     public int Id { get; set; }
     [EmailAddress]
@@ -20,8 +20,5 @@ public class User : IValidatableObject
 
     public string Password { get; set; }
 
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

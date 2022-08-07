@@ -1,5 +1,5 @@
 ﻿using CoronaApp.Dal.Models;
-using CoronaApp.Services.Models;
+using CoronaApp.Services.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

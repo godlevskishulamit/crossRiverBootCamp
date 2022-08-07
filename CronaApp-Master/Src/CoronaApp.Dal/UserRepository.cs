@@ -28,10 +28,6 @@ public class UserRepository : IUserRepository
         {
             if (existingUser == null)
             {
-                if (await _CoronaAppDBContext.Users.Where(user => user.Name.Equals(name)).FirstAsync() != null)
-                {
-                    throw new InvalidOperationException("UserName already exist");
-                }
                 user.Name = name;
                 user.Password = password;
             }

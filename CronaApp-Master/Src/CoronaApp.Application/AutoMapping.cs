@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
-using CoronaApp.Services.Models;
+using CoronaApp.Services.DTO;
 
 namespace CoronaApp.Api;
 
@@ -8,8 +9,9 @@ public class AutoMapping:Profile
 {
     public AutoMapping()
     {
-        CreateMap<User, UserDTO>()
-                .ForMember(des => des.Name, opts => opts.MapFrom(src => src.Name))
-                .ForMember(des => des.Id, opts => opts.MapFrom(src => src.Id));
+        CreateMap<User, UserDTO>();
+        CreateMap<PostLocationDTO, Location>();
+        /*CreateMap<PostPatientDTO, Patient>();*/
+
     }
 }

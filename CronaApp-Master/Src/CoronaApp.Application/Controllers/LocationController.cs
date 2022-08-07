@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services;
+using CoronaApp.Services.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,11 @@ namespace CoronaApp.Api.Controllers
     [ApiController]
     public class LocationController : ControllerBase
     {
-        ILocationService _LocationRepository;
+        ILocationService _LocationService;
 
-        public LocationController(ILocationService LocationRepository)
+        public LocationController(ILocationService LocationService)
         {
-            _LocationRepository = LocationRepository;
+            _LocationService = LocationService;
         }
 
         // GET:
@@ -30,7 +31,7 @@ namespace CoronaApp.Api.Controllers
         {
             try
             {
-                List<Location> locations = await _LocationRepository.getAllLocation();
+                List<Location> locations = await _LocationService.getAllLocation();
                 if (locations == null)
                 {
                     return StatusCode(404, "not found");
@@ -55,7 +56,7 @@ namespace CoronaApp.Api.Controllers
                 return StatusCode(400, "bad request");
             try
             {
-                List<Location> locations = await _LocationRepository.getLocationsByPatientId(id);
+                List<Location> locations = await _LocationService.getLocationsByPatientId(id);
                 if (locations == null)
                 {
                     return StatusCode(404, "not found");
@@ -74,13 +75,13 @@ namespace CoronaApp.Api.Controllers
 
         // GET:
         [HttpGet("city")]
-        public async Task<ActionResult<List<Location>>> getAllLocationByCity([FromQuery] string city)
+        public async Task<ActionResult<List<Location>>> getLocationsByCity([FromQuery] string city)
         {
             if (city == null)
                 return StatusCode(400, "bad request");
             try
             {
-                List<Location> locations = await _LocationRepository.getAllLocationByCity(city);
+                List<Location> locations = await _LocationService.getLocationsByCity(city);
                 if (locations == null)
                 {
                     return StatusCode(404, "not found");
@@ -98,14 +99,14 @@ namespace CoronaApp.Api.Controllers
         }
 
         // GET:
-        [HttpGet("filter")]
-        public async Task<ActionResult<List<Location>>> getFilterdLocation([FromBody] LocationSearch locationSearch)
+        [HttpPost("filter")]
+        public async Task<ActionResult<List<Location>>> getLocationsByLocationSaerch([FromBody] LocationSearch locationSearch)
         {
             if (locationSearch == null)
                 return StatusCode(400, "bad request");
             try
             {
-                List<Location> locations = await _LocationRepository.getFilterdLocation(locationSearch);
+                List<Location> locations = await _LocationService.getLocationsByLocationSaerch(locationSearch);
 
                 if (locations == null)
                 {
@@ -124,13 +125,13 @@ namespace CoronaApp.Api.Controllers
         }
         // POST:
         [HttpPost]
-        public async Task<ActionResult<int>> addNewLocation([FromBody] Location newLocation)
+        public async Task<ActionResult<int>> addNewLocation([FromBody] PostLocationDTO newLocation)
         {
             if (newLocation == null)
                 return StatusCode(400, "bad request");
             try
             {
-                return await _LocationRepository.addNewLocation(newLocation);
+                return await _LocationService.addNewLocation(newLocation);
             }
             catch (Exception ex)
             {

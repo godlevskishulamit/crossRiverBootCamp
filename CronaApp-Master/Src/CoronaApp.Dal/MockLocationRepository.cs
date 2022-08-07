@@ -18,8 +18,8 @@ namespace CoronaApp.Tests
         public  List<Location> DB;
         public MockLocationRepository()
         {
-            p1 = new Patient() { Id = "111", Name = "Shira", Age = 20 };
-            p2 = new Patient() { Id = "222", Name = "Chanchy", Age = 20 };
+            p1 = new Patient() { Id = "111", Name = "Shira" };
+            p2 = new Patient() { Id = "222", Name = "Chanchy"};
             l1 = new Location()
             {
                 Id = 1,
@@ -73,6 +73,26 @@ namespace CoronaApp.Tests
         }
 
         public Task<List<Location>> getLocationsByPatientId(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Location>> getLocationsByCity(string city)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Location>> getLocationsBetweenDates(LocationSearch locationSearch)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Location>> getLocationsByAge(LocationSearch locationSearch)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Location>> getLocationsByLocationSaerch(LocationSearch locationSearch)
         {
             throw new NotImplementedException();
         }

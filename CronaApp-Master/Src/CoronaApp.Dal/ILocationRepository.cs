@@ -10,10 +10,11 @@ namespace CoronaApp.Dal
         Task<List<Location>> getAllLocation();
         Task<int> addNewLocation(Location newLocation);
         Task<List<Location>> getLocationsByPatientId(string id);
-        Task<List<Location>> getAllLocationByCity(string city);
-       // public Task<List<Location>> getAllLocationBetweenDates(LocationSearch dates);
-        public Task<List<Location>> getFilteredLOcation(LocationSearch locationSearch);
-       
+        Task<List<Location>> getLocationsByCity(string city);
+        Task<List<Location>> getLocationsByLocationSaerch(LocationSearch locationSearch);
+        Task<List<Location>> getLocationsBetweenDates(LocationSearch locationSearch);
+        Task<List<Location>> getLocationsByAge(LocationSearch locationSearch);
+
 
     }
 }

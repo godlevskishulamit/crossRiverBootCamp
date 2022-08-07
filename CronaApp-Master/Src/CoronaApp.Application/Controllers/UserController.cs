@@ -1,6 +1,6 @@
 ﻿using CoronaApp.Dal.Models;
 using CoronaApp.Services;
-using CoronaApp.Services.Models;
+using CoronaApp.Services.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,11 +24,11 @@ namespace CoronaApp.Api.Controllers
         // GET: api/<LoginController>
 
         // GET api/<LoginController>/5
-        [HttpGet("{id}")]
+       /* [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
-        }
+        }*/
 
         // POST api/<LoginController>
         [HttpPost("login")]
