@@ -11,10 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Text;
 
-var builder = WebApplication.CreateBuilder(args);
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog();
 // Add services to the container.
 string AllowAll = "AllowAll";//
 builder.Services.AddCors(options =>
@@ -31,6 +33,10 @@ builder.Services.AddCors(options =>
 IConfigurationRoot configuration = new
             ConfigurationBuilder().AddJsonFile("appsettings.json",
             optional: false, reloadOnChange: true).Build();////
+Log.Logger = new LoggerConfiguration().
+    ReadFrom.Configuration(configuration).
+    Enrich.FromLogContext().
+    CreateLogger();
 builder.Services.AddDbContext<CoronaDBContext>
                 (item => item.UseSqlServer(configuration.GetConnectionString("connectionToCoronaDB")));//
 var securityKey = Encoding.ASCII.GetBytes(configuration["JWT:key"]);
@@ -88,7 +94,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();////
 
-// Configure the HTTP request pipeline.
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {

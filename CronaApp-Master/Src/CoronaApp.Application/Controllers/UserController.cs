@@ -5,6 +5,7 @@ using CoronaApp.Services;
 using AutoMapper;
 using CoronaApp.Dal.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CoronaApp.Api.Controllers;
 
@@ -12,17 +13,18 @@ namespace CoronaApp.Api.Controllers;
 [ApiController]
 public class UserController : Controller
 {
+    ILogger<UserController> _logger;
     IUserService _userService;
  
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, ILogger<UserController> logger)
     {
+        _logger = logger;
         _userService = userService;
       
     }
     [HttpPost("login")]
     public async Task<ActionResult<string>> LogIn([FromBody] UserLoginDTO user)
     {
-
         UserDTO userToken = await _userService.Login(user);
         if (userToken == null)
         {

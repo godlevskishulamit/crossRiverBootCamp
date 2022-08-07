@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,14 @@ using System.Threading.Tasks;
 namespace CoronaApp.Api
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+
     public class EventHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-
-        public EventHandlerMiddleware(RequestDelegate next)
+        ILogger<EventHandlerMiddleware> _logger;
+        public EventHandlerMiddleware(RequestDelegate next, ILogger<EventHandlerMiddleware> logger)
         {
+            _logger = logger;
             _next = next;
         }
 
@@ -27,8 +30,9 @@ namespace CoronaApp.Api
             }
             catch (Exception ex)
             {
-           throw ex;
-               
+                _logger.LogError(ex, "");
+                throw ex;
+
             }
         }
     }
