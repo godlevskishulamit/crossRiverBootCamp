@@ -9,13 +9,21 @@ namespace CoronaApp.Dal
 {
     public class PatientRepository : IPatientRepository
     {
-       
+
         public async Task PostPatient(Patient patient)
         {
             using (var _dbContext = new CoronaDBContext())
             {
-                _dbContext.Patients.Add(patient);
-                var x = await _dbContext.SaveChangesAsync();
+                try
+                {
+                    _dbContext.Patients.Add(patient);
+                    var x = await _dbContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw new DbUpdateException();
+                }
+
             }
         }
 
@@ -27,11 +35,20 @@ namespace CoronaApp.Dal
                 return a;
             }
         }
-        public async Task UpdatePatient(Patient patient) {
+        public async Task UpdatePatient(Patient patient)
+        {
             using (var _dbContext = new CoronaDBContext())
             {
-                _dbContext.Patients.Update(patient);
-                await _dbContext.SaveChangesAsync();
+                try
+                {
+                    _dbContext.Patients.Update(patient);
+                    await _dbContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw new DbUpdateException();
+                }
+           
             }
         }
 

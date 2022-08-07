@@ -10,13 +10,13 @@ namespace CoronaApp.Dal
 {
     public class LocationRepository : ILocationRepository
     {
-       
-    
+
+
         public async Task<ICollection<Location>> GetAllLocation()
         {
             using (var _dbContext = new CoronaDBContext())
             {
-            return await _dbContext.Locations.ToListAsync();
+                return await _dbContext.Locations.ToListAsync();
 
             }
         }
@@ -48,7 +48,7 @@ namespace CoronaApp.Dal
                  .Where(location => location.StartDate >= startDate && location.StartDate <= endDate
                  || location.EndDate >= startDate && location.EndDate <= endDate).ToListAsync();
             }
-            }
+        }
 
         public async Task<List<Location>> GetLocationsByPatientAge(int? age)
         {
@@ -58,7 +58,7 @@ namespace CoronaApp.Dal
                  .Where(location => location.Patient.Age == age).ToListAsync();
             }
         }
-        public async Task<List<Location>> GetLocationsByDateAndPatientAge(DateTime? startDate, DateTime? endDate,int? age)
+        public async Task<List<Location>> GetLocationsByDateAndPatientAge(DateTime? startDate, DateTime? endDate, int? age)
         {
             using (var _dbContext = new CoronaDBContext())
             {
@@ -70,18 +70,33 @@ namespace CoronaApp.Dal
         {
             using (var _dbContext = new CoronaDBContext())
             {
-                _dbContext.Locations.Add(location);
-                await _dbContext.SaveChangesAsync();
+                try
+                {
+                    _dbContext.Locations.Add(location);
+                    await _dbContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw new DbUpdateException();
+                }
+
             }
-        }        
+        }
         public async Task Delete(string patientId, int locationId)
         {
             using (var _dbContext = new CoronaDBContext())
             {
-                Location l = await _dbContext.Locations
-                .Where(location => location.Id == locationId).FirstOrDefaultAsync();
-               _dbContext.Locations.Remove(l);
-                await _dbContext.SaveChangesAsync();
+                try
+                {
+                    Location l = await _dbContext.Locations
+                     .Where(location => location.Id == locationId).FirstOrDefaultAsync();
+                    _dbContext.Locations.Remove(l);
+                    await _dbContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw new DbUpdateException();
+                }
             }
         }
     }

@@ -21,55 +21,99 @@ public class LocationController : ControllerBase
     public LocationController(ILocationService locationService, IMapper mapper)
     {
         this._locationService = locationService;
-        this._mapper = mapper; 
+        this._mapper = mapper;
     }
     [HttpGet]
     public async Task<ActionResult<ICollection<Location>>> GetLocations([FromQuery] LocationSearch locationSearch)
     {
-        List<LocationDTO> locations = await _locationService.GetLocations(locationSearch);
-        if (locations == null)
-            return NotFound();
-        return Ok(locations);
+        try
+        {
+            List<LocationDTO> locations = await _locationService.GetLocations(locationSearch);
+            if (locations == null)
+                return NotFound();
+            if (locations.Count == 0)
+                return NoContent();
+            return Ok(locations);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
     [HttpGet("city")]
     public async Task<ActionResult<List<LocationDTO>>> GetLocationsByCity([FromQuery] string city)
     {
+        if (city == null)
+            return BadRequest();
         try
         {
-           List<LocationDTO> locations =await _locationService.GetLocationsByCity(city);
-            
-          return Ok(locations);
+            List<LocationDTO> locationDTOs = await _locationService.GetLocationsByCity(city);
+            if (locationDTOs == null)
+                return NotFound();
+            if (locationDTOs.Count == 0)
+                return NoContent();
+            return Ok(locationDTOs);
         }
-        catch (Exception ex) {
-        return BadRequest(ex.Message);
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
         }
 
-       
+
     }
     [HttpGet("patientId")]
-    public async Task<ActionResult<List<Location>>> GetLocationsByPatientId(/*string patientId*/)
+    public async Task<ActionResult<List<Location>>> GetLocationsByPatientId()
     {
-        // var claims = ClaimsPrincipal.Current.Identities.First().Claims.ToList();
-       var Claims = User.Claims.ToList();
+        var Claims = User.Claims.ToList();
         //Filter specific claim    
         string patientId = Claims?.FirstOrDefault(x => x.Type.Equals("UserId", StringComparison.OrdinalIgnoreCase))?.Value;
-        
-        List<LocationDTO> locations= await _locationService.GetLocationsByPatientId(patientId);
-        if(locations == null) { 
-            return StatusCode(404, "No Such Patient"); 
+        try
+        {
+            List<LocationDTO> locationDTOs = await _locationService.GetLocationsByPatientId(patientId);
+            if (locationDTOs == null)
+
+                return NotFound();
+            if (locationDTOs.Count == 0)
+                return StatusCode(204, "No Such Patient");
+            return Ok(locationDTOs);
         }
-        return Ok(locations);
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 
     [HttpPost]
-    public async Task PostLocation(LocationDTOPost location)
+    public async Task<ActionResult> PostLocation(LocationDTOPost location)
     {
-        await _locationService.PostLocation(location);
+        if (location == null)
+            return BadRequest();
+        try
+        {
+            await _locationService.PostLocation(location);
+            return Ok();
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
     [HttpDelete("{patientId}/{locationId}")]
-    public async Task Delete(string patientId, int locationId)
+    public async Task<ActionResult> Delete(string patientId, int locationId)
     {
-        await _locationService.Delete(patientId, locationId);
+        if (patientId == null || locationId == null)
+            return BadRequest();
+        try
+        {
+            await _locationService.Delete(patientId, locationId);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+
     }
 
 

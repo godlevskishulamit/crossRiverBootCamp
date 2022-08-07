@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Api
@@ -25,13 +26,13 @@ namespace CoronaApp.Api
 
             try
             {
-
                 await _next(httpContext);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "");
-                throw ex;
+                _logger.LogError("Error: " + ex.Message + " Stack trace: " + ex.StackTrace);
+                if (!(httpContext.Response.StatusCode >= 400 && httpContext.Response.StatusCode < 500))
+                    httpContext.Response.StatusCode= (int)HttpStatusCode.InternalServerError; 
 
             }
         }

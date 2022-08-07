@@ -8,7 +8,6 @@ using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CoronaApp.Api.Controllers;
 [Authorize]
@@ -23,23 +22,56 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ICollection<PatientDTO>> GetAllUsers()
+    public async Task<ActionResult<ICollection<PatientDTO>>> GetAllUsers()
     {
-        return await _patientService.GetAllPatient();
+        try
+        {
+            ICollection<PatientDTO> patientDTOs = await _patientService.GetAllPatient();
+            if (patientDTOs == null)
+                return NotFound();
+            if (patientDTOs.Count == 0)
+                return NoContent();
+            return Ok(patientDTOs);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+
+        }
     }
 
     // POST api/<PatientController>
     [HttpPost]
-    public async Task Post([FromBody] PatientDTO patient)
+    public async Task<ActionResult> Post([FromBody] PatientDTO patient)
     {
-        await _patientService.PostPatient(patient);
+        if (patient == null)
+            return BadRequest();
+        try
+        {
+            await _patientService.PostPatient(patient);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 
     // PUT api/<PatientController>/5s
     [HttpPut]
-    public async Task Put([FromBody] PatientDTO patient)
+    public async Task<ActionResult> Put([FromBody] PatientDTO patient)
     {
-        await _patientService.UpdatePatient(patient);
+        if (patient == null)
+            return BadRequest();
+        try
+        {
+            await _patientService.UpdatePatient(patient);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 
 
