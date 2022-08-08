@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
-namespace CoronaApp.Dal.Models;
+﻿namespace CoronaApp.Dal.Models;
 public class LocationSearch
 {
     [DataType(DataType.DateTime)]

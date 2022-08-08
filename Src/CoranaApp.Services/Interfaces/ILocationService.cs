@@ -1,9 +1,4 @@
-﻿using CoronaApp.Dal.Models;
-using CoronaApp.Services.DTO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Services.Interfaces;
+﻿namespace CoronaApp.Services.Interfaces;
 public interface ILocationService
 {
     Task<bool> AddLocation(LocationDTO location);

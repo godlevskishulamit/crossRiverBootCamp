@@ -1,10 +1,4 @@
-﻿using CoronaApp.Dal.Models;
-using CoronaApp.Services.DTO;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Services.Interfaces
+﻿namespace CoronaApp.Services.Interfaces
 {
     public interface ILoginService
     {

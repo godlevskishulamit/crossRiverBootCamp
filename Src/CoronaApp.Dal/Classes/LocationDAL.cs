@@ -1,13 +1,4 @@
-﻿using CoronaApp.Dal.Interfaces;
-using CoronaApp.Dal.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Dal.Classes;
+﻿namespace CoronaApp.Dal.Classes;
 public class LocationDAL : ILocationDAL
 {
     public async Task<List<Location>> GetAllLocations(string city = "")

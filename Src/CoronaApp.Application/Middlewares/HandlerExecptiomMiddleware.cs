@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Api.Middlewares;
+﻿namespace CoronaApp.Api.Middlewares;
 // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
 public class HandlerExecptiomMiddleware
 {
@@ -25,10 +17,8 @@ public class HandlerExecptiomMiddleware
         {
             _logger.LogInformation("i'm in middleware");
             await _next(httpContext);
-            if (httpContext.Response.StatusCode > 400 && httpContext.Response.StatusCode < 500)
-            {
+            if(httpContext.Response.StatusCode is > 400 and < 500)
                 throw new KeyNotFoundException("Not Found");
-            }
         }
         catch (Exception error)
         {

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CoronaApp.Dal.Models;
+﻿namespace CoronaApp.Dal.Models;
 public class Patient
 {
     [RegularExpression("^[0-9]{9}$")]

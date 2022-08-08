@@ -1,17 +1,4 @@
-﻿using CoronaApp.Dal.Models;
-using CoronaApp.Services.Classes;
-using CoronaApp.Services.DTO;
-using CoronaApp.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Api.Controllers
+﻿namespace CoronaApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,7 +17,7 @@ namespace CoronaApp.Api.Controllers
             try
             {
                 var token = await _loginService.Login(user);
-                return token==null? Unauthorized() : Ok(token);
+                return token==null ? Unauthorized() : Ok(token);
             }
             catch (Exception ex)
             {
@@ -45,7 +32,7 @@ namespace CoronaApp.Api.Controllers
             try
             {
                 var token = await _loginService.SignUp(user);
-                return token==null? Unauthorized() : token=="" ?
+                return token==null ? Unauthorized() : token=="" ?
                     BadRequest("Adding user failed! try again later..."):Ok(token);
             }
             catch (Exception ex)

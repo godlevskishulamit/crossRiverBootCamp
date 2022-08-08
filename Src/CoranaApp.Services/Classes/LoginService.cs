@@ -1,19 +1,4 @@
-﻿using AutoMapper;
-using CoronaApp.Dal.Interfaces;
-using CoronaApp.Dal.Models;
-using CoronaApp.Services.DTO;
-using CoronaApp.Services.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Services.Classes
+﻿namespace CoronaApp.Services.Classes
 {
     public class LoginService : ILoginService
     {
@@ -64,9 +49,7 @@ namespace CoronaApp.Services.Classes
 
             }
             else
-            {
                 return null;
-            }
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
@@ -79,9 +62,7 @@ namespace CoronaApp.Services.Classes
             {
                 bool success = await _loginDal.AddUser(mapper.Map<UserDTO, User>(u));
                 if (!success)
-                {
                     return "";
-                }
             }
             string token = await Login(u);
             return token;

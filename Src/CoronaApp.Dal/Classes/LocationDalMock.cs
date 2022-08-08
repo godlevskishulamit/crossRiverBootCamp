@@ -1,11 +1,4 @@
-﻿using CoronaApp.Dal.Interfaces;
-using CoronaApp.Dal.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Dal.Classes;
+﻿namespace CoronaApp.Dal.Classes;
 public class LocationDalMock : ILocationDAL
 {
     public LocationDalMock()
