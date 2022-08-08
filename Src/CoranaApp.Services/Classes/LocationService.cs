@@ -33,12 +33,15 @@ public class LocationService : ILocationService
     }
     public async Task<List<LocationDTO>> GetLocationsByLocationSearch(LocationSearch location)
     {
-        if (location.Age != 0)
+        List<Location> locations = new List<Location>();
+        if (location.Age != null)
         {
-            List<Location> locations1 = await _locationDal.GetLocationByAge(location);
-            return mapper.Map<List<LocationDTO>>(locations1);
+            locations = await _locationDal.GetLocationByAge(location);
         }
-        List<Location> locations = await _locationDal.GetLocationByAge(location);
+        if (location.StartDate != null && location.EndDate != null)
+        {
+            locations = await _locationDal.GetLocationsByDate(location);
+        }
         return mapper.Map<List<LocationDTO>>(locations);
     }
     public async Task<List<LocationDTO>> GetLocationsPerPatient(string id)
