@@ -67,7 +67,6 @@ public class UserController : Controller
         }
         try
         {
-            //how to return the token of the existing user?
             string token = await iur.signUp(user);
             if (token == null)
             {

@@ -94,9 +94,8 @@ public class LocationController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
-    // bad request if dont get all Location object?
     [HttpPost]
-    public async Task<ActionResult<Location>> Add([FromBody] LocationDTO loc)
+    public async Task<ActionResult<LocationDTO>> Add([FromBody] LocationDTO loc)
     {
         if (!ModelState.IsValid)
         {
@@ -112,48 +111,7 @@ public class LocationController : ControllerBase
            return StatusCode(500, ex.Message);
         }
     }
-    [HttpGet("age")]
-    public async Task<ActionResult<List<Location>>> GetByAge([FromBody] LocationSearch ls)
-    {
-        try
-        {
-            List<Location> listLoc = await il.GetByAge((int)ls.Age);
-            if (listLoc == null)
-            {
-                return StatusCode(404);
-            }
-            if (!listLoc.Any())
-            {
-                return StatusCode(204);
-            }
-            return Ok(listLoc);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
-    [HttpGet("date")]
-    public async Task<ActionResult<List<Location>>> GetByDate([FromBody] LocationSearch ls)
-    {
-        try
-        {
-            List<Location> listLoc = await il.GetByDate(Convert.ToDateTime(ls.StartDate), Convert.ToDateTime(ls.EndDate));
-            if (listLoc == null)
-            {
-                return StatusCode(404);
-            }
-            if (!listLoc.Any())
-            {
-                return StatusCode(204);
-            }
-            return Ok(listLoc);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
+   
 
     [HttpGet("filter")]
     public async Task<ActionResult<List<Location>>> GetByFilteredData([FromBody] LocationSearch ls)

@@ -33,23 +33,16 @@ public class LocationRepository : ILocationRepository
     {
         return await idl.getLocationsById(id);
     }
-    public async Task<Location> postLocation(LocationDTO loc)
+    public async Task<LocationDTO> postLocation(LocationDTO loc)
     {
         Location location = _mapper.Map<Location>(loc);
         Location newLocation = await idl.postLocation(location);
-        return newLocation;
+        LocationDTO newLocationDTO = _mapper.Map<LocationDTO>(newLocation);
+        return newLocationDTO;
     }
     public async Task<List<Location>> getLocationByCity(string city)
     {
         return await idl.getLocationByCity(city);
-    }
-    public async Task<List<Location>> GetByAge(int age)
-    {
-        return await idl.getByAge(age);
-    }
-    public async Task<List<Location>> GetByDate(DateTime sdate, DateTime edate)
-    {
-        return await idl.getByDate(sdate, edate);
     }
     public async Task<List<Location>> GetByFilteredData(LocationSearch location)
     {

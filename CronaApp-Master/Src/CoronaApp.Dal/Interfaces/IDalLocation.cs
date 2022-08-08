@@ -11,7 +11,5 @@ public interface IDalLocation
     Task<List<Location>> getLocationsById(string id);
     Task<Location> postLocation(Location loc);
     Task<List<Location>> getLocationByCity(string city);
-    Task<List<Location>> getByAge(int age);
-    Task<List<Location>> getByDate(DateTime sdate, DateTime edate);
     Task<List<Location>> getByFilteredData(LocationSearch location);
 }

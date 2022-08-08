@@ -58,22 +58,7 @@ public class DalLocation : IDalLocation
             return null;
         }
     }
-    public async Task<List<Location>> getByAge(int age)
-    {
-        using (var context = new CoronaDbContext(_configuration))
-        {
-            return await context.Locations.Include(p => p.Patient)
-                .Where(location => (location.Patient.age != null && location.Patient.age == age)).ToListAsync();
-        }
-    }
-    public async Task<List<Location>> getByDate(DateTime sdate, DateTime edate)
-    {
-        using (var context = new CoronaDbContext(_configuration))
-        {
-            return await context.Locations.Where(location => DateTime.Compare(location.StartDate, location.StartDate) <= 0
-                && DateTime.Compare(location.EndDate, location.EndDate) >= 0).ToListAsync();
-        }
-    }
+  
     public async Task<List<Location>> getByFilteredData(LocationSearch locationSearch)
     {
         using (var context = new CoronaDbContext(_configuration))
@@ -81,12 +66,12 @@ public class DalLocation : IDalLocation
             return await context.Locations.Include(p => p.Patient)
                 .Where(location => (location.Patient.age != null && location.Patient.age == locationSearch.Age) 
                 ||(locationSearch.StartDate != null && locationSearch.EndDate != null 
-                && DateTime.Compare(location.StartDate, location.StartDate) <= 0 
-                && DateTime.Compare(location.EndDate, location.EndDate) >= 0)
+                && DateTime.Compare((DateTime)locationSearch.StartDate, location.StartDate) <= 0 
+                && DateTime.Compare((DateTime)locationSearch.EndDate, location.EndDate) >= 0)
                 || location.Patient.age != null && location.Patient.age == locationSearch.Age 
                 && locationSearch.StartDate != null && locationSearch.EndDate != null 
-                && DateTime.Compare(location.StartDate, location.StartDate) <= 0 
-                && DateTime.Compare(location.EndDate, location.EndDate) >= 0)
+                && DateTime.Compare((DateTime)locationSearch.StartDate, location.StartDate) <= 0 
+                && DateTime.Compare((DateTime)locationSearch.EndDate, location.EndDate) >= 0)
                 .ToListAsync();
 
         }
