@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoronaApp.Dal.models;
 using CoronaApp.Services;
+using CoronaApp.Services.DTO;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,7 @@ namespace CoronaApp.Api.Controllers
                 return Ok(locations);
             return NoContent();
         }
-        [HttpGet("locationSearch")]
+        [HttpPost("locationSearch")]
         public async Task<ActionResult> GetByLocationSearch([FromBody] LocationSearch locationSearch)
         {  
             List<Location> locations = await locationRepository.GetByLocationSearch(locationSearch);
@@ -54,7 +55,7 @@ namespace CoronaApp.Api.Controllers
 
         // POST api/<PatientController>
         [HttpPost]
-        public async Task Post([FromBody] Location location)
+        public async Task Post([FromBody] LocationPostDTO location)
         {
            
             await locationRepository.AddNewLocation(location);

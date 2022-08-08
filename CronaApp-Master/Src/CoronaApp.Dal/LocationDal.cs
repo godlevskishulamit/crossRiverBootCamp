@@ -36,19 +36,24 @@ public class LocationDal : ILocationDal
     }
     public async Task<List<Location>> GetByLocationSearch(LocationSearch locationSearch)
     {
-        List<Location> locations = await ct.Locations
-        .Where(loc => loc.StartDate >= locationSearch.StartDate
-        && loc.EndDate <= locationSearch.EndDate)
-        .ToListAsync();
+        List<Location> locations = locationSearch switch
+        {
+            { StartDate: not null, EndDate: null } => await ct.Locations
+                 .Where(loc => loc.StartDate >= locationSearch.StartDate).ToListAsync(),
+            { StartDate: null, EndDate: not null } => await ct.Locations
+                 .Where(loc => loc.EndDate <= locationSearch.EndDate).ToListAsync(),
+
+            _ => await ct.Locations.Where(loc => loc.StartDate >= locationSearch.StartDate
+                  && loc.EndDate <= locationSearch.EndDate).ToListAsync()
+        };
         if (locations.Count == 0)
             return null;
         return locations;
     }
     public async Task<List<Location>> GetByAge(LocationSearch locationSearch)
     {
-
         List<Location> locations = await ct.Locations.Where(loc =>
-        loc.Patient.Age == locationSearch.Age).ToListAsync();
+        (DateTime.Now.Year-loc.Patient.DateOfBirth.Year) == locationSearch.Age).ToListAsync();
         if (locations.Count == 0)
             return null;
         return locations;

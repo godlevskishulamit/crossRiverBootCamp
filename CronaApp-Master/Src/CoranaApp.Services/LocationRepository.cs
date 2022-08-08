@@ -1,5 +1,7 @@
-﻿using CoronaApp.Dal;
+﻿using AutoMapper;
+using CoronaApp.Dal;
 using CoronaApp.Dal.models;
+using CoronaApp.Services.DTO;
 using CoronaApp.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +15,11 @@ namespace CoronaApp.Services
     public class LocationRepository : ILocationRepository
     {
         ILocationDal locationdal;
-        public LocationRepository(ILocationDal locationdal)
+        IMapper mapper;
+        public LocationRepository(ILocationDal locationdal ,IMapper mapper)
         {
             this.locationdal = locationdal;
+            this.mapper = mapper;
         }
 
         public async Task<List<Location>> GetByCity(string city)
@@ -29,14 +33,18 @@ namespace CoronaApp.Services
         }
         public async Task<List<Location>> GetByLocationSearch(LocationSearch locationSearch)
         {
+            List<Location> allLocations = new List<Location>();
             if (locationSearch.Age != 0)
-               return await locationdal.GetByAge(locationSearch);
-            return await locationdal.GetByLocationSearch(locationSearch);
+                allLocations.AddRange(await locationdal.GetByAge(locationSearch));
+            if (locationSearch.StartDate != null || locationSearch.EndDate != null)
+                allLocations.AddRange(await locationdal.GetByLocationSearch(locationSearch));
+            return allLocations;
         }
        
-        public async Task AddNewLocation(Location location)
+        public async Task AddNewLocation(LocationPostDTO location)
         {
-            await locationdal.AddNewLocation(location);
+            Location newlocation = mapper.Map<Location>(location);
+            await locationdal.AddNewLocation(newlocation);
         }
         public async Task EditLocation(Location location)
         {
