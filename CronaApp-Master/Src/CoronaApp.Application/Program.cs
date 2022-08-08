@@ -28,6 +28,8 @@ var configuration = new ConfigurationBuilder()
 builder.Host.UseSerilog();
 
 
+
+
 builder.Services.AddScoped<IPatientDal, PatientDal>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<ILocationDal, LocationDal>();
