@@ -35,6 +35,8 @@ builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IUserDal, UserDal>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 
+
+
 builder.Services.AddControllers();
 
 var key = Encoding.UTF8.GetBytes(builder.Configuration.GetSection("key").Value);
