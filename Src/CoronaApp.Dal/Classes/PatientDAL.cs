@@ -10,14 +10,25 @@ namespace CoronaApp.Dal.Classes;
 
 public class PatientDAL : IPatientDAL
 {
-    private readonly CoronaContext _context;
-    public PatientDAL(CoronaContext context)
+    public PatientDAL()
     {
-        _context = context;
+
     }
-    public async Task AddPatient(Patient patient)
+    public async Task<bool> AddPatient(Patient patient)
     {
-        await _context.Patient.AddAsync(patient);
-        await _context.SaveChangesAsync();
+        try
+        {
+            using (CoronaContext context = new CoronaContext())
+            {
+                await context.Patient.AddAsync(patient);
+                await context.SaveChangesAsync();
+                return true;
+            }
+
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

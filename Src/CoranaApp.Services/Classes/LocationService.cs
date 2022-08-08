@@ -1,6 +1,9 @@
-﻿using CoronaApp.Dal.Classes;
+﻿using AutoMapper;
+using CoronaApp.Dal.Classes;
 using CoronaApp.Dal.Interfaces;
 using CoronaApp.Dal.Models;
+using CoronaApp.DTO;
+using CoronaApp.Services.DTO;
 using CoronaApp.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,32 +15,45 @@ namespace CoronaApp.Services.Classes;
 public class LocationService : ILocationService
 {
     private readonly ILocationDAL _locationDal;
+    IMapper mapper;
     public LocationService(ILocationDAL locationDal)
     {
         _locationDal = locationDal;
+
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<AutoMapperProfile>();
+        });
+        mapper = config.CreateMapper();
     }
-    public async Task<List<Location>> GetAllLocations(string city = "")
+    public async Task<List<LocationDTO>> GetAllLocations(string city = "")
     {
-        return await _locationDal.GetAllLocations(city);
+        List<Location> locations = await _locationDal.GetAllLocations(city);
+        return mapper.Map<List<LocationDTO>>(locations);
     }
-    public async Task<List<Location>> GetLocationsByLocationSearch(LocationSearch location)
+    public async Task<List<LocationDTO>> GetLocationsByLocationSearch(LocationSearch location)
     {
         if (location.Age != 0)
         {
-            return await _locationDal.GetLocationByAge(location);
+            List<Location> locations1 = await _locationDal.GetLocationByAge(location);
+            return mapper.Map<List<LocationDTO>>(locations1);
         }
-        return await _locationDal.GetLocationsByDate(location);
+        List<Location> locations = await _locationDal.GetLocationByAge(location);
+        return mapper.Map<List<LocationDTO>>(locations);
     }
-    public async Task<List<Location>> GetLocationsPerPatient(string id)
+    public async Task<List<LocationDTO>> GetLocationsPerPatient(string id)
     {
-        return await _locationDal.GetLocationsPerPatient(id);
+        List<Location> locations = await _locationDal.GetLocationsPerPatient(id);
+        return mapper.Map<List<LocationDTO>>(locations);
     }
-    public async Task AddLocation(Location location)
+    public async Task<bool> AddLocation(AddLocationDTO locationDto)
     {
-        await _locationDal.AddLocation(location);
+        Location location = mapper.Map<Location>(locationDto);
+        return await _locationDal.AddLocation(location);
     }
-    public async Task DeleteLocation(Location location)
+    public async Task<bool> DeleteLocation(LocationDTO locationDto)
     {
-        await _locationDal.DeleteLocation(location);
+        Location location = mapper.Map<Location>(locationDto);
+        return await _locationDal.DeleteLocation(location);
     }
 }

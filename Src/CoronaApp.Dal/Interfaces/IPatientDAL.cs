@@ -5,5 +5,5 @@ namespace CoronaApp.Dal.Interfaces;
 
 public interface IPatientDAL
 {
-    Task AddPatient(Patient patient);
+    Task<bool> AddPatient(Patient patient);
 }

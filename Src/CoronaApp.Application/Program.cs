@@ -10,33 +10,51 @@ using CoronaApp.Services.Classes;
 using CoronaApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using NLog;
-using Log = Serilog.Log;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using CoronaApp.Api;
 
-var Builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-Builder.Host.UseSerilog();
+builder.Host.UseSerilog();
 
-Builder.Services.AddControllers();
+builder.Services.AddControllers();
 
-Builder.Services.AddEndpointsApiExplorer();
-Builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-Builder.Services.AddScoped<ILocationDAL, LocationDAL>();
-Builder.Services.AddScoped<ILocationService, LocationService>();
-Builder.Services.AddScoped<IPatientDAL, PatientDAL>();
-Builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddAutoMapper(typeof(Program));
 
-Builder.Host.UseSerilog();
+builder.Services.AddScoped<ILocationDAL, LocationDAL>();
+builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<IPatientDAL, PatientDAL>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IUserDal, UserDal>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 IConfigurationRoot configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json",
      optional: false, reloadOnChange: true).Build();
 //Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
-Builder.Services.AddDbContext<CoronaContext>(options => options.UseSqlServer(configuration.GetSection("ConnectionString")["CoronaConnection"]));
+//builder.Services.AddDbContext<CoronaContext>(options => options.UseSqlServer(configuration.GetSection("ConnectionString")["CoronaConnection"]));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 
-var app = Builder.Build();
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -47,7 +65,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseErrorMiddleware();
+
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
