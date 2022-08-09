@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace CoronaApp.Dal.Models
-{
+namespace CoronaApp.Dal.Models;
+
     public class CoronaDBContext : DbContext
 
     {
@@ -27,4 +23,4 @@ namespace CoronaApp.Dal.Models
         public DbSet<Patient> Patients { get; set; }
         public DbSet<User> Users { get; set; }
     }
-}
+

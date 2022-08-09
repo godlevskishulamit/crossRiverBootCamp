@@ -1,13 +1,8 @@
-﻿using CoronaApp.Dal;
-using CoronaApp.Dal.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal.Models
-{
+namespace CoronaApp.Dal.Models;
     class LocationDalMock : ILocationRepository
     {
         Task ILocationRepository.Delete(string patientId, int locationId)
@@ -25,16 +20,7 @@ namespace CoronaApp.Dal.Models
             throw new NotImplementedException();
         }
 
-        Task<List<Location>> ILocationRepository.GetLocationsByDate(DateTime? 
-            
-            
-            
-            
-            
-            
-            
-            
-            Date, DateTime? endDate)
+        Task<List<Location>> ILocationRepository.GetLocationsByDate(DateTime?  startDate, DateTime? endDate)
         {
             throw new NotImplementedException();
         }
@@ -59,4 +45,4 @@ namespace CoronaApp.Dal.Models
             throw new NotImplementedException();
         }
     }
-}
+

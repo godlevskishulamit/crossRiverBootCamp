@@ -22,7 +22,7 @@ namespace CoronaApp.Services
         {
 
             List<Patient> patients = await _patientRepository.GetAllPatients();
-            List<PatientDTO> patientsDTO = new List<PatientDTO>();
+            List<PatientDTO> patientsDTO = new();
             foreach (Patient pat in patients)
                 patientsDTO.Add(_mapper.Map<PatientDTO>(pat));
             return patientsDTO;

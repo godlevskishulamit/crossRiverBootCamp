@@ -1,15 +1,13 @@
-﻿using CoronaApp.Dal;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using CoronaApp.Dal;
 using CoronaApp.Dal.Models;
 using CoronaApp.Services.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoronaApp.Services
 {
@@ -29,14 +27,14 @@ namespace CoronaApp.Services
                 var user = await _userRepository.Login(userLogin.Name, userLogin.Password);
                 if (user != null)
                 {
-                    UserDTO userDto = new UserDTO();
+                    UserDTO userDto = new();
                     userDto.Token = await generateJsonWebToken(user);
                     userDto.Name = user.Name;
                     userDto.Id = user.Id;
                     return userDto;
                 }
                 else       //user not exist in database
-                    throw new KeyNotFoundException();
+                    throw new Exception("user not exist");
             }
             return null;
 
@@ -48,7 +46,7 @@ namespace CoronaApp.Services
             if (userLogin != null)
             {
                 var user = await _userRepository.SignUp(userLogin.Name, userLogin.Password);
-                UserDTO userDTO=new UserDTO();
+                UserDTO userDTO=new();
                 userDTO.Id = user.Id;
                 userDTO.Name = user.Name;
                 userDTO.Token = await generateJsonWebToken(user);
@@ -65,9 +63,9 @@ namespace CoronaApp.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("UserId", user.Password.ToString()),
-                    new Claim("UserName", user.Name),
-                    new Claim("Role", "user")
+                    new ("UserId", user.Password.ToString()),
+                    new("UserName", user.Name),
+                    new("Role", "user")
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = credentials

@@ -1,9 +1,7 @@
 ﻿using CoronaApp.Dal.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Dal;
@@ -38,7 +36,7 @@ public class UserRepository : IUserRepository
                 await _dbContext.SaveChangesAsync();
                 return user;
             }
-        
+
         }
     }
 }

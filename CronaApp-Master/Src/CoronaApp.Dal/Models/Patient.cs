@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace CoronaApp.Dal.Models
-{ 
+
+namespace CoronaApp.Dal.Models;
     public class Patient
     {
         public Patient(string id)
         {
-            this.Id = id;
+            Id = id;
           
         }
         public Patient()
@@ -19,9 +17,9 @@ namespace CoronaApp.Dal.Models
         }
         public Patient(string id, string name, int? age)
         {
-            this.Id = id;
-            this.Name = name;
-            this.Age = age;
+            Id = id;
+            Name = name;
+            Age = age;
            
         }
         [MinLength(8)]
@@ -36,4 +34,4 @@ namespace CoronaApp.Dal.Models
         }
 
     }
-}
+

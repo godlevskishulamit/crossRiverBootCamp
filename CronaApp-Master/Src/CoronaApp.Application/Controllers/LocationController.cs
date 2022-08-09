@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
-using CoronaApp.Dal.Models;
+﻿using CoronaApp.Dal.Models;
 using CoronaApp.Services;
+using AutoMapper;
+using System.Threading.Tasks;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace CoronaApp.Api.Controllers;
 [Authorize]
 [Route("api/[controller]")]
@@ -20,8 +15,9 @@ public class LocationController : ControllerBase
     IMapper _mapper;
     public LocationController(ILocationService locationService, IMapper mapper)
     {
-        this._locationService = locationService;
-        this._mapper = mapper;
+        _locationService = locationService;
+        _mapper = mapper;
+        _mapper = mapper;
     }
     [HttpGet]
     public async Task<ActionResult<ICollection<Location>>> GetLocations([FromQuery] LocationSearch locationSearch)

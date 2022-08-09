@@ -1,7 +1,5 @@
 ﻿using CoronaApp.Api;
 using CoronaApp.Dal;
-using CoronaApp.Dal.Models;
-using CoronaApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
+using CoronaApp.Dal.Models;
+using CoronaApp.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,12 +1,10 @@
-﻿using CoronaApp.Dal.Models;
+﻿
+using CoronaApp.Dal.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal
-{
+namespace CoronaApp.Dal;
     public class PatientRepository : IPatientRepository
     {
 
@@ -54,4 +52,4 @@ namespace CoronaApp.Dal
 
 
     }
-}
+

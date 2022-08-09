@@ -1,11 +1,8 @@
 ﻿using CoronaApp.Dal.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal
-{
+namespace CoronaApp.Dal;
     public interface IPatientRepository
     {
         Task PostPatient(Patient patient);
@@ -13,4 +10,4 @@ namespace CoronaApp.Dal
         Task UpdatePatient(Patient patient);
 
     }
-}
+

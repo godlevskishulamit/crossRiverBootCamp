@@ -6,8 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal
-{
+namespace CoronaApp.Dal;
     public class LocationRepository : ILocationRepository
     {
 
@@ -62,7 +61,7 @@ namespace CoronaApp.Dal
         {
             using (var _dbContext = new CoronaDBContext())
             {
-                return this.GetLocationsByPatientAge(age).Result.Where(location => location.StartDate >= startDate && location.StartDate <= endDate
+                return GetLocationsByPatientAge(age).Result.Where(location => location.StartDate >= startDate && location.StartDate <= endDate
                  || location.EndDate >= startDate && location.EndDate <= endDate).ToList();
             }
         }
@@ -100,4 +99,4 @@ namespace CoronaApp.Dal
             }
         }
     }
-}
+

@@ -1,11 +1,10 @@
-﻿using CoronaApp.Dal.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using CoronaApp.Dal.Models;
+
 using System.Threading.Tasks;
 
-namespace CoronaApp.Dal
-{
+namespace CoronaApp.Dal;
    
     public interface ILocationRepository
     {
@@ -18,4 +17,4 @@ namespace CoronaApp.Dal
         Task PostLocation(Location location);
         Task Delete(string patientId, int locationId);
     }
-}
+

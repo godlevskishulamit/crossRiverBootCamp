@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CoronaApp.Services;
 using System.Threading.Tasks;
-using CoronaApp.Dal.Models;
-using CoronaApp.Services;
 using CoronaApp.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-
 namespace CoronaApp.Api.Controllers;
 [Authorize]
 [Route("api/[controller]")]

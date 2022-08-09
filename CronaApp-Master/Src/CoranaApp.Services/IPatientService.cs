@@ -1,8 +1,5 @@
-﻿using CoronaApp.Dal.Models;
-using CoronaApp.Services.Models;
-using System;
+﻿using CoronaApp.Services.Models;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CoronaApp.Services

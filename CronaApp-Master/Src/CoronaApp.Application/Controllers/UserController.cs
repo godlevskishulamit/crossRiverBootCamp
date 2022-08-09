@@ -1,25 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CoronaApp.Services.Models;
-using System.Threading.Tasks;
-using CoronaApp.Services;
-using AutoMapper;
-using CoronaApp.Dal.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-
+﻿using CoronaApp.Services;
 namespace CoronaApp.Api.Controllers;
-
+using System.Threading.Tasks;
+using CoronaApp.Services.Models;
+using Microsoft.AspNetCore.Mvc;
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : Controller
 {
-    ILogger<UserController> _logger;
+
     IUserService _userService;
 
-    public UserController(IUserService userService, ILogger<UserController> logger)
+    public UserController(IUserService userService)
     {
-        _logger = logger;
+
         _userService = userService;
 
     }

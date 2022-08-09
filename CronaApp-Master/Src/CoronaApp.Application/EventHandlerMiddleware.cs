@@ -1,49 +1,44 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace CoronaApp.Api
+// You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+
+public class EventHandlerMiddleware
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
-
-    public class EventHandlerMiddleware
+    private readonly RequestDelegate _next;
+    ILogger<EventHandlerMiddleware> _logger;
+    public EventHandlerMiddleware(RequestDelegate next, ILogger<EventHandlerMiddleware> logger)
     {
-        private readonly RequestDelegate _next;
-        ILogger<EventHandlerMiddleware> _logger;
-        public EventHandlerMiddleware(RequestDelegate next, ILogger<EventHandlerMiddleware> logger)
-        {
-            _logger = logger;
-            _next = next;
-        }
-
-        public async Task Invoke(HttpContext httpContext)
-        {
-
-            try
-            {
-                await _next(httpContext);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Error: " + ex.Message + " Stack trace: " + ex.StackTrace);
-                if (!(httpContext.Response.StatusCode >= 400 && httpContext.Response.StatusCode < 500))
-                    httpContext.Response.StatusCode= (int)HttpStatusCode.InternalServerError; 
-
-            }
-        }
+        _logger = logger;
+        _next = next;
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
-    public static class EventHandlerMiddlewareExtensions
+    public async Task Invoke(HttpContext httpContext)
     {
-        public static IApplicationBuilder UseEventHandlerMiddleware(this IApplicationBuilder builder)
+
+        try
         {
-            return builder.UseMiddleware<EventHandlerMiddleware>();
+            await _next(httpContext);
+        }
+        catch (Exception ex)
+        {
+
+            _logger.LogError($"Error: {ex.Message} Stack trace:{ex.StackTrace}");
+            if (!(httpContext.Response.StatusCode is 400 and < 500))
+                httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         }
     }
 }
+
+// Extension method used to add the middleware to the HTTP request pipeline.
+public static class EventHandlerMiddlewareExtensions
+{
+    public static IApplicationBuilder UseEventHandlerMiddleware(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<EventHandlerMiddleware>();
+    }
+}
+
