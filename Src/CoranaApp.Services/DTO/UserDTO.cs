@@ -1,7 +1,4 @@
 ﻿namespace CoronaApp.Services.DTO;
 
-public class UserDTO
-{
-    public string UserName { get; set; }
-    public string Password { get; set; }
-}
+public record UserDTO(string UserName, string Password);
+

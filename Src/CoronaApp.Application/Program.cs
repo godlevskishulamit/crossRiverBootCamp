@@ -1,28 +1,13 @@
 using Serilog;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog();
 
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddAutoMapper(typeof(Program));
-
-builder.Services.AddScoped<ILocationDAL, LocationDAL>();
-builder.Services.AddScoped<ILocationService, LocationService>();
-builder.Services.AddScoped<IPatientDAL, PatientDAL>();
-builder.Services.AddScoped<IPatientService, PatientService>();
-builder.Services.AddScoped<IUserDal, UserDal>();
-builder.Services.AddScoped<IUserService, UserService>();
-
 IConfigurationRoot configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json",
      optional: false, reloadOnChange: true).Build();
-//Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
 //builder.Services.AddDbContext<CoronaContext>(options => options.UseSqlServer(configuration.GetSection("ConnectionString")["CoronaConnection"]));
 
@@ -39,6 +24,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped<ILocationDAL, LocationDAL>();
+builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<IPatientDAL, PatientDAL>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IUserDal, UserDal>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

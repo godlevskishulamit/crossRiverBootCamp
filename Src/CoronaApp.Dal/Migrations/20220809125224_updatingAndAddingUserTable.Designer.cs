@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoronaApp.Dal.Migrations
 {
     [DbContext(typeof(CoronaContext))]
-    [Migration("20220726102321_addUserTable")]
-    partial class addUserTable
+    [Migration("20220809125224_updatingAndAddingUserTable")]
+    partial class updatingAndAddingUserTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,8 @@ namespace CoronaApp.Dal.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -54,40 +55,11 @@ namespace CoronaApp.Dal.Migrations
                     b.ToTable("Location");
                 });
 
-            modelBuilder.Entity("CoronaApp.Dal.Models.Log", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Level")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LogEvent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Properties")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Log");
-                });
-
             modelBuilder.Entity("CoronaApp.Dal.Models.Patient", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
