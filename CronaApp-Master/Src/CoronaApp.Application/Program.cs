@@ -18,7 +18,7 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("conLeah");
-builder.Services.AddDbContext<CoronaAppContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<CoronaAppContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 
 var configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
@@ -28,6 +28,8 @@ var configuration = new ConfigurationBuilder()
 builder.Host.UseSerilog();
 
 
+
+
 builder.Services.AddScoped<IPatientDal, PatientDal>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<ILocationDal, LocationDal>();
@@ -35,7 +37,7 @@ builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IUserDal, UserDal>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 
-
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();
 
