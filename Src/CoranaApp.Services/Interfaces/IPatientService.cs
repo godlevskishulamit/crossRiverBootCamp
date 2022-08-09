@@ -1,8 +1,4 @@
-﻿using CoronaApp.Dal.Models;
-using CoronaApp.Services.DTO;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Services.Interfaces;
+﻿namespace CoronaApp.Services.Interfaces;
 
 public interface IPatientService
 {

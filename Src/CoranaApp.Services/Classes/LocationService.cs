@@ -1,16 +1,4 @@
-﻿using AutoMapper;
-using CoronaApp.Dal.Classes;
-using CoronaApp.Dal.Interfaces;
-using CoronaApp.Dal.Models;
-using CoronaApp.DTO;
-using CoronaApp.Services.DTO;
-using CoronaApp.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Services.Classes;
+﻿namespace CoronaApp.Services.Classes;
 
 public class LocationService : ILocationService
 {
@@ -33,7 +21,7 @@ public class LocationService : ILocationService
     }
     public async Task<List<LocationDTO>> GetLocationsByLocationSearch(LocationSearch location)
     {
-        List<Location> locations = new List<Location>();
+        List<Location> locations = null;
         if (location.Age != null)
         {
             locations = await _locationDal.GetLocationByAge(location);

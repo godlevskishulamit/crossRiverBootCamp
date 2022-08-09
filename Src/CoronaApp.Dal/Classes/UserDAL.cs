@@ -1,13 +1,4 @@
-﻿using CoronaApp.Dal.Interfaces;
-using CoronaApp.Dal.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Dal.Classes
+﻿namespace CoronaApp.Dal.Classes
 {
     public class UserDal : IUserDal
     {
@@ -26,7 +17,6 @@ namespace CoronaApp.Dal.Classes
 
         public async Task<User> AddUser(User user)
         {
-            //User user = new User() { UserName = name, Password = pass };
             try
             {
                 using (CoronaContext context = new CoronaContext())

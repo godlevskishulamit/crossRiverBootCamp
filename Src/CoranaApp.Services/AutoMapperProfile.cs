@@ -1,24 +1,15 @@
-﻿
-using CoronaApp.Dal.Models;
-using CoronaApp.Services.DTO;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace CoronaApp.DTO;
 
-namespace CoronaApp.DTO
+public class AutoMapperProfile: AutoMapper.Profile
 {
-   public class AutoMapperProfile: AutoMapper.Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<LocationDTO, Location>().ReverseMap();
+        CreateMap<LocationDTO, Location>().ReverseMap();
 
-            CreateMap<AddLocationDTO, Location>().ReverseMap();
+        CreateMap<AddLocationDTO, Location>().ReverseMap();
 
-            CreateMap<UserDTO, User>().ReverseMap();
+        CreateMap<UserDTO, User>().ReverseMap();
 
-            CreateMap<PatientDTO, Patient>().ReverseMap();
-        }
-        
+        CreateMap<PatientDTO, Patient>().ReverseMap();
     }
 }

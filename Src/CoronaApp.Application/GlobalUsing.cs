@@ -1,0 +1,25 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Threading.Tasks;
+global using AutoMapper;
+global using CoronaApp.Dal.Models;
+global using CoronaApp.Services.Classes;
+global using CoronaApp.Services.DTO;
+global using CoronaApp.Services.Interfaces;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Configuration;
+global using System.Net;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Text;
+global using CoronaApp.Api;
+global using Microsoft.AspNetCore.Hosting;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using CoronaApp.Dal.Classes;
+global using CoronaApp.Dal.Interfaces;
+

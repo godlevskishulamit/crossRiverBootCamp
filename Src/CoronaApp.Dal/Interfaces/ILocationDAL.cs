@@ -1,8 +1,4 @@
-﻿using CoronaApp.Dal.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace CoronaApp.Dal.Interfaces;
+﻿namespace CoronaApp.Dal.Interfaces;
 
 public interface ILocationDAL
 {

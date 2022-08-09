@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CoronaApp.Dal.Models;
+﻿namespace CoronaApp.Dal.Models;
 
 public class LocationSearch
 {

@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CoronaApp.Dal.Models;
+﻿namespace CoronaApp.Dal.Models;
 
 public class CoronaContext : DbContext
 {

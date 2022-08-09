@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-
-namespace CoronaApp.Dal.Models;
+﻿namespace CoronaApp.Dal.Models;
 
 public class Location : IComparable<Location>
 {

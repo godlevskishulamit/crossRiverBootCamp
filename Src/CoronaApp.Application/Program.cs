@@ -1,19 +1,5 @@
-using CoronaApp.Dal.Models;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using CoronaApp.Dal.Classes;
-using CoronaApp.Dal.Interfaces;
-using CoronaApp.Services.Classes;
-using CoronaApp.Services.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Serilog;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using CoronaApp.Api;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
