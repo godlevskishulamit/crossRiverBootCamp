@@ -17,25 +17,25 @@ public class LoginController : ControllerBase
     [Route("PostToken")]
     public async Task<IActionResult> PostToken(UserDTO user)
     {
-        if (user == null)
+        if (user.UserName == null || user.Password == null)
             return StatusCode(406, "this user is not acceptable");
         string token = await _userService.GetTokenForUser(user);
         if (string.IsNullOrEmpty(token))
-            return BadRequest(null);
+            return Unauthorized(null);
         return Ok(token);
     }
 
     [HttpPost]
     [Route("SignUp")]
-    public async Task<IActionResult> SignUp([FromBody]UserDTO userDto)
+    public async Task<IActionResult> SignUp([FromBody]UserDTO user)
     {
-        if(userDto == null)
+        if (user.UserName == null || user.Password == null)
             return StatusCode(406, "this user is not acceptable");
         try
         {
-            var token = await _userService.SignUp(userDto);
+            var token = await _userService.SignUp(user);
             if (token == null)
-                return BadRequest("adding user failed...");
+                return BadRequest("adding user failed... are you sure this user doesn't exist yet?");
             return Ok(token);
         }
         catch(Exception ex)

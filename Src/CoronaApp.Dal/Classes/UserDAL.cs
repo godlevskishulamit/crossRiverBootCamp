@@ -21,6 +21,7 @@
             {
                 using (CoronaContext context = new CoronaContext())
                 {
+
                     await context.User.AddAsync(user);
                     await context.SaveChangesAsync();
                     return user;

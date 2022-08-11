@@ -6,15 +6,18 @@ public class LocationDAL : ILocationDAL
     {
 
     }
-    public async Task<List<Location>> GetAllLocations(string city = "")
+    public async Task<List<Location>> GetAllLocations()
     {
         using (CoronaContext context = new CoronaContext())
         {
-            List<Location> locations = await context.Location.ToListAsync();
-            List<Location> result = new List<Location>();
-            result.AddRange(locations.FindAll(x => x.City.Contains(city, StringComparison.InvariantCultureIgnoreCase)));
-            result.Sort();
-            return result;
+            return await context.Location.ToListAsync();
+        }
+    }
+    public async Task<List<Location>> GetLocationsByCity(string city)
+    {
+        using (CoronaContext context = new CoronaContext())
+        {
+            return await context.Location.Where(c => c.City.Contains(city, StringComparison.InvariantCultureIgnoreCase)).ToListAsync();
         }
     }
 
@@ -22,15 +25,11 @@ public class LocationDAL : ILocationDAL
     {
         using (CoronaContext context = new CoronaContext())
         {
-            List<Location> locations = await context.Location.ToListAsync();
-            List<Location> result = new List<Location>();
-
-            result = locations.FindAll(x =>
-            ((x.StartDate <= location.StartDate) && (x.EndDate >= location.StartDate)) ||
+            return await context.Location.Where(x =>
+            ((x
+            .StartDate <= location.StartDate) && (x.EndDate >= location.StartDate)) ||
             ((x.EndDate >= location.EndDate) && (x.StartDate <= location.EndDate)) ||
-            ((x.StartDate >= location.StartDate) && (x.StartDate <= location.EndDate)));
-
-            return result;
+            ((x.StartDate >= location.StartDate) && (x.StartDate <= location.EndDate))).ToListAsync();
         }
 
     }
@@ -38,26 +37,16 @@ public class LocationDAL : ILocationDAL
     {
         using (CoronaContext context = new CoronaContext())
         {
-            List<Location> result = new List<Location>();
-            List<Location> locations = await context.Location.ToListAsync();
-            List<Patient> allPatients = await context.Patient.ToListAsync();
-            List<Patient> patients = new List<Patient>();
-            patients.AddRange(allPatients.FindAll(x => x.Age == location.Age));
-            List<string> patientsId = new List<string>();
-            patients.ForEach(x => patientsId.Add(x.Id));
-            result = locations.FindAll(x => patientsId.IndexOf(x.PatientId) != -1);
-            return result;
+            List<string> patientsId = await context.Patient.Where(p => p.Age == location.Age).Select(p => p.Id).ToListAsync();
+            return await context.Location.Where(l => patientsId.Contains(l.PatientId)).OrderByDescending(l => l.StartDate).ToListAsync();
         }
-
     }
 
-    public async Task<List<Location>> GetLocationsPerPatient(string id)
+    public async Task<List<Location>> GetLocationsByPatient(string id)
     {
         using (CoronaContext context = new CoronaContext())
         {
-            List<Location> list = await context.Location.ToListAsync();
-            List<Location> p = list.FindAll(x => x.PatientId.Equals(id));
-            return p;
+            return await context.Location.Where(l => l.PatientId.Equals(id)).ToListAsync();
         }
 
     }

@@ -7,7 +7,7 @@ builder.Host.UseSerilog();
 IConfigurationRoot configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json",
      optional: false, reloadOnChange: true).Build();
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+//Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
 //builder.Services.AddDbContext<CoronaContext>(options => options.UseSqlServer(configuration.GetSection("ConnectionString")["CoronaConnection"]));
 

@@ -18,10 +18,12 @@ public class PatientController : ControllerBase
     {
         try
         {
+            if (patientDto.Id == null || patientDto.Name == null)
+                return StatusCode(406, "this patient is not acceptable");
             bool res = await _patientService.AddPatient(patientDto);
             if (res)
-                return Ok("adding patient failed!");
-            return BadRequest();
+                return Ok("adding patient succesed!");
+            return BadRequest("adding patient failed");
 
         }
         catch (Exception ex)

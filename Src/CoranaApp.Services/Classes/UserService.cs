@@ -55,11 +55,12 @@ public class UserService : IUserService
     {
 
         User user = mapper.Map<User>(userDto);
+        User existsUser = await _userDal.GetUser(user);
+        if (existsUser != null)
+            return null;
         User addedUser = await _userDal.AddUser(user);
         if(addedUser == null)
-        {
             return null;
-        }
         string token = await GetTokenForUser(userDto);
         return token;
     }

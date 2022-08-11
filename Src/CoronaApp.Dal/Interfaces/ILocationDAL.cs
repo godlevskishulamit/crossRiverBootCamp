@@ -2,7 +2,8 @@
 
 public interface ILocationDAL
 {
-    Task<List<Location>> GetAllLocations(string city = "");
+    Task<List<Location>> GetAllLocations();
+    Task<List<Location>> GetLocationsByCity(string city);
     Task<List<Location>> GetLocationByAge(LocationSearch location);
     Task<List<Location>> GetLocationsByDate(LocationSearch location);
     Task<List<Location>> GetLocationsByPatient(string id);

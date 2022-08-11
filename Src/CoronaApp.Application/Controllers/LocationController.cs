@@ -36,7 +36,7 @@ public class LocationController : ControllerBase
     {
         try
         {
-            List<LocationDTO> locations = await _locationService.GetAllLocations(city);
+            List<LocationDTO> locations = await _locationService.GetLocationsByCity(city);
             if (locations?.ToArray().Length == 0)
                 return NoContent();
             return Ok(locations);

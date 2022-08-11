@@ -14,27 +14,28 @@ public class LocationService : ILocationService
         });
         mapper = config.CreateMapper();
     }
-    public async Task<List<LocationDTO>> GetAllLocations(string city = "")
+    public async Task<List<LocationDTO>> GetAllLocations()
     {
-        List<Location> locations = await _locationDal.GetAllLocations(city);
+        List<Location> locations = await _locationDal.GetAllLocations();
+        return mapper.Map<List<LocationDTO>>(locations);
+    }
+    public async Task<List<LocationDTO>> GetLocationsByCity(string city = "")
+    {
+        List<Location> locations = await _locationDal.GetLocationsByCity(city);
         return mapper.Map<List<LocationDTO>>(locations);
     }
     public async Task<List<LocationDTO>> GetLocationsByLocationSearch(LocationSearch location)
     {
-        List<Location> locations = null;
+        List<Location> locationsAge = new List<Location>() , locationsDate = new List<Location>() ;
         if (location.Age != null)
-        {
-            locations = await _locationDal.GetLocationByAge(location);
-        }
+            locationsAge = await _locationDal.GetLocationByAge(location);
         if (location.StartDate != null && location.EndDate != null)
-        {
-            locations = await _locationDal.GetLocationsByDate(location);
-        }
-        return mapper.Map<List<LocationDTO>>(locations);
+            locationsDate = await _locationDal.GetLocationsByDate(location);
+        return mapper.Map<List<LocationDTO>>(locationsAge.Union(locationsDate));
     }
     public async Task<List<LocationDTO>> GetLocationsPerPatient(string id)
     {
-        List<Location> locations = await _locationDal.GetLocationsPerPatient(id);
+        List<Location> locations = await _locationDal.GetLocationsByPatient(id);
         return mapper.Map<List<LocationDTO>>(locations);
     }
     public async Task<bool> AddLocation(AddLocationDTO locationDto)
