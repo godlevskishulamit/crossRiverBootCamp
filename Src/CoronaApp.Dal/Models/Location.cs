@@ -2,16 +2,21 @@
 public class Location : IComparable<Location>
 {
     public int Id { get; set; }
+    [Required]
     [DataType(DataType.DateTime)]
     public DateTime StartDate { get; set; }
+    [Required]
     [DataType(DataType.DateTime)]
     public DateTime EndDate { get; set; }
+    [Required]
     [MinLength(3)]
     public string City { get; set; }
+    [Required]
     [MinLength(3)]
     public string Adress { get; set; }
     [ForeignKey("PatientId")]
     public virtual Patient Patient { get; set; }
+    [Required]
     public string PatientId { get; set; }
     public int CompareTo(Location other)
     {

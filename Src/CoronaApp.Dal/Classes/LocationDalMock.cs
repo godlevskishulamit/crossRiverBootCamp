@@ -16,7 +16,7 @@ public class LocationDalMock : ILocationDAL
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteLocation(Location location)
+    public Task<bool> DeleteLocation(int id)
     {
         throw new NotImplementedException();
     }

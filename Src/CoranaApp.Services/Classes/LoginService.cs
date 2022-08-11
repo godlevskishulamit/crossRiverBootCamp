@@ -18,8 +18,6 @@
         }
         public async Task<string> Login(UserDTO u)
         {
-            if (u == null)
-                throw new ArgumentNullException(nameof(u));
             User user = await _loginDal.GetUser(mapper.Map<UserDTO,User>(u));
             string token = CreateToken(user);
             return token;
@@ -55,17 +53,16 @@
 
         public async Task<string> SignUp(UserDTO u)
         {
-            if (u == null)
-                throw new ArgumentNullException(nameof(u));
             User user = await _loginDal.GetUser(mapper.Map<UserDTO, User>(u));
             if (user == null)
             {
                 bool success = await _loginDal.AddUser(mapper.Map<UserDTO, User>(u));
                 if (!success)
                     return "";
+                string token = await Login(u);
+                return token;
             }
-            string token = await Login(u);
-            return token;
+            return ".";
         }
 
         public string GetUserNameFromToken(ClaimsPrincipal User)

@@ -95,12 +95,12 @@ public class LocationController : ControllerBase
 
     // DELETE: api/<LocationController>/123456789
     [HttpDelete]
-    [Route("DeleteLocation")]
-    public async Task<IActionResult> DeleteLocation([FromBody] LocationDTO location)
+    [Route("DeleteLocation/{id}")]
+    public async Task<IActionResult> DeleteLocation(int id)
     {
         try
         {
-            bool success = await _locationService.DeleteLocation(location);
+            bool success = await _locationService.DeleteLocation(id);
             return !success ? BadRequest("Deleting location failed! try again later...") : Ok();
         }
         catch (Exception ex)

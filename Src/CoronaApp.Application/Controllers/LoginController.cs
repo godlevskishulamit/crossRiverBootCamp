@@ -33,7 +33,7 @@
             {
                 var token = await _loginService.SignUp(user);
                 return token==null ? Unauthorized() : token=="" ?
-                    BadRequest("Adding user failed! try again later..."):Ok(token);
+                    BadRequest("Adding user failed! try again later..."): token == "." ? BadRequest("UserName already exists") : Ok(token);
             }
             catch (Exception ex)
             {

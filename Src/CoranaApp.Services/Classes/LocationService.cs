@@ -19,7 +19,8 @@ public class LocationService : ILocationService
     }
     public async Task<List<LocationDTO>> GetLocationsByLocationSearch(LocationSearch locationSearch)
     {
-        if (locationSearch == null || (locationSearch.StartDate == null && locationSearch.EndDate == null && locationSearch.Age == null))
+        List<Location> dateList=new List<Location>(),ageList = new List<Location>();
+        if (locationSearch.StartDate == null && locationSearch.EndDate == null && locationSearch.Age == null)
             throw new ArgumentNullException(nameof(locationSearch));
         if (locationSearch.StartDate > locationSearch.EndDate||locationSearch.EndDate>DateTime.Now)
             throw new ArgumentException("arguments of dates is worng!!");
@@ -28,27 +29,21 @@ public class LocationService : ILocationService
         if (locationSearch.StartDate == null && locationSearch.EndDate != null)
             locationSearch.StartDate = locationSearch.EndDate;
         if (locationSearch.StartDate != null)
-        {
-            return mapper.Map< List<Location>,List<LocationDTO>>(await _locationDal.GetLocationsByDate(locationSearch));
-        }
-        return mapper.Map<List<Location>, List<LocationDTO>>(await _locationDal.GetLocationByAge(locationSearch));
+            dateList=await _locationDal.GetLocationsByDate(locationSearch);
+        if (locationSearch.Age != null) 
+            ageList=await _locationDal.GetLocationByAge(locationSearch);
+        return mapper.Map<List<LocationDTO>>(dateList.Union(ageList).ToList());
     }
     public async Task<List<LocationDTO>> GetLocationsPerPatient(string id)
     {
-        if (id == null)
-            throw new ArgumentNullException(nameof(id));
-        return mapper.Map<List<Location>, List<LocationDTO>>(await _locationDal.GetLocationsPerPatient(id));
+        return mapper.Map<List<LocationDTO>>(await _locationDal.GetLocationsPerPatient(id));
     }
     public async Task<bool> AddLocation(LocationDTO location)
     {
-        if (location == null)
-            throw new ArgumentNullException(nameof(location));
         return await _locationDal.AddLocation(mapper.Map<LocationDTO,Location>(location));
     }
-    public async Task<bool> DeleteLocation(LocationDTO location)
+    public async Task<bool> DeleteLocation(int id)
     {
-        if (location == null)
-            throw new ArgumentNullException(nameof(location));
-        return await _locationDal.DeleteLocation(mapper.Map<LocationDTO, Location>(location));
+        return await _locationDal.DeleteLocation(id);
     }
 }

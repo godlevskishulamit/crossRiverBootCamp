@@ -14,8 +14,6 @@ public class PatientService : IPatientService
     }
     public async Task<bool> AddPatient(PatientDTO patient)
     {
-        if (patient == null)
-            throw new ArgumentNullException(nameof(patient));
         return await _patientDal.AddPatient(mapper.Map<PatientDTO,Patient>(patient));
     }
 }

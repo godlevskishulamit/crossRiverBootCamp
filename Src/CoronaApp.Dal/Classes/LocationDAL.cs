@@ -6,7 +6,7 @@ public class LocationDAL : ILocationDAL
         List<Location> result;
         using (var _context = new CoronaContext())
         {
-            result = await _context.Location.Where(x => x.City.ToLower().Contains(city.ToLower())).OrderBy(x => x.City).ToListAsync();
+            result = await _context.Location.Where(x => x.City.ToLower().Contains(city.ToLower())).OrderByDescending(x => x.StartDate).ToListAsync();
         }
         return result;
     }
@@ -19,7 +19,7 @@ public class LocationDAL : ILocationDAL
             result = await _context.Location.Where(x =>
             ((x.StartDate <= location.StartDate) && (x.EndDate >= location.StartDate)) ||
             ((x.EndDate >= location.EndDate) && (x.StartDate <= location.EndDate)) ||
-            ((x.StartDate >= location.StartDate) && (x.StartDate <= location.EndDate))).ToListAsync();
+            ((x.StartDate >= location.StartDate) && (x.StartDate <= location.EndDate))).OrderByDescending(x => x.StartDate).ToListAsync();
         }
         return result;
 
@@ -30,7 +30,7 @@ public class LocationDAL : ILocationDAL
         using (var _context = new CoronaContext())
         {
             List<string> patientsId = await _context.Patient.Where(x => x.Age == location.Age).Select(x => x.Id).ToListAsync();
-            result = await _context.Location.Where(x=>patientsId.Contains(x.PatientId)).ToListAsync();
+            result = await _context.Location.Where(x=>patientsId.Contains(x.PatientId)).OrderByDescending(x => x.StartDate).ToListAsync();
         }
         return result;
         //List<Location> result= await _context.Location.Include(l => l.Patient).Where(x => x.Patient.Age == location.Age).ToListAsync();
@@ -63,13 +63,13 @@ public class LocationDAL : ILocationDAL
         }
 
     }
-    public async Task<bool> DeleteLocation(Location location)
+    public async Task<bool> DeleteLocation(int id)
     {
         try
         {
             using (var _context = new CoronaContext())
             {
-                _context.Location.Remove(location);
+                _context.Location.Remove(await _context.Location.FirstOrDefaultAsync(x=>x.Id==id));
                 await _context.SaveChangesAsync();
             }
             return true;
