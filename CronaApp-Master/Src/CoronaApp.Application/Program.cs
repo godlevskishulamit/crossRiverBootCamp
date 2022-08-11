@@ -15,6 +15,8 @@ using Serilog;
 using System.Text;
 using System.Text.Json.Serialization;
 
+string AllowAll = "AllowAll";
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("conLeah");
@@ -37,7 +39,19 @@ builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IUserDal, UserDal>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 
+
+
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(AllowAll
+                      , policy => {
+                          policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                      });
+});
 
 builder.Services.AddControllers();
 
