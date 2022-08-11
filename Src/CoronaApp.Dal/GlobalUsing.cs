@@ -8,5 +8,6 @@ global using Microsoft.EntityFrameworkCore.Migrations;
 global using Microsoft.EntityFrameworkCore.Infrastructure;
 global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;
+global using System.Linq;
 
 
