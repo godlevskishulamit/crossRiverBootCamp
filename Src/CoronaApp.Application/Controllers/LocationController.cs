@@ -1,4 +1,5 @@
-﻿namespace CoronaApp.Api.Controllers;
+﻿
+namespace CoronaApp.Api.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]
@@ -86,14 +87,15 @@ public class LocationController : ControllerBase
     // POST: api/<LocationController>/AddLocation
     [HttpPost]
     [Route("AddLocation")]
-    public async Task<IActionResult> AddLocation([FromBody] AddLocationDTO locationDto)
+    public async Task<ActionResult<bool>> AddLocation([FromBody] AddLocationDTO locationDto)
     {
         try
         {
             bool res = await _locationService.AddLocation(locationDto);
             if (res)
-                return Ok("The location has been successfully added");
-            return BadRequest("Failed to add location!");
+                return Ok(true);
+                //return Ok("The location has been successfully added"
+            return BadRequest(false);
         }
         catch (Exception ex)
         {
@@ -104,14 +106,14 @@ public class LocationController : ControllerBase
     // DELETE: api/<LocationController>/123456789
     [HttpDelete]
     [Route("DeleteLocation")]
-    public async Task<IActionResult> DeleteLocation([FromBody] LocationDTO locationDto)
+    public async Task<ActionResult<bool>> DeleteLocation([FromBody] LocationDTO locationDto)
     {
         try
         {
             bool res = await _locationService.DeleteLocation(locationDto);
             if (res)
-                return Ok();
-            return BadRequest("deleting patient failed!");
+                return Ok(res);
+            return BadRequest(res);
         }
         catch (Exception ex)
         {

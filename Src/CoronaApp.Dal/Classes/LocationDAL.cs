@@ -17,7 +17,7 @@ public class LocationDAL : ILocationDAL
     {
         using (CoronaContext context = new CoronaContext())
         {
-            return await context.Location.Where(c => c.City.Contains(city, StringComparison.InvariantCultureIgnoreCase)).ToListAsync();
+            return await context.Location.Where(c => c.City.ToLower().Contains(city.ToLower())).ToListAsync();
         }
     }
 

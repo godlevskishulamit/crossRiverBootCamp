@@ -14,7 +14,7 @@ public class PatientController : ControllerBase
     // POST api/<PatientController>/AddPatient
     [HttpPost]
     [Route("AddPatient")]
-    public async Task<IActionResult> AddPatient([FromBody] PatientDTO patientDto)
+    public async Task<ActionResult<bool>> AddPatient([FromBody] PatientDTO patientDto)
     {
         try
         {
@@ -22,9 +22,8 @@ public class PatientController : ControllerBase
                 return StatusCode(406, "this patient is not acceptable");
             bool res = await _patientService.AddPatient(patientDto);
             if (res)
-                return Ok("adding patient succesed!");
-            return BadRequest("adding patient failed");
-
+                return Ok(res);
+            return BadRequest(false);
         }
         catch (Exception ex)
         {
