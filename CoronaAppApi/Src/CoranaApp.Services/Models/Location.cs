@@ -1,6 +1,5 @@
-﻿namespace CoronaApp.Services.Models
+﻿namespace CoronaApp.Services.Models;
+
+public class Location
 {
-    public class Location
-    {
-    }
 }

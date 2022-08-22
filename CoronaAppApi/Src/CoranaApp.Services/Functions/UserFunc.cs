@@ -1,16 +1,6 @@
-﻿//using CoronaApp.Dal;
-using CoronaApp.Dal.Models;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaApp.Services.Functions;
 
@@ -25,10 +15,10 @@ public class UserFunc : IUserRepository
 
     public async Task<string> CreateToken(string userName, string password)
     {
-        await using (CoronaContext db = new CoronaContext(_configuration))
+        using (CoronaContext db = new CoronaContext(_configuration))
         {
-            Dal.User user = db.Users.FirstOrDefault(u => u.Name == userName && u.Password == password);
-            return user != null ? generateJwtToken(user) : null;
+            Dal.User user = await db.Users.FirstOrDefaultAsync(u => u.Name == userName && u.Password == password);
+            return user != null ? generateJwtToken(user) : throw new UnauthorizedAccessException("UserName or password in incorrect.");
         }
     }
 
@@ -57,15 +47,19 @@ public class UserFunc : IUserRepository
 
     public async Task PostUser(Dal.User user)
     {
-        await using(CoronaContext db = new CoronaContext(_configuration))
+        using(CoronaContext db = new CoronaContext(_configuration))
         {
+            if (await db.Users.AnyAsync(u => u.Name == user.Name))
+                throw new Exception("User already exists.");
+
             db.Users.Add(user);
             await db.SaveChangesAsync();
         }
     }
 
-    public async Task<string> getUserName(ClaimsPrincipal  user)
+    public async Task<string> getUserName(ClaimsPrincipal user)
     {
-        return user.Claims.FirstOrDefault(x=> x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).Value;
+        string userName = user.Claims.FirstOrDefault(x=> x.Type.ToString().Equals("UserName", StringComparison.InvariantCultureIgnoreCase)).Value;
+        return userName ?? throw new UnauthorizedAccessException("Token is incorrect.");
     }
 }

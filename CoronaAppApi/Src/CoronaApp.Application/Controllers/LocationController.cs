@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoronaApp.Dal.Models;
-using CoronaApp.Services;
-using CoronaApp.Services.Dtos;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-
+﻿
 namespace CoronaApp.Api.Controllers;
 
 [Route("api/[controller]")]
@@ -35,19 +25,19 @@ public class LocationController : Controller
     }
 
     [HttpGet("city")]
-    public async Task<ICollection<Location>> GetByCityAsync(string? city)
+    public async Task<ICollection<Location>> GetByCityAsync([FromQuery] string? city)
     {
            return await _service.GetByCityAsync(city);
     }
 
     [HttpGet("range")]
-    public async Task<ICollection<Location>> GetByDatesRangeAsync([FromBody] Services.Models.LocationSearch locationSearch)
+    public async Task<ICollection<Location>> GetByDatesRangeAsync([FromQuery] Services.Models.LocationSearch? locationSearch)
     {
            return await _service.GetByDatesRangeAsync(locationSearch);
     }
 
     [HttpGet("age")]
-    public async Task<ICollection<Location>> GetByAgeAsync([FromBody] Services.Models.LocationSearch locationSearch)
+    public async Task<ICollection<Location>> GetByAgeAsync([FromQuery] Services.Models.LocationSearch locationSearch)
     {
         return await _service.GetByAgeAsync((int)locationSearch?.Age);
     }

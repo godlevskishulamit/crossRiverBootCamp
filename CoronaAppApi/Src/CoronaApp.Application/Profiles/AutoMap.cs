@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using CoronaApp.Dal.Models;
-using CoronaApp.Services.Dtos;
 
 namespace CoronaApp.Api.Profiles;
 

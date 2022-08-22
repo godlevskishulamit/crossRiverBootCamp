@@ -1,6 +1,3 @@
-using CoronaApp.Api.Middlewares;
-using CoronaApp.Dal.Models;
-using CoronaApp.Services;
 using CoronaApp.Services.Functions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
